@@ -1,0 +1,26 @@
+{% extends 'layout.html' %} {% block pageTitle %} Start page template - NHS.UK
+prototype kit {% endblock %} {% block beforeContent %} {{ breadcrumb({ href:
+"/", text: "Home" }) }} {% endblock %} {% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    <h1>Name of the supplier test tool</h1>
+
+    <p>Use this service to:</p>
+
+    <ul>
+      <li>Generate a FHIR prescription message</li>
+      <li>Generate a FHIR prescription message using test packs</li>
+      <li>Access prescription tracker</li>
+      <li>What else can this do?</li>
+    </ul>
+
+    <p>Some kind of content here</p>
+
+    <h2 class="nhsuk-heading-m">Create a prescription</h2>
+
+    <p>Some kind of informative text about creating a prescription.</p>
+
+    <a href="/prescription-upload" class="nhsuk-button"> Start now </a>
+  </div>
+</div>
+{% endblock %}
