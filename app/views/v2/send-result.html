@@ -1,0 +1,71 @@
+{% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
+block pageTitle %} Check your answers template - NHS.UK prototype kit {%
+endblock %} {% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    <h1 class="nhsuk-u-margin-top-4">Send result</h1>
+    <p>ID</p>
+    <a href="/#" class="nhsuk-button"> Prescription tracker </a>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          1 - FHIR Request that a supplier would send to the FHIR API
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          2 - Equivalent HL7V3 that the FHIR API has sent to Spine
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          3 - The HL7V3 Spine response that the FHIR API received from Spine
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          4 - FHIR response that a supplier will receive from the FHIR API
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <button
+      class="nhsuk-button nhsuk-button--secondary"
+      data-module="nhsuk-button"
+      type="submit"
+    >
+      Back
+    </button>
+  </div>
+</div>
+{% endblock %}
