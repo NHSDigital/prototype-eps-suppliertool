@@ -8,10 +8,10 @@ content %}
     <div class="nhsuk-form-group">
       <fieldset class="nhsuk-fieldset" aria-describedby="contact-hint">
         <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
-          <h1 class="nhsuk-fieldset__heading">Load prescription(s)</h1>
+          <h1 class="nhsuk-fieldset__heading">Create a prescription</h1>
         </legend>
 
-        <div class="nhsuk-hint" id="contact-hint">Select one option</div>
+        <div class="nhsuk-hint" id="contact-hint">Choose an option</div>
 
         <div class="nhsuk-radios nhsuk-radios--conditional">
           <div class="nhsuk-radios__item">
@@ -25,15 +25,15 @@ content %}
               aria-expanded="false"
             />
             <label class="nhsuk-label nhsuk-radios__label" for="contact-1">
-              Primary care - acute (nominated)
+              Nominated acute prescription in primary care
             </label>
           </div>
 
-          <div
+          <!-- <div
             class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
             id="conditional-contact-1"
           >
-            <!-- <div class="nhsuk-form-group">
+            <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="email"> expanded delete </label>
               <input
                 class="nhsuk-input nhsuk-u-width-two-thirds"
@@ -41,8 +41,8 @@ content %}
                 name="email"
                 type="text"
               />
-            </div>  -->
-          </div>
+            </div>  
+          </div> -->
 
           <div class="nhsuk-radios__item">
             <input
@@ -55,15 +55,15 @@ content %}
               aria-expanded="false"
             />
             <label class="nhsuk-label nhsuk-radios__label" for="contact-2">
-              Secondary care - acute (nominated)
+              Nominated acute prescription in secondary care
             </label>
           </div>
 
-          <div
+          <!-- <div
             class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
             id="conditional-contact-2"
           >
-            <!-- <div class="nhsuk-form-group">
+           <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="phone"> delete this </label>
               <input
                 class="nhsuk-input nhsuk-u-width-two-thirds"
@@ -71,8 +71,8 @@ content %}
                 name="phone"
                 type="text"
               />
-            </div> -->
-          </div>
+            </div>
+          </div>  -->
 
           <div class="nhsuk-radios__item">
             <input
@@ -85,7 +85,7 @@ content %}
               aria-expanded="false"
             />
             <label class="nhsuk-label nhsuk-radios__label" for="contact-3">
-              Custom
+              Create a prescription using my own test packs
             </label>
           </div>
 
@@ -95,7 +95,7 @@ content %}
           >
             <div class="nhsuk-form-group">
               <label class="nhsuk-label" for="mobile">
-                Upload a test pack or FHIR prescription files
+                Upload a test pack
               </label>
               <div class="govuk-form-group">
                 <label class="govuk-label" for="file-upload-1">
@@ -108,19 +108,45 @@ content %}
                   type="file"
                 />
               </div>
+            </div>
+          </div>
+          <div class="nhsuk-radios__item">
+            <input
+              class="nhsuk-radios__input"
+              id="contact-4"
+              name="contact"
+              type="radio"
+              value="text"
+              aria-controls="conditional-contact-4"
+              aria-expanded="false"
+            />
+            <label class="nhsuk-label nhsuk-radios__label" for="contact-4">
+              Create a prescription using my own FHIR prescription files
+            </label>
+          </div>
+          <div
+            class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
+            id="conditional-contact-4"
+          >
+            <div class="nhsuk-form-group">
+              <label class="nhsuk-label" for="mobile">
+                Upload a FHIR prescription
+              </label>
               <div class="govuk-form-group">
-                <label class="govuk-label" for="file-upload-1">
-                  Upload FHIR prescription files
+                <label class="govuk-label" for="file-upload-2">
+                  Upload a FHIR prescription
                 </label>
                 <input
                   class="govuk-file-upload"
-                  id="file-upload-1"
-                  name="file-upload-1"
+                  id="file-upload-2"
+                  name="file-upload-2"
                   type="file"
                 />
               </div>
             </div>
           </div>
+
+          <!--End of radios-->
         </div>
       </fieldset>
     </div>
