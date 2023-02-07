@@ -5,22 +5,29 @@ prototype kit {% endblock %} {% block beforeContent %} {{ breadcrumb({ href:
   <div class="nhsuk-grid-column-two-thirds">
     <h1>Name of the supplier test tool</h1>
 
-    <p>Use this service to:</p>
+    <h2>Use this tool to create:</h2>
 
     <ul>
-      <li>Generate a FHIR prescription message</li>
-      <li>Generate a FHIR prescription message using test packs</li>
-      <li>Access prescription tracker</li>
-      <li>What else can this do?</li>
+      <li>a primary care acute prescription</li>
+      <li>a secondary acute prescription</li>
+      <li>a prescription using your own test packs</li>
+      <li>a prescription using FHIR prescription files</li>
     </ul>
 
-    <p>Some kind of content here</p>
+    <p>You can also access the Prescription Tracker</p>
 
-    <h2 class="nhsuk-heading-m">Create a prescription</h2>
+    <h2>You cannot use this tool to:</h2>
 
-    <p>Some kind of informative text about creating a prescription.</p>
+    <ul>
+      <li>create eRD or repeat prescriptions</li>
+      <li>create non-nominated prescriptions</li>
+      <li>release prescriptions</li>
+      <li>verify prescriptions</li>
+      <li>compare prescriptions</li>
+      <li>validate a FHIR resource</li>
+    </ul>
 
-    <a href="/v1/supplier-action" class="nhsuk-button"> Start now </a>
+    <a href="/v1/supplier-action" class="nhsuk-button"> Start </a>
   </div>
 </div>
 {% endblock %}
