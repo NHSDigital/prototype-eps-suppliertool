@@ -13,7 +13,7 @@ router.post(
     if (Upload == "contact-2") {
       res.redirect("v1/secondary-prescription-summary");
     }
-    if (Upload == "contact-3") {
+    if (Upload == "conditional-contact-3") {
       res.redirect("v1/testpack-prescription-summary");
     }
   },
