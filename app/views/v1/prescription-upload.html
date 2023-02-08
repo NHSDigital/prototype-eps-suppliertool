@@ -5,12 +5,13 @@ backLink({ "href": "/v1/start-page", "text": "Back", "classes":
 content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
+    <!--<form class="form" action="/v1/contact-answer" method="post"> -->
     <div class="nhsuk-form-group">
       <fieldset class="nhsuk-fieldset" aria-describedby="contact-hint">
         <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
           <h1 class="nhsuk-fieldset__heading">Create a prescription</h1>
         </legend>
-        <!--<form class="form" action="/v1/contact-answer" method="post"> -->
+
         <div class="nhsuk-hint" id="contact-hint">Choose an option</div>
 
         <div class="nhsuk-radios nhsuk-radios--conditional">
@@ -125,16 +126,16 @@ content %}
         </div>
       </fieldset>
     </div>
-    <!--<button
+
+    <a href="/v1/primary-prescription-summary" class="nhsuk-button"> Next </a>
+    <!-- <button
       class="nhsuk-button"
       data-module="nhsuk-button"
       type="submit"
-      href="/prescription-summary"
     >
       Next
     </button> -->
-
-    <a href="/v1/primary-prescription-summary" class="nhsuk-button"> Next </a>
+    <!--/form-->
   </div>
 </div>
 
