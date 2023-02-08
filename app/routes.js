@@ -6,15 +6,15 @@ router.post(
   "/v1/contact-answer",
   function (req, res) {
     var Upload = req.session.data["contact"];
-    if (Upload == "contact-1") {
+    if (Upload == "primary care") {
       res.redirect("/v1/primary-prescription-summary");
     }
 
-    if (Upload == "contact-2") {
-      res.redirect("v1/secondary-prescription-summary");
+    if (Upload == "phone") {
+      res.redirect("/v1/secondary-prescription-summary");
     }
-    if (Upload == "conditional-contact-3") {
-      res.redirect("v1/testpack-prescription-summary");
+    if (Upload == "text") {
+      res.redirect("/v1/testpack-prescription-summary");
     }
   },
 
