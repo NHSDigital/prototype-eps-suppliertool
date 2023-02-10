@@ -66,24 +66,3 @@ p .app-code {
 .nhsuk-table__cell {
   padding: 16px 16px 16px 0;
 }
-
-// pagination attempt
-.pagination {
-  display: inline-block;
-}
-
-.pagination a {
-  color: black;
-  float: left;
-  
-  border-radius:5px
-  transition: background-color 0.3s;}
-
-.pagination a.active {
-  background-color: #4caf50;
-  color: white;
-}
-
-.pagination a:hover:not(.active) {
-  background-color: #ddd;
-}
