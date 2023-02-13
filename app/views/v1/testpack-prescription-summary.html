@@ -3,15 +3,54 @@ block pageTitle %} Check your answers template - NHS.UK prototype kit {%
 endblock %} {% block content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
+    <!-- pagination-->
+    <div class="pagination">
+      <a class="govuk-pagination__prev" href="#" rel="prev">
+        <svg
+          class="govuk-pagination__icon govuk-pagination__icon--prev"
+          xmlns="http://www.w3.org/2000/svg"
+          height="13"
+          width="15"
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 15 13"
+        >
+          <path
+            d="m6.5938-0.0078125-6.7266 6.7266 6.7441 6.4062 1.377-1.449-4.1856-3.9768h12.896v-2h-12.984l4.2931-4.293-1.414-1.414z"
+          ></path>
+        </svg>
+        <span class="govuk-pagination__prev">Previous</span>
+      </a>
+
+      <a href="#" class="active">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+
+      <a class="govuk-pagination__next" href="#" rel="next">
+        <span class="govuk-pagination__next">Next</span>
+        <svg
+          class="govuk-pagination__icon govuk-pagination__icon--next"
+          xmlns="http://www.w3.org/2000/svg"
+          height="13"
+          width="15"
+          aria-hidden="true"
+          focusable="false"
+          viewBox="0 0 15 13"
+        >
+          <path
+            d="m8.107-0.0078125-1.4136 1.414 4.2926 4.293h-12.986v2h12.896l-4.1855 3.9766 1.377 1.4492 6.7441-6.4062-6.7246-6.7266z"
+          ></path></svg
+      ></a>
+    </div>
+    <!--prescription summary table starts-->
     <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
     <a href="#" class="nhsuk-button"> Download this prescription</a>
     <a href="#" class="nhsuk-button nhsuk-button--secondary">
       Edit the ODS code
     </a>
-    <!-- pagination-->
 
-    <!--prescription summary table starts-->
     <h2>Prescription details</h2>
+
     <dl class="nhsuk-summary-list">
       <div class="nhsuk-summary-list__row">
         <dt class="nhsuk-summary-list__key">ID</dt>

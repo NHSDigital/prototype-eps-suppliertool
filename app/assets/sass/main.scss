@@ -19,3 +19,21 @@
   padding: 8px 16px;
   text-decoration: none;
 }
+
+//.govuk-pagination__prev {
+// padding-left: 0;
+//}
+
+.govuk-pagination__next,
+.govuk-pagination__prev {
+  font-size: 1rem;
+  font-weight: 700;
+  // box-sizing: border-box;
+  //position: relative;
+  min-width: 45px;
+  min-height: 45px;
+  padding: 10px 15px;
+  // display: flex; -webkit-box-align: center;
+  //  align-items: center
+  //float: left;
+}
