@@ -1,0 +1,92 @@
+{% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
+block pageTitle %} Create a prescription using my own test packs or FHIR
+prescription files {% endblock %} {% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    <!-- pagination-->
+
+    <!--prescription summary table starts-->
+    <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
+
+    <h2>Prescription details</h2>
+
+    <dl class="nhsuk-summary-list">
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">ID</dt>
+        <dd class="nhsuk-summary-list__value">ID here</dd>
+      </div>
+
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">Prescription type code</dt>
+        <dd class="nhsuk-summary-list__value">Short course (acute) therapy</dd>
+      </div>
+
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">NHS number</dt>
+        <dd class="nhsuk-summary-list__value">01010101</dd>
+      </div>
+
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">Prescriber</dt>
+        <dd class="nhsuk-summary-list__value">HALLGARTH SURGERY (AB3003)</dd>
+      </div>
+
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">Nominated dispenser</dt>
+        <dd class="nhsuk-summary-list__value">D7K8P</dd>
+      </div>
+
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">Created on</dt>
+        <dd class="nhsuk-summary-list__value">31-JAN-2023</dd>
+      </div>
+
+      <div class="nhsuk-summary-list__row">
+        <dt class="nhsuk-summary-list__key">Status</dt>
+        <dd class="nhsuk-summary-list__value">To be dispensed</dd>
+      </div>
+    </dl>
+
+    <div class="nhsuk-do-dont-list">
+      <h3 class="nhsuk-do-dont-list__label">Items</h3>
+      <table role="table" class="nhsuk-table-responsive">
+        <caption class="nhsuk-table__caption">
+          Item summary
+        </caption>
+        <thead role="rowgroup" class="nhsuk-table__head">
+          <tr role="row">
+            <th role="columnheader" class="" scope="col">Identifier</th>
+            <th role="columnheader" class="" scope="col">Status</th>
+            <th role="columnheader" class="" scope="col">Last dispensed</th>
+          </tr>
+        </thead>
+        <tbody class="nhsuk-table__body">
+          <tr role="row" class="nhsuk-table__row">
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Identifier </span
+              >6924bac7-d303-483g-g9f9-23ag6rtg933
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Status </span> To be
+              dispensed
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading"
+                >Last dispensed </span
+              >N/A
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button
+      class="nhsuk-button nhsuk-button--secondary"
+      data-module="nhsuk-button"
+      type="submit"
+    >
+      Back
+    </button>
+  </div>
+</div>
+{% endblock %}
