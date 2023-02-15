@@ -1,7 +1,6 @@
 {% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
 block pageTitle %} Create a prescription using my own test packs or FHIR
-prescription files {%
-endblock %} {% block content %}
+prescription files {% endblock %} {% block content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
     <!-- pagination-->
@@ -220,7 +219,7 @@ endblock %} {% block content %}
       </div>
     </dl>
 
-    <a href="/v1/send-result" class="nhsuk-button"> Sign and send </a>
+    <a href="/v1/send-result-multiple" class="nhsuk-button"> Sign and send </a>
     <button
       class="nhsuk-button nhsuk-button--secondary"
       data-module="nhsuk-button"
