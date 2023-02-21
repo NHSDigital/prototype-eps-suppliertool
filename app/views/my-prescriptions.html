@@ -1,9 +1,8 @@
 {% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
-block pageTitle %} Check your answers template - NHS.UK prototype kit {%
-endblock %} {% block content %}
+block pageTitle %} My prescriptions {% endblock %} {% block content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
-    <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
+    <h1 class="nhsuk-u-margin-top-4">My prescriptions</h1>
 
     <div class="nhsuk-do-dont-list">
       <h3 class="nhsuk-do-dont-list__label">Sent prescriptions</h3>
@@ -14,6 +13,7 @@ endblock %} {% block content %}
         <thead role="rowgroup" class="nhsuk-table__head">
           <tr role="row">
             <th role="columnheader" class="" scope="col">ID</th>
+            <th role="columnheader" class="" scope="col">Items</th>
             <th role="columnheader" class="" scope="col">Actions</th>
           </tr>
         </thead>
@@ -21,7 +21,13 @@ endblock %} {% block content %}
           <tr role="row" class="nhsuk-table__row">
             <td role="cell" class="nhsuk-table__cell">
               <span class="nhsuk-table-responsive__heading">ID </span>
-              <strong>number here</strong>
+              ID here
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Items </span>
+              Paracetamol 500mg soluble tablets <br />
+              <br />
+              Salbutamol 100 micrograms/ dose inhaler CFC free
             </td>
             <td role="cell" class="nhsuk-table__cell">
               <span class="nhsuk-table-responsive__heading">Actions </span>
@@ -40,7 +46,30 @@ endblock %} {% block content %}
                   <path
                     d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"
                   ></path></svg
-                ><span class="nhsuk-action-link__text">Action here</span></a
+                ><span class="nhsuk-action-link__text"
+                  >View prescription</span
+                ></a
+              >
+              <br />
+              <br />
+              <a
+                class="nhsuk-action-link__link"
+                href="/eps-api-tool/dispense/release?prescription_id=AF0945-A83008-AD4F10"
+                ><svg
+                  class="nhsuk-icon nhsuk-icon__arrow-right-circle"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  height="32"
+                  width="32"
+                >
+                  <path d="M0 0h24v24H0z" fill="none"></path>
+                  <path
+                    d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"
+                  ></path></svg
+                ><span class="nhsuk-action-link__text"
+                  >Check prescription status</span
+                ></a
               >
             </td>
           </tr>
