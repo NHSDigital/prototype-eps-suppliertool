@@ -299,13 +299,12 @@ block pageTitle %} Prescription summary {% endblock %} {% block content %}
       </div>
     </details>
     <a href="/v2/send-result" class="nhsuk-button"> Sign and send </a>
-    <button
+    <a
+      href="/v2/prescription-upload"
       class="nhsuk-button nhsuk-button--secondary"
-      data-module="nhsuk-button"
-      type="submit"
     >
-      Cancel
-    </button>
+      Cancel</a
+    >
   </div>
 </div>
 {% endblock %}
