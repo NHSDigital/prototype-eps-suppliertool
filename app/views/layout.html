@@ -19,8 +19,9 @@
 <!-- Header code examples can be found at https://service-manual.nhs.uk/design-system/components/header -->
 {% block header %} {{ header({ "service": { "name": "Create a test
 prescription", "href": "/" }, "showNav": "true", "showSearch": "false",
-"primaryLinks":[{ "url" : "/my-prescriptions", "label" : "My prescriptions"}] })
-}} {% endblock %}
+"primaryLinks":[{ "url" : "/v2/start-page", "label" : "Home"},{ "url" :
+"/my-prescriptions", "label" : "My prescriptions"},{ "url" : "/index", "label" :
+"Log out"}] }) }} {% endblock %}
 
 <!-- Edit the footer -->
 <!-- Footer code examples can be found at https://service-manual.nhs.uk/design-system/components/footer -->
