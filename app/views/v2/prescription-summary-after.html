@@ -4,10 +4,7 @@ block pageTitle %} Prescription summary {% endblock %} {% block content %}
   <div class="nhsuk-grid-column-two-thirds">
     <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
     <a href="#" class="nhsuk-button"> Download this prescription </a>
-    <a
-      href="/v2/prescription-summary-edit"
-      class="nhsuk-button nhsuk-button--secondary"
-    >
+    <a href="#" class="nhsuk-button nhsuk-button--secondary">
       Edit the ODS code
     </a>
 
@@ -27,7 +24,7 @@ block pageTitle %} Prescription summary {% endblock %} {% block content %}
 
         <div class="nhsuk-summary-list__row">
           <dt class="nhsuk-summary-list__key">Nominated pharmacy ODS code</dt>
-          <dd class="nhsuk-summary-list__value">FCG71</dd>
+          <dd class="nhsuk-summary-list__value">{{ data['test-width-5'] }}</dd>
         </div>
       </dl>
 

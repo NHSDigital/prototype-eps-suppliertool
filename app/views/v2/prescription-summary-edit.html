@@ -4,10 +4,7 @@ block pageTitle %} Prescription summary {% endblock %} {% block content %}
   <div class="nhsuk-grid-column-two-thirds">
     <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
     <a href="#" class="nhsuk-button"> Download this prescription </a>
-    <a
-      href="/v2/prescription-summary-edit"
-      class="nhsuk-button nhsuk-button--secondary"
-    >
+    <a href="#" class="nhsuk-button nhsuk-button--secondary">
       Edit the ODS code
     </a>
 
@@ -27,7 +24,33 @@ block pageTitle %} Prescription summary {% endblock %} {% block content %}
 
         <div class="nhsuk-summary-list__row">
           <dt class="nhsuk-summary-list__key">Nominated pharmacy ODS code</dt>
-          <dd class="nhsuk-summary-list__value">FCG71</dd>
+          <form
+            class="form"
+            action="/v2/prescription-summary-after"
+            method="post"
+          >
+            <div class="nhsuk-form-group">
+              <label class="nhsuk-label" for="input-width-5">
+                <br />
+                Enter the new ODS code below
+              </label>
+              <input
+                class="nhsuk-input nhsuk-input--width-5"
+                id="input-width-5"
+                name="test-width-5"
+                type="text"
+              />
+              <br />
+              <br />
+              <button
+                class="nhsuk-button nhsuk-button"
+                data-module="nhsuk-button"
+                type="submit"
+              >
+                Ok
+              </button>
+            </div>
+          </form>
         </div>
       </dl>
 
