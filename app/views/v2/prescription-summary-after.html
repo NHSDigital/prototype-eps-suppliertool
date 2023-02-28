@@ -1,7 +1,8 @@
 {% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
 block pageTitle %} Prescription summary {% endblock %}{% block outerContent %}
 {{ backLink({ "href": "/v2/prescription-upload", "text": "Back", "classes":
-"nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }} {% endblock %} {% block content %}
+"nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }} {% endblock %} {% block
+content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
     <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
@@ -11,9 +12,13 @@ block pageTitle %} Prescription summary {% endblock %}{% block outerContent %}
     </a>
 
     <div class="nhsuk-do-dont-list">
-      <h3 class="nhsuk-do-dont-list__label">Prescription ID summary</h3>
+      <h3 class="nhsuk-do-dont-list__label">Summary</h3>
       <h3>Prescription information</h3>
       <dl class="nhsuk-summary-list">
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Prescription ID</dt>
+          <dd class="nhsuk-summary-list__value">BV4V34-A98339-D8D87S</dd>
+        </div>
         <div class="nhsuk-summary-list__row">
           <dt class="nhsuk-summary-list__key">Authored on</dt>
           <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
@@ -110,7 +115,7 @@ block pageTitle %} Prescription summary {% endblock %}{% block outerContent %}
         <dl class="nhsuk-summary-list">
           <div class="nhsuk-summary-list__row">
             <dt class="nhsuk-summary-list__key">ID</dt>
-            <dd class="nhsuk-summary-list__value">ID here</dd>
+            <dd class="nhsuk-summary-list__value">BV4V34-A98339-D8D87S</dd>
           </div>
 
           <div class="nhsuk-summary-list__row">
