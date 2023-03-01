@@ -35,6 +35,26 @@ router.post(
     }
   }),
 
+  router.post("/v3/contact-answer", function (req, res) {
+    var Uploads = req.session.data["contact"];
+    if (Uploads == "primary-care") {
+      res.redirect("/v3/prescription-summary");
+    }
+
+    if (Uploads == "secondary-care") {
+      res.redirect("/v3/prescription-summary");
+    }
+    if (Uploads == "test-pack") {
+      res.redirect("/v3/testpack-prescription-summary");
+    }
+    if (Uploads == "presc-files") {
+      res.redirect("/v3/testpack-prescription-summary");
+    }
+    if (Uploads == "paste-files") {
+      res.redirect("/v3/testpack-prescription-summary");
+    }
+  }),
+
   // Add your routes here - above the module.exports line
 
   (module.exports = router)

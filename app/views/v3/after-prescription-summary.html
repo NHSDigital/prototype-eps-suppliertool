@@ -1,0 +1,323 @@
+{% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
+block pageTitle %} Prescription summary {% endblock %}{% block outerContent %}
+{{ backLink({ "href": "/v3/start-page", "text": "Back", "classes":
+"nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }} {% endblock %} {% block
+content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
+
+    <a href="/v3/send-result" class="nhsuk-button"> Sign and send </a>
+    <a href="#" class="nhsuk-button nhsuk-button--secondary">
+      Download this prescription</a
+    >
+    <div class="nhsuk-do-dont-list">
+      <h3 class="nhsuk-do-dont-list__label">Summary</h3>
+
+      <h3>Prescription information</h3>
+      <dl class="nhsuk-summary-list">
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Prescription ID</dt>
+          <dd class="nhsuk-summary-list__value">Bv4v34-A98339-D8d87S</dd>
+        </div>
+
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Authored on</dt>
+          <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
+        </div>
+
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Effective date</dt>
+          <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
+        </div>
+
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Nominated Pharmacy ODS</dt>
+          <dd class="nhsuk-summary-list__value">{{ data['test-width-5'] }}</dd>
+
+          <dd class="nhsuk-summary-list__actions">
+            <a href="/v3/edit-prescription-summary">
+              Change<span class="nhsuk-u-visually-hidden">
+                nominated pharmacy ods</span
+              >
+            </a>
+          </dd>
+        </div>
+      </dl>
+
+      <table role="table" class="nhsuk-table-responsive">
+        <caption class="nhsuk-table__caption">
+          Medication summary
+        </caption>
+        <thead role="rowgroup" class="nhsuk-table__head">
+          <tr role="row">
+            <th role="columnheader" class="" scope="col">Details</th>
+            <th role="columnheader" class="" scope="col">Quantity</th>
+            <th role="columnheader" class="" scope="col">Unit</th>
+            <th role="columnheader" class="" scope="col">
+              Dosage instructions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="nhsuk-table__body">
+          <tr role="row" class="nhsuk-table__row">
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Details </span>
+              <strong>Paracetamol 500mg soluble tables</strong>
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Quantity </span>60
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Unit </span>tablet
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading"
+                >Dosage instructions</span
+              >4 times a day - oral
+            </td>
+          </tr>
+
+          <tr role="row" class="nhsuk-table__row">
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Details </span>
+              <strong>Salbutamol 100micrograms/dose inhaler CFC free</strong>
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Quantity </span>200
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading">Unit </span>table
+            </td>
+            <td role="cell" class="nhsuk-table__cell">
+              <span class="nhsuk-table-responsive__heading"
+                >Dosage instructions</span
+              >4 times a day - oral
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <br />
+      <h3>Prescriber details</h3>
+      <dl class="nhsuk-summary-list">
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Name</dt>
+          <dd class="nhsuk-summary-list__value">BOIN,C (DR)</dd>
+        </div>
+
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Telecom</dt>
+          <dd class="nhsuk-summary-list__value">01234567890</dd>
+        </div>
+        <div class="nhsuk-summary-list__row">
+          <dt class="nhsuk-summary-list__key">Organization</dt>
+          <dd class="nhsuk-summary-list__value">HALLGARTH SURGERY (A83008)</dd>
+        </div>
+      </dl>
+    </div>
+    <h2>Full prescription details</h2>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text"> Prescription details </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <dl class="nhsuk-summary-list">
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">ID</dt>
+            <dd class="nhsuk-summary-list__value">BV4V34-A98339-D8D87S</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Prescription type code</dt>
+            <dd class="nhsuk-summary-list__value">
+              Short course (acute) therapy
+            </dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Course of therapy</dt>
+            <dd class="nhsuk-summary-list__value">0101</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Authored on</dt>
+            <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Effective date</dt>
+            <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Nominated pharmacy ODS code</dt>
+            <dd class="nhsuk-summary-list__value">
+              {{ data['test-width-5'] }}
+            </dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Nominated pharmacy type</dt>
+            <dd class="nhsuk-summary-list__value">
+              Other (e.g. community pharmacy)
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text"> Patient details </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <dl class="nhsuk-summary-list">
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Name</dt>
+            <dd class="nhsuk-summary-list__value">BELLRIDGE, STEWART (MR)</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">NHS number</dt>
+            <dd class="nhsuk-summary-list__value">909 909 9119</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Date of birth</dt>
+            <dd class="nhsuk-summary-list__value">12-Dec-1984</dd>
+          </div>
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Gender</dt>
+            <dd class="nhsuk-summary-list__value">Male</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Address</dt>
+            <dd class="nhsuk-summary-list__value">
+              10 HEATHFIELD <br />
+              COBHAM <br />
+              SURREY <br />
+              KT3 9PD
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text"> Medication details </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <table role="table" class="nhsuk-table-responsive">
+          <caption class="nhsuk-table__caption">
+            Medication summary
+          </caption>
+          <thead role="rowgroup" class="nhsuk-table__head">
+            <tr role="row">
+              <th role="columnheader" class="" scope="col">Details</th>
+              <th role="columnheader" class="" scope="col">Quantity</th>
+              <th role="columnheader" class="" scope="col">Unit</th>
+              <th role="columnheader" class="" scope="col">
+                Dosage instructions
+              </th>
+            </tr>
+          </thead>
+          <tbody class="nhsuk-table__body">
+            <tr role="row" class="nhsuk-table__row">
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading">Details </span>
+                <strong>Paracetamol 500mg soluble tables</strong>
+              </td>
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading">Quantity </span>60
+              </td>
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading">Unit </span>tablet
+              </td>
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading"
+                  >Dosage instructions</span
+                >4 times a day - oral
+              </td>
+            </tr>
+
+            <tr role="row" class="nhsuk-table__row">
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading">Details </span>
+                <strong>Salbutamol 100micrograms/dose inhaler CFC free</strong>
+              </td>
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading">Quantity </span
+                >200
+              </td>
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading">Unit </span>tablet
+              </td>
+              <td role="cell" class="nhsuk-table__cell">
+                <span class="nhsuk-table-responsive__heading"
+                  >Dosage instructions</span
+                >4 times a day - oral
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text"> Prescriber details </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <dl class="nhsuk-summary-list">
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Name</dt>
+            <dd class="nhsuk-summary-list__value">BOIN,C (DR)</dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Professional codes</dt>
+            <dd class="nhsuk-summary-list__value">
+              SDS role profile ID <br />
+              SDS user ID <br />
+              GMC number <br />
+              DIN number <br />
+            </dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Telecom</dt>
+            <dd class="nhsuk-summary-list__value">01234567890</dd>
+          </div>
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Organization</dt>
+            <dd class="nhsuk-summary-list__value">
+              HALLGARTH SURGERY (A83008)
+            </dd>
+          </div>
+
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Address</dt>
+            <dd class="nhsuk-summary-list__value">
+              HALLGARTH SURGERY <br />
+              CHEAPSIDE <br />
+              SHILDON <br />
+              COUNTY DURHAM <br />
+              DL4 2HP
+            </dd>
+          </div>
+          <div class="nhsuk-summary-list__row">
+            <dt class="nhsuk-summary-list__key">Trust/CCG</dt>
+            <dd class="nhsuk-summary-list__value">
+              NHS COUNTY DURHAM CCG (84H)
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </details>
+  </div>
+</div>
+{% endblock %}

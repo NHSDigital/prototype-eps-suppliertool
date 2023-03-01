@@ -1,0 +1,226 @@
+{% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
+block pageTitle %} Create a prescription {% endblock %} {% block outerContent %}
+{% endblock %} {% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-three-quarters">
+    <h1>Create a test prescription</h1>
+    <div class="nhsuk-card">
+      <div class="nhsuk-card__content">
+        <h3 class="nhsuk-card__heading">Use this tool to create:</h3>
+        <ul>
+          <li>
+            a pre-set nominated acute prescription in primary or secondary care
+          </li>
+          <li>
+            an acute, eRD or non-nominated prescription using your own test
+            packs
+          </li>
+          <li>a prescription using FHIR prescription files</li>
+        </ul>
+      </div>
+    </div>
+
+    <form class="form" action="/v3/contact-answer" method="post">
+      <div class="nhsuk-form-group">
+        <fieldset class="nhsuk-fieldset" aria-describedby="contact-hint">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
+            <h1 class="nhsuk-fieldset__heading">
+              How would you like to create a test prescription?
+            </h1>
+          </legend>
+
+          <div class="nhsuk-hint" id="contact-hint">Choose an option</div>
+
+          <div class="nhsuk-radios nhsuk-radios--conditional">
+            <div class="nhsuk-radios__item">
+              <input
+                class="nhsuk-radios__input"
+                id="contact-1"
+                name="contact"
+                type="radio"
+                value="primary-care"
+                aria-controls="conditional-contact-1"
+                aria-expanded="false"
+              />
+              <label class="nhsuk-label nhsuk-radios__label" for="contact-1">
+                Create a pre-set nominated acute prescription in primary care
+              </label>
+            </div>
+
+            <!-- <div
+            class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
+            id="conditional-contact-1"
+          >
+            <div class="nhsuk-form-group">
+              <label class="nhsuk-label" for="email"> expanded delete </label>
+              <input
+                class="nhsuk-input nhsuk-u-width-two-thirds"
+                id="email"
+                name="email"
+                type="text"
+              />
+            </div>  
+          </div> -->
+
+            <div class="nhsuk-radios__item">
+              <input
+                class="nhsuk-radios__input"
+                id="contact-2"
+                name="contact"
+                type="radio"
+                value="secondary-care"
+                aria-controls="conditional-contact-2"
+                aria-expanded="false"
+              />
+              <label class="nhsuk-label nhsuk-radios__label" for="contact-2">
+                Create a pre-set nominated acute prescription in secondary care
+              </label>
+            </div>
+
+            <!-- <div
+            class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
+            id="conditional-contact-2"
+          >
+           <div class="nhsuk-form-group">
+              <label class="nhsuk-label" for="phone"> delete this </label>
+              <input
+                class="nhsuk-input nhsuk-u-width-two-thirds"
+                id="phone"
+                name="phone"
+                type="text"
+              />
+            </div>
+          </div>  -->
+
+            <div class="nhsuk-radios__item">
+              <input
+                class="nhsuk-radios__input"
+                id="contact-3"
+                name="contact"
+                type="radio"
+                value="test-pack"
+                aria-controls="conditional-contact-3"
+                aria-expanded="false"
+              />
+              <label class="nhsuk-label nhsuk-radios__label" for="contact-3">
+                Upload a test pack
+              </label>
+            </div>
+
+            <div
+              class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
+              id="conditional-contact-3"
+            >
+              <div class="nhsuk-form-group">
+                <!--<label class="nhsuk-label" for="mobile">
+                Upload a test pack
+              </label> -->
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="file-upload-1">
+                    Please ensure you upload your test pack as an excel
+                    spreadsheet
+                  </label>
+                  <input
+                    class="govuk-file-upload"
+                    id="file-upload-1"
+                    name="file-upload-1"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="nhsuk-radios__item">
+              <input
+                class="nhsuk-radios__input"
+                id="contact-4"
+                name="contact"
+                type="radio"
+                value="presc-files"
+                aria-controls="conditional-contact-4"
+                aria-expanded="false"
+              />
+              <label class="nhsuk-label nhsuk-radios__label" for="contact-4">
+                Upload a FHIR prescription file
+              </label>
+            </div>
+            <div
+              class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
+              id="conditional-contact-4"
+            >
+              <div class="nhsuk-form-group">
+                <!-- <label class="nhsuk-label" for="mobile">
+                Upload a FHIR prescription
+              </label> -->
+                <div class="govuk-form-group">
+                  <label class="govuk-label" for="file-upload-2">
+                    Please upload your FHIR prescription as a JSON file
+                  </label>
+                  <input
+                    class="govuk-file-upload"
+                    id="file-upload-2"
+                    name="file-upload-2"
+                    type="file"
+                  />
+                </div>
+              </div>
+            </div>
+            <!-- Additional text area
+-->
+            <div class="nhsuk-radios__item">
+              <input
+                class="nhsuk-radios__input"
+                id="contact-5"
+                name="contact"
+                type="radio"
+                value="paste-files"
+                aria-controls="conditional-contact-5"
+                aria-expanded="false"
+              />
+              <label class="nhsuk-label nhsuk-radios__label" for="contact-5">
+                Paste a FHIR prescription
+              </label>
+            </div>
+            <div
+              class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden"
+              id="conditional-contact-5"
+            >
+              <div class="nhsuk-form-group">
+                <label class="nhsuk-label" for="example">
+                  Paste your FHIR prescription below
+                </label>
+                <!--<div class="nhsuk-hint" id="example-hint">
+                Do not include personal or financial information, for example,
+                your National Insurance number or credit card details.
+              </div> -->
+                <textarea
+                  class="nhsuk-textarea"
+                  id="example"
+                  name="example"
+                  rows="5"
+                  aria-describedby="example-hint"
+                ></textarea>
+              </div>
+            </div>
+
+            <!--End of radios-->
+          </div>
+        </fieldset>
+      </div>
+      <!--<button
+      class="nhsuk-button"
+      data-module="nhsuk-button"
+      type="submit"
+      href="/prescription-summary"
+    >
+      Next
+    </button> -->
+
+      <!--<a href="/v2/accordion" class="nhsuk-button"> Next </a> -->
+      <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+        Next
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock %}

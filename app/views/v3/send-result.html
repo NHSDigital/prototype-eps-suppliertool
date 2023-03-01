@@ -1,0 +1,91 @@
+{% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
+block pageTitle %} Send result {% endblock %} {% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    <h1 class="nhsuk-u-margin-top-4">
+      Send result
+      <svg
+        class="nhsuk-icon nhsuk-icon__tick"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        height="32"
+        width="32"
+      >
+        <path
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke="#007f3b"
+          fill="none"
+          d="M18.4 7.8l-8.5 8.4L5.6 12"
+        ></path>
+      </svg>
+    </h1>
+    <table class="nhsuk-table">
+      <tbody class="nhsuk-table__body">
+        <tr role="row" class="nhsuk-table__row">
+          <td class="nhsuk-table__cell">ID</td>
+          <td class="nhsuk-table__cell">BV4V34-A98339-D8D87S</td>
+        </tr>
+      </tbody>
+    </table>
+    <a href="/#" class="nhsuk-button"> Prescription tracker </a>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          FHIR Request that a supplier would send to the FHIR API
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          Equivalent HL7V3 that the FHIR API has sent to Spine
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          The HL7V3 Spine response that the FHIR API received from Spine
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <details class="nhsuk-details nhsuk-expander">
+      <summary class="nhsuk-details__summary">
+        <span class="nhsuk-details__summary-text">
+          FHIR response that a supplier will receive from the FHIR API
+        </span>
+      </summary>
+      <div class="nhsuk-details__text">
+        <a href="/#" class="nhsuk-button"> Copy </a>
+        <a href="/#" class="nhsuk-button"> Download </a>
+        <p>Lots of code here</p>
+      </div>
+    </details>
+
+    <a href="/v2/start-page" class="nhsuk-button nhsuk-button--secondary">
+      Home page
+    </a>
+  </div>
+</div>
+{% endblock %}
