@@ -45,7 +45,7 @@ router.post(
       res.redirect("/v3/prescription-summary");
     }
     if (Uploads == "test-pack") {
-      res.redirect("/v3/testpack-prescription-summary");
+      res.redirect("/v3/pack-prescription-summary");
     }
     if (Uploads == "presc-files") {
       res.redirect("/v3/pack-prescription-summary");
