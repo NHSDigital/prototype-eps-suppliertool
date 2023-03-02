@@ -1,11 +1,20 @@
 {% extends 'layout.html' %} {% set mainClasses = "nhsuk-main-wrapper--s" %} {%
 block pageTitle %} Prescription summary {% endblock %}{% block outerContent %}
-{{ backLink({ "href": "/v2/prescription-upload", "text": "Back", "classes":
+{{ backLink({ "href": "/v3/start-page", "text": "Back", "classes":
 "nhsuk-u-margin-top-4 nhsuk-u-margin-bottom-0" }) }} {% endblock %} {% block
 content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-two-thirds">
-    <!-- pagination-->
+    <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
+    <p>
+      Review the prescription information on this page. <br />
+      You can also download this prescription to check the JSON files. <br />
+    </p>
+
+    <a href="/v3/send-result-multiple" class="nhsuk-button"> Sign and send </a>
+    <a href="#" class="nhsuk-button nhsuk-button--secondary">
+      Download this prescription</a
+    >
     <div class="pagination">
       <!-- <a class="govuk-pagination__prev" href="#" rel="prev">
         <svg
@@ -51,22 +60,16 @@ content %}
           ></path></svg
       ></a>
     </div>
-    <!--prescription summary table starts-->
-
-    <h1 class="nhsuk-u-margin-top-4">Prescription summary</h1>
-    <a href="#" class="nhsuk-button"> Download this prescription</a>
-    <a href="#" class="nhsuk-button nhsuk-button--secondary">
-      Edit the ODS code
-    </a>
-
     <div class="nhsuk-do-dont-list">
       <h3 class="nhsuk-do-dont-list__label">Summary</h3>
+
       <h3>Prescription information</h3>
       <dl class="nhsuk-summary-list">
         <div class="nhsuk-summary-list__row">
           <dt class="nhsuk-summary-list__key">Prescription ID</dt>
-          <dd class="nhsuk-summary-list__value">BV4V34-A98339-D8D87S</dd>
+          <dd class="nhsuk-summary-list__value">Bv4v34-A98339-D8d87S</dd>
         </div>
+
         <div class="nhsuk-summary-list__row">
           <dt class="nhsuk-summary-list__key">Authored on</dt>
           <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
@@ -78,8 +81,16 @@ content %}
         </div>
 
         <div class="nhsuk-summary-list__row">
-          <dt class="nhsuk-summary-list__key">Nominated pharmacy ODS code</dt>
-          <dd class="nhsuk-summary-list__value">FCG71</dd>
+          <dt class="nhsuk-summary-list__key">Nominated Pharmacy ODS</dt>
+          <dd class="nhsuk-summary-list__value">{{ data['test-width-5'] }}</dd>
+
+          <dd class="nhsuk-summary-list__actions">
+            <a href="/v3/edit-prescription-summary">
+              Change<span class="nhsuk-u-visually-hidden">
+                nominated pharmacy ods</span
+              >
+            </a>
+          </dd>
         </div>
       </dl>
 
@@ -135,6 +146,7 @@ content %}
           </tr>
         </tbody>
       </table>
+
       <br />
       <h3>Prescriber details</h3>
       <dl class="nhsuk-summary-list">
@@ -190,7 +202,9 @@ content %}
 
           <div class="nhsuk-summary-list__row">
             <dt class="nhsuk-summary-list__key">Nominated pharmacy ODS code</dt>
-            <dd class="nhsuk-summary-list__value">FCG71</dd>
+            <dd class="nhsuk-summary-list__value">
+              {{ data['test-width-5'] }}
+            </dd>
           </div>
 
           <div class="nhsuk-summary-list__row">
@@ -289,7 +303,7 @@ content %}
                 >200
               </td>
               <td role="cell" class="nhsuk-table__cell">
-                <span class="nhsuk-table-responsive__heading">Unit </span>table
+                <span class="nhsuk-table-responsive__heading">Unit </span>tablet
               </td>
               <td role="cell" class="nhsuk-table__cell">
                 <span class="nhsuk-table-responsive__heading"
@@ -353,127 +367,6 @@ content %}
         </dl>
       </div>
     </details>
-
-    <!--
-    <dl class="nhsuk-summary-list">
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">ID</dt>
-        <dd class="nhsuk-summary-list__value">ID here</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Prescription type code</dt>
-        <dd class="nhsuk-summary-list__value">Short course (acute) therapy</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Course of therapy</dt>
-        <dd class="nhsuk-summary-list__value">0101</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Authored on</dt>
-        <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Effective date</dt>
-        <dd class="nhsuk-summary-list__value">12-Jan-23</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Nominated pharmacy ODS code</dt>
-        <dd class="nhsuk-summary-list__value">FCG71</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Nominated pharmacy type</dt>
-        <dd class="nhsuk-summary-list__value">
-          Other (e.g. community pharmacy)
-        </dd>
-      </div>
-    </dl>
-    <h2>Patient details</h2>
-    <dl class="nhsuk-summary-list">
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Name</dt>
-        <dd class="nhsuk-summary-list__value">TWITCHETT, STACEY MARISA (MS)</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">NHS number</dt>
-        <dd class="nhsuk-summary-list__value">909 909 9119</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Date of birth</dt>
-        <dd class="nhsuk-summary-list__value">12-Dec-1984</dd>
-      </div>
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Gender</dt>
-        <dd class="nhsuk-summary-list__value">Female</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Address</dt>
-        <dd class="nhsuk-summary-list__value">
-          10 HEATHFIELD<br />
-          COBHAM <br />
-          SURREY <br />
-          KT11 2QY
-        </dd>
-      </div>
-    </dl>
-
-    <h2>Prescriber details</h2>
-    <dl class="nhsuk-summary-list">
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Name</dt>
-        <dd class="nhsuk-summary-list__value">BOIN,C (DR)</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Professional codes</dt>
-        <dd class="nhsuk-summary-list__value">
-          SDS role profile ID <br />
-          SDS user ID <br />
-          GMC number <br />
-          DIN number <br />
-        </dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Telecom</dt>
-        <dd class="nhsuk-summary-list__value">01234567890</dd>
-      </div>
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Organization</dt>
-        <dd class="nhsuk-summary-list__value">HALLGARTH SURGERY (A83008)</dd>
-      </div>
-
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Address</dt>
-        <dd class="nhsuk-summary-list__value">
-          HALLGARTH SURGERY <br />
-          CHEAPSIDE <br />
-          SHILDON <br />
-          COUNTY DURHAM <br />
-          DL4 2HP
-        </dd>
-      </div>
-      <div class="nhsuk-summary-list__row">
-        <dt class="nhsuk-summary-list__key">Trust/CCG</dt>
-        <dd class="nhsuk-summary-list__value">NHS COUNTY DURHAM CCG (84H)</dd>
-      </div>
-    </dl> -->
-
-    <a href="/v2/send-result-multiple" class="nhsuk-button"> Sign and send </a>
-    <a
-      href="/v2/prescription-upload"
-      class="nhsuk-button nhsuk-button--secondary"
-    >
-      Cancel</a
-    >
   </div>
 </div>
 {% endblock %}
