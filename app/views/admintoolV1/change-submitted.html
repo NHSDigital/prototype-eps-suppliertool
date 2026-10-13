@@ -1,0 +1,233 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Florence Nightingale (Regional Manager)",
+        icon: true
+      },
+      {
+        text: "Change role",
+        href: "#"
+      },
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+    {
+        text: "Change nominated pharmacy",
+        href: "/admintoolV1/clear-and-start"
+      },
+      {
+        text: "Nominations processing",
+        href: "/admintoolV1/clear-and-processing",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+{% block beforeContent %} {{ breadcrumb({ href: "/", text: "Home" })
+}} 
+{% endblock %} 
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+
+ {% if data.exampleHints == "processing" %}   
+ <!--If change is ongoing-->
+ <div class="nhsuk-panel nhsuk-panel--interruption">
+  <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
+    Nominated pharmacy change started
+  </h1>
+</div>
+{% elif data.exampleHints == "processed" %}
+ <!--If change is immediately processed-->
+ <div class="nhsuk-panel">
+  <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
+    Nominated pharmacy change processed
+  </h1>
+</div>
+{% endif %}
+
+{% if data.exampleHints == "processing" %}   
+<table class="nhsuk-table">
+
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="col">
+        Service Now reference number
+      </th>
+      <th class="nhsuk-table__header" scope="col">
+        New ODS code
+      </th>
+      <th class="nhsuk-table__header" scope="col">
+        NHS number file
+      </th>
+       <th class="nhsuk-table__header" scope="col">
+        Status 
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        {{ data.ServiceNowNumber }}
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.NewODSCode }}
+      </td>
+      <td class="nhsuk-table__cell">
+        nhs_numbers.csv
+      </td>
+      <td class="nhsuk-table__cell">
+         <strong class="nhsuk-tag nhsuk-tag--yellow">
+          Processing
+         </strong>
+      </td>
+    </tr>
+
+
+  </tbody>
+</table>
+{% elif data.exampleHints == "processed" %}
+
+<div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+      Summary
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-button nhsuk-button--secondary nhsuk-button--small" href="#">Copy<span class="nhsuk-u-visually-hidden"> (Template: Appointment invitation 1)</span></a>
+      </li>
+    
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Service Now reference number:
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.ServiceNowNumber }}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        New ODS code:
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.NewODSCode }}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of successful changes
+      </th>
+      <td class="nhsuk-table__cell">
+        3550
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of skipped changes
+      </th>
+      <td class="nhsuk-table__cell">
+        1
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of failed changes
+      </th>
+      <td class="nhsuk-table__cell">
+        None
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of invalid NHS numbers
+      </th>
+      <td class="nhsuk-table__cell">
+        3
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Invalid NHS numbers
+      </th>
+      <td class="nhsuk-table__cell">
+        918723948123<br>143654323456<br>567890123456<br>
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Started:
+      </th>
+      <td class="nhsuk-table__cell">
+        24th September 2026 <br> 10:30 AM
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Finished
+      </th>
+      <td class="nhsuk-table__cell">
+        24th September 2026 <br> 11:30 AM
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+
+
+
+{% endif %}
+<div class="nhsuk-button-group">
+<a class="nhsuk-button" href= "/admintoolV1/clear-and-start">
+  Start another nominated <br> pharmacy change
+</a>
+
+<a class="nhsuk-button nhsuk-button--secondary" href="/admintoolV1/processing-page">
+  View nominated pharmacy changes <br> that are processing
+</a>
+
+
+</div>
+
+   
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+ {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription admin tool "
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  }
+}) }}
+
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+{% block beforeContent %} {{ breadcrumb({ href: "/", text: "Home" })
+}} 
+{% endblock %} 
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+ 
+    <div class="nhsuk-card">
+  <div class="nhsuk-card__content">
+   
+  <form action="/admintoolV1a/start-page" novalidate>
+
+       {% from "radios/macro.njk" import radios %}
+
+{{ radios({
+  fieldset: {
+    legend: {
+      text: "Which outcome do you want?",
+        size: "m",
+      isPageHeading: true
+    }
+  },
+  idPrefix: "example-hints",
+  name: "exampleHints",
+  items: [
+    {
+      value: "processed",
+      text: "Change immediately processed"
+     
+    },
+    {
+      value: "processing",
+      text: "Change processing"
+      
+    }
+  ]
+}) }}
+
+
+
+
+       
+
+
+          <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Save and continue
+          </button>
+
+        </form>
+ 
+  </div>
+ 
+</div>
+  </div>
+</div>
+{% endblock %}

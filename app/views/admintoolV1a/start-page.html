@@ -1,0 +1,249 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Florence Nightingale (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV1a/start-page",
+        active:"true"
+      },
+      {
+        text: "History",
+        href: "/admintoolV1a/processing-page"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+{% block beforeContent %} {{ breadcrumb({ href: "/", text: "Home" })
+}} 
+{% endblock %} 
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+ <div class="nhsuk-tabs" data-module="nhsuk-tabs">
+  <h2 class="nhsuk-tabs__heading">
+    Contents
+  </h2>
+  <ul class="nhsuk-tabs__list">
+    <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
+      <a class="nhsuk-tabs__tab" href="#change-nomination">
+        Transfer NHS numbers
+      </a>
+    </li>
+    <li class="nhsuk-tabs__list-item">
+      <a class="nhsuk-tabs__tab" href="#remove-nomination">
+       Remove NHS numbers
+      </a>
+    </li>
+    
+  
+  </ul>
+  <div class="nhsuk-tabs__panel" id="change-nomination">
+     <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Transfer NHS numbers to a new pharmacy code
+    </h2>
+  
+  <form action="/admintoolV1a/change-answer" method="post" novalidate>
+    <input type="hidden" name="nominationAction" value="change">
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="ServiceNowNumber">
+              Service Now number
+            </label>
+              <div class="nhsuk-hint" id="account-number-hint">
+              This is the number of the ServiceNow request to transfer NHS numbers to a new pharmacy code
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-20" id="ServiceNowNumber" name="ServiceNowNumber" type="text" value="{{ data.ServiceNowNumber }}">
+          </div>
+
+           <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="OldODSCode">
+              Current pharmacy code
+            </label>
+              <div class="nhsuk-hint" id="account-number-hint">
+              Pharmacy codes are also called ODS codes
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-10" id="OldODSCode" name="OldODSCode" type="text" value="{{ data.OldODSCode }}">
+          </div>
+
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="NewODSCode">
+              New pharmacy code
+            </label>
+            <input class="nhsuk-input nhsuk-input--width-10" id="NewODSCode" name="NewODSCode" type="text" value="{{ data.NewODSCode }}">
+          </div>
+
+<div class="nhsuk-form-group">
+  <fieldset class="nhsuk-fieldset" aria-describedby="contact-hint">
+    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+      <h1 class="nhsuk-fieldset__heading">
+       Date and time of transfer
+      </h1>
+    </legend>
+  
+    <div class="nhsuk-radios" data-module="nhsuk-radios">
+      <div class="nhsuk-radios__item">
+        <input class="nhsuk-radios__input" id="contact" name="contact" type="radio" value="now" >
+        <label class="nhsuk-label nhsuk-radios__label" for="contact">
+          Now
+        </label>
+      </div>
+   
+      <div class="nhsuk-radios__item">
+        <input class="nhsuk-radios__input" id="contact-2" name="contact" type="radio" value="schedule" data-aria-controls="conditional-contact-2">
+        <label class="nhsuk-label nhsuk-radios__label" for="contact-2">
+          Scheduled date and time
+        </label>
+      </div>
+      <div class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden" id="conditional-contact-2">
+        <div class="nhsuk-form-group">
+          <!-- Custom date input -->
+          <div class="nhsuk-date-input" id="appointment-date">
+      <div class="nhsuk-date-input__item">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label nhsuk-date-input__label" for="appointment-date-day">
+            Day
+          </label>
+          <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="appointment-date-day" name="appointmentDate[day]" type="text" inputmode="numeric">
+        </div>
+      </div>
+      <div class="nhsuk-date-input__item">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label nhsuk-date-input__label" for="appointment-date-month">
+            Month
+          </label>
+          <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="appointment-date-month" name="appointmentDate[month]" type="text" inputmode="numeric">
+        </div>
+      </div>
+      <div class="nhsuk-date-input__item">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label nhsuk-date-input__label" for="appointment-date-year">
+            Year
+          </label>
+          <input class="nhsuk-input nhsuk-input--width-4 nhsuk-date-input__input" id="appointment-date-year" name="appointmentDate[year]" type="text" inputmode="numeric">
+        </div>
+      </div>
+          </div>
+          <!--Time input-->
+            <div class="nhsuk-date-input" id="appointment-date">
+                 <label class="nhsuk-label nhsuk-label--s" for="OldODSCode">
+              Time of transfer
+            </label>
+              <div class="nhsuk-hint" id="account-number-hint">
+              Use 24-hour format, for example 17:00
+              </div>
+      <div class="nhsuk-date-input__item">
+        
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label nhsuk-date-input__label" for="appointment-date-time">
+            Hour
+          </label>
+          <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="appointment-date-hour" name="appointmentDate[hour]" type="text" inputmode="numeric">
+        </div>
+      </div>
+      <div class="nhsuk-date-input__item">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label nhsuk-date-input__label" for="appointment-date-minute">
+            Minute
+          </label>
+          <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="appointment-date-minute" name="appointmentDate[minute]" type="text" inputmode="numeric">
+        </div>
+      </div>
+     
+          </div>
+        </div>
+      </div>
+
+  </fieldset>
+</div>
+
+
+          <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Save and continue
+          </button>
+
+        </form>
+  </div>
+  <div class="nhsuk-tabs__panel nhsuk-tabs__panel--hidden" id="remove-nomination">
+ <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Remove NHS numbers from a pharmacy code
+    </h2>
+    
+    
+  <form action="/admintoolV1a/check-details" novalidate>
+<input type="hidden" name="nominationAction" value="remove">
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="ServiceNowNumberRem">
+              ServiceNow number
+            </label>
+            <input class="nhsuk-input nhsuk-input--width-20" id="ServiceNowNumberRem" name="ServiceNowNumberRem" type="text" value="{{ data.ServiceNowNumberRem }}">
+          </div>
+
+        
+
+
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="OldODSCodeRem">
+              Pharmacy code
+            </label>
+               <div class="nhsuk-hint" id="account-number-hint">
+              Pharmacy codes are also called ODS codes
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-10" id="OldODSCodeRem" name="OldODSCodeRem" type="text" value="{{ data.OldODSCodeRem }}">
+          </div>
+
+
+
+          <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Save and continue
+          </button>
+
+        </form>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+ 
+  </div>
+</div>
+{% endblock %}

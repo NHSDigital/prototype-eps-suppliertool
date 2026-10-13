@@ -5,12 +5,14 @@
 -->
 
 <!-- Extends the layout from /docs/views/template.html -->
-{% extends "template.html" %}
+{% extends "prototype-kit-template.njk" %}
 
 <!-- Add your custom CSS or Sass in /app/assets/sass/main.scss -->
-{% block headCSS %}
-<link href="/css/main.css" rel="stylesheet" />
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
 {% endblock %}
+
 
 <!-- Set the page title -->
 {% block pageTitle %} NHS.UK prototype kit {% endblock %}
@@ -26,9 +28,12 @@ prescription", "href": "/" }, "showNav": "true", "showSearch": "false",
 <!-- Edit the footer -->
 <!-- Footer code examples can be found at https://service-manual.nhs.uk/design-system/components/footer -->
 {% block footer %} {{ footer({ "links": [ { "URL": "/", "label": "Home" }, {
-"URL": "/page-example", "label": "Example page" } ] })}} {% endblock %} {% block
-bodyEnd %} {% block scripts %}
-<!-- Custom JavaScript files can be added to this file -->
-{% include "includes/scripts.html" %}
-<!-- For adding page specific JavsScript -->
-{% block pageScripts %}{% endblock %} {% endblock %} {% endblock %}
+"URL": "/page-example", "label": "Example page" } ] })}} {% endblock %} 
+{% block bodyEnd %}
+  {{ super() }}
+  <script type="module" src="/assets/javascript/main.js"></script>
+
+  {% include "includes/scripts.html" %}
+
+  {% block pageScripts %}{% endblock %}
+{% endblock %}

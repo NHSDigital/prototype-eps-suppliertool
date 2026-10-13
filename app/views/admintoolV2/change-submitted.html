@@ -1,0 +1,395 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+    
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+  {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV2/start-page",
+        active: not record
+      },
+      {
+        text: "History",
+        href: "/admintoolV2/processing-page",
+        active: record
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+{% block beforeContent %}
+  {% if record %}
+    {{ backLink({
+      href: "/admintoolV2/processing-page#" + ("removals" if recordType == "removal" else "transfers"),
+      text: "Back"
+    }) }}
+  {% endif %}
+{% endblock %}
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+{% if recordType == "removal" or (not record and data.nominationAction == "remove") %}
+<!--If nominations removed-->
+ 
+ <div class="nhsuk-panel">
+  <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
+    NHS numbers removed
+  </h1>
+</div> 
+{% elif recordType == "transfer" or (data.nominationAction == "change" and data.exampleHints == "processed" and data.transferType == "now") %}
+ <!--If change is immediately processed-->
+ <div class="nhsuk-panel">
+  <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
+    NHS numbers transferred
+  </h1>
+</div>
+
+ {% elif data.nominationAction == "change" and data.exampleHints == "processing" %}   
+ <!--If change is ongoing-->
+ <div class="nhsuk-panel nhsuk-panel--interruption">
+  <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
+    NHS numbers transferring
+  </h1>
+</div>
+
+
+{% endif %}
+<!-- If removal-->
+{% if recordType == "removal" or (not record and data.nominationAction == "remove") %}
+<div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+      Summary
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-button nhsuk-button--secondary-solid nhsuk-button--small nhsuk-code__button nhsuk-js-code-button" href="#">Copy<span class="nhsuk-u-visually-hidden"> (Template: Appointment invitation 1)</span></a>
+      </li>
+    
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        ServiceNow number
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "removal" %} {{ record.serviceNowNumber }} {% else %} {{ data.ServiceNowNumberRem }} {% endif %}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Pharmacy code
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "removal" %}{{ record.pharmacyCode }}{% else %}{{ data.OldODSCodeRem }}{% endif %}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of NHS numbers removed
+      </th>
+      <td class="nhsuk-table__cell">
+       {% if recordType == "removal" %}{{ record.nhsNumbersRemoved }}
+       {% else %}
+        9997
+       {% endif %}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of NHS numbers skipped (had already been removed)
+      </th>
+      <td class="nhsuk-table__cell">
+        1
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+      Number of failed removals
+      </th>
+      <td class="nhsuk-table__cell">
+        None
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of invalid NHS numbers
+      </th>
+      <td class="nhsuk-table__cell">
+        3
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Invalid NHS numbers
+      </th>
+      <td class="nhsuk-table__cell">
+        918723948123<br>143654323456<br>567890123456<br>
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Removal started
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "removal" %}{{ record.date }} at 10:00 {% else %}
+        {{ data.transferDate }} at {{ data.transferTime }}
+        {% endif %}
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Removal finished
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "removal" %}{{ record.date }} at 10:15 {% else %}
+       {{ data.transferEndDate }} at {{ data.transferEndTime }}
+        {% endif %}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+<!-- If change completed immediately -->
+{% elif recordType == "transfer" or (data.nominationAction == "change" and data.exampleHints == "processed" and data.transferType == "now") %}
+
+<div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+      Summary
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-button nhsuk-button--secondary-solid nhsuk-button--small nhsuk-code__button nhsuk-js-code-button" href="#">Copy<span class="nhsuk-u-visually-hidden"> (Template: Appointment invitation 1)</span></a>
+      </li>
+    
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        ServiceNow number
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "transfer" %} {{ record.serviceNowNumber }} {% else %}  
+        {{ data.ServiceNowNumber }}
+        {% endif %}
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Old pharmacy code
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "transfer" %} {{ record.oldPharmacyCode }} {% else %}  
+        {{ data.OldODSCode }}
+        {% endif %}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        New pharmacy code
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "transfer" %} {{ record.newPharmacyCode }} {% else %}  
+        {{ data.NewODSCode }}
+        {% endif %}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of NHS numbers transferred
+      </th>
+      <td class="nhsuk-table__cell">
+         
+        9997 
+        
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of NHS numbers skipped (already at new pharmacy code)
+      </th>
+      <td class="nhsuk-table__cell">
+        1
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of NHS numbers failed to transfer
+      </th>
+      <td class="nhsuk-table__cell">
+        None
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of invalid NHS numbers
+      </th>
+      <td class="nhsuk-table__cell">
+        3
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Invalid NHS numbers
+      </th>
+      <td class="nhsuk-table__cell">
+        918723948123<br>143654323456<br>567890123456<br>
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Transfer started
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "transfer" %} {{ record.date }} at 10:00 {% else %}  
+        {{ data.transferDate }} at {{ data.transferTime }}
+        {% endif %}
+      </td>
+    </tr>
+       <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Transfer finished
+      </th>
+      <td class="nhsuk-table__cell">
+       {% if recordType == "transfer" %} {{ record.date }} at 10:15 {% else %}  
+       {{ data.transferEndDate }} at {{ data.transferEndTime }}
+       {% endif %}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+<!-- If change not completed immediately-->
+{% elif data.nominationAction == "change" and data.exampleHints == "processing" %}   
+<div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+      Summary
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-button nhsuk-button--secondary-solid nhsuk-button--small nhsuk-code__button nhsuk-js-code-button" href="#">Copy<span class="nhsuk-u-visually-hidden"> (Template: Appointment invitation 1)</span></a>
+      </li>
+    
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        ServiceNow number
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.ServiceNowNumber }}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Old pharmacy code
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.OldODSCode }}
+      </td>
+    </tr>
+     <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        New pharmacy code
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.NewODSCode }}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Number of NHS numbers to be transferred
+      </th>
+      <td class="nhsuk-table__cell">
+        10,000
+      </td>
+    </tr>
+
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Transfer started
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ data.transferDate }} at {{ data.transferTime }}
+      </td>
+    </tr>
+ 
+  </tbody>
+</table>
+
+  </div>
+</div>
+
+
+
+{% endif %}
+
+
+<div class="nhsuk-button-group">
+<a class="nhsuk-button" href= "/admintoolV2/clear-and-start">
+  Start a new transfer or removal
+</a>
+
+
+
+
+</div>
+
+   
+  </div>
+</div>
+{% endblock %}

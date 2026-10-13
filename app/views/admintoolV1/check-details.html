@@ -1,0 +1,114 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Florence Nightingale (Regional Manager)",
+        icon: true
+      },
+      {
+        text: "Change role",
+        href: "#"
+      },
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+  {
+        text: "Change nominated pharmacy",
+        href: "/admintoolV1/clear-and-start"
+      },
+      {
+        text: "Nominations processing",
+        href: "/admintoolV1/clear-and-processing",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+{% block beforeContent %} {{ breadcrumb({ href: "/", text: "Home" })
+}} 
+{% endblock %} 
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-three-quarters">
+ 
+    <div class="nhsuk-card">
+  <div class="nhsuk-card__content">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Check details before changing nominated pharmacy
+    </h2>
+   <dl class="nhsuk-summary-list">
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Service Now reference number
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data.ServiceNowNumber }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> name</span></a>
+    </dd>
+  </div>
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      New ODS code
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data.NewODSCode }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> date of birth</span></a>
+    </dd>
+  </div>
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      NHS number file
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      nhs_numbers.csv
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> contact information</span></a>
+    </dd>
+  </div>
+ 
+</dl>
+
+<a class="nhsuk-button" href="/admintoolV1/change-submitted">
+  Accept and submit
+</a>
+
+ 
+  </div>
+ 
+</div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,122 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Florence Nightingale (Regional Manager)",
+        icon: true
+      },
+   
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV1a/start-page"
+      },
+      {
+        text: "History",
+        href: "/admintoolV1a/processing-page",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+{% block beforeContent %} {{ breadcrumb({ href: "/", text: "Home" })
+}} 
+{% endblock %} 
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+ 
+    <div class="nhsuk-card">
+  <div class="nhsuk-card__content">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Nominated pharmacy changes processing 
+    </h2>
+    
+  <table class="nhsuk-table">
+
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+       <th class="nhsuk-table__header" scope="col">
+       Date
+      </th>
+      <th class="nhsuk-table__header" scope="col">
+        Service Now reference number
+      </th>
+      <th class="nhsuk-table__header" scope="col">
+        New ODS code
+      </th>
+      <th class="nhsuk-table__header" scope="col">
+        NHS number file
+      </th>
+       <th class="nhsuk-table__header" scope="col">
+        Status 
+      </th>
+       <th class="nhsuk-table__header" scope="col">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <td class="nhsuk-table__cell">
+        10th October 2026
+      </td>
+     <td class="nhsuk-table__cell">
+         {{ data.ServiceNowNumber }}
+      </td>
+      <td class="nhsuk-table__cell">
+        {{ data.NewODSCode }}
+      </td>
+      <td class="nhsuk-table__cell">
+        nhs_numbers.csv
+      </td>
+      <td class="nhsuk-table__cell">
+         <strong class="nhsuk-tag nhsuk-tag--yellow">
+          Processing
+         </strong>
+      </td>
+        <td class="nhsuk-table__cell">
+        None
+      </td>
+    </tr>
+
+
+  </tbody>
+</table>
+ 
+  </div>
+ 
+</div>
+  </div>
+</div>
+{% endblock %}
