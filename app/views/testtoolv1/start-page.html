@@ -1,0 +1,302 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Eddie Gluskin (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Create test prescriptions",
+        href: "#",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+ <div class="nhsuk-tabs" data-module="nhsuk-tabs">
+  <h2 class="nhsuk-tabs__heading">
+    Contents
+  </h2>
+  <ul class="nhsuk-tabs__list">
+    <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
+      <a class="nhsuk-tabs__tab" href="#single-prescription">
+        Single prescriptions
+      </a>
+    </li>
+    <li class="nhsuk-tabs__list-item">
+      <a class="nhsuk-tabs__tab" href="#multiple-prescriptions">
+       Multiple prescriptions
+      </a>
+    </li>
+    
+  
+  </ul>
+  <div class="nhsuk-tabs__panel" id="single-prescription">
+     <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Create a single prescription
+    </h2>
+  
+  <form action="#" method="post" novalidate>
+    <input type="hidden" name="singlePrescription" value="change">
+    <!-- Select test patient-->
+       <div class="nhsuk-form-group">
+  <label class="nhsuk-label" for="select-test-patient">
+    Select test patient
+  </label>
+  <select class="nhsuk-select" id="select-test-patient" name="selectTestPatient">
+    <option value="random" selected>Random</option>
+    <option value="clare-redfield">Clare Redfield, female, 65 years old</option>
+    <option value="mia-winters">Mia Winters, female, 30 years old</option>
+    <option value="rose-winters">Rose Winters, female, 10 years old</option>
+    <option value="ethan-winters">Ethan Winters, male, 35 years old</option>
+  </select>
+       </div>
+    <!--Nomination type-->   
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+          <h1 class="nhsuk-fieldset__heading">
+            Nomination(optional)
+          </h1>
+          </legend>
+        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline" name="exampleInline" type="radio" value="yes">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline">
+             Non-nominated
+             </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-2" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-2">
+            One-off nomination
+            </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-3" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-3">
+             Nominated prescription
+            </label>
+            </div>
+        </div>
+        </fieldset>
+        </div>
+    <!--Number of prescription items-->
+       <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+          <h1 class="nhsuk-fieldset__heading">
+            Number of items on prescription (optional) 
+          </h1>
+          </legend>
+        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline" name="exampleInline" type="radio" value="yes">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline">
+             One
+             </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-2" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-2">
+            Two
+            </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-3" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-3">
+             Three
+            </label>
+            </div>
+             <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-4" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-4">
+             Four
+            </label>
+            </div>
+        </div>
+        </fieldset>
+        </div>
+
+    <!-- Prescription type -->
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+          <h1 class="nhsuk-fieldset__heading">
+            Prescription type (optional) 
+          </h1>
+          </legend>
+        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline" name="exampleInline" type="radio" value="yes">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline">
+             Acute
+             </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-2" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-2">
+            Electronic repeat dispensing (eRD)
+            </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-3" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-3">
+             Repeat
+            </label>
+            </div>
+        </div>
+        </fieldset>
+        </div>
+
+    <!--Controlled drugs information-->
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+          <h1 class="nhsuk-fieldset__heading">
+            Controlled drugs (optional) 
+          </h1>
+          </legend>
+        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline" name="exampleInline" type="radio" value="yes">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline">
+             Yes
+             </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-2" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-2">
+            No
+            </label>
+            </div>
+           
+        </div>
+        </fieldset>
+        </div>
+
+    <!-- Cancelled items -->
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+          <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+          <h1 class="nhsuk-fieldset__heading">
+            Cancelled items (optional) 
+          </h1>
+          </legend>
+        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline" name="exampleInline" type="radio" value="yes">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline">
+             Yes
+             </label>
+            </div>
+            <div class="nhsuk-radios__item">
+            <input class="nhsuk-radios__input" id="example-inline-2" name="exampleInline" type="radio" value="no">
+            <label class="nhsuk-label nhsuk-radios__label" for="example-inline-2">
+            No
+            </label>
+            </div>
+           
+        </div>
+        </fieldset>
+        </div>
+           <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Save and continue
+          </button>
+
+        </form>
+      </div>
+
+
+
+     
+
+
+
+       
+  
+  <div class="nhsuk-tabs__panel nhsuk-tabs__panel--hidden" id="multiple-prescriptions">
+ <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Create multiple prescriptions
+    </h2>
+    
+    
+  <form action="#" novalidate>
+<input type="hidden" name="nominationAction" value="remove">
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="ServiceNowNumberRem">
+              ServiceNow number
+            </label>
+            <input class="nhsuk-input nhsuk-input--width-20" id="ServiceNowNumberRem" name="ServiceNowNumberRem" type="text" value="{{ data.ServiceNowNumberRem }}">
+          </div>
+
+        
+
+
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="OldODSCodeRem">
+              Pharmacy code
+            </label>
+               <div class="nhsuk-hint" id="account-number-hint">
+              Pharmacy codes are also called ODS codes
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-10" id="OldODSCodeRem" name="OldODSCodeRem" type="text" value="{{ data.OldODSCodeRem }}">
+          </div>
+        
+
+
+          <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Save and continue
+          </button>
+
+        </form>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+ 
+  </div>
+</div>
+{% endblock %}
