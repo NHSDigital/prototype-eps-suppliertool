@@ -53,8 +53,11 @@
 {% block content %}
 <div class="nhsuk-grid-row">
   <div class="nhsuk-grid-column-full-width">
+    {% if data.nominationAction == "remove" %}
+ <h1 class="nhsuk-heading-l">Removing NHS numbers</h1>
+    {% else %}
         <h1 class="nhsuk-heading-l">Transferring NHS numbers</h1>
-     
+     {% endif %}
       <form action="submit" method="post">
         <section class="loading-container" id="gp-connect-0" style="display:block; min-height: 16em;">
       
@@ -64,7 +67,11 @@
                 <img src="/assets/images/loader-spinner.svg" width="200px" height="200px" id="spinner" class=""/>
                 <div class="ppc-loading">
                   <div class="pcc-percents-wrapper">
+                    {% if data.nominationAction == "remove" %}
+                    <span id="spinner-status" class="nhsuk-body">Removing</span><span aria-hidden="true">...</span>
+                    {% else %}
                     <span id="spinner-status" class="nhsuk-body">Transferring</span><span aria-hidden="true">...</span>
+                    {% endif %}
                   </div>
                 </div>
               </div>
