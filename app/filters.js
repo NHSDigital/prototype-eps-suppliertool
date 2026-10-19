@@ -38,6 +38,14 @@ module.exports = function (env) { /* eslint-disable-line no-unused-vars */
 
   ------------------------------------------------------------------ */
 
+  // "10th October 2026" -> "2026-10-10", for data-sort-value
+  filters.isoDate = function (text) {
+    const date = new Date(String(text).replace(/(\d+)(st|nd|rd|th)/, '$1'))
+    if (isNaN(date)) return text
+    const pad = n => String(n).padStart(2, '0')
+    return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
+  }
+
   /* ------------------------------------------------------------------
     keep the following line to return your filters to the app
   ------------------------------------------------------------------ */

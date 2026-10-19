@@ -35,5 +35,8 @@ prescription", "href": "/" }, "showNav": "true", "showSearch": "false",
 
   {% include "includes/scripts.html" %}
 
-  {% block pageScripts %}{% endblock %}
+ {% block pageScripts %}
+  <script src="/nhsuk-frontend/nhsuk-frontend.min.js"></script>
+  <script>window.nhsuk && nhsuk.initAll ? nhsuk.initAll() : null</script>
+{% endblock %}
 {% endblock %}
