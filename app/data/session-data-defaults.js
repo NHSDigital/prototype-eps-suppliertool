@@ -1,12 +1,8 @@
-// Formats a date as "10th October 2026" to match the existing display format
+// Formats a date as "10 Oct 2026" to match the existing display format
 function formatDate(date) {
   const day = date.getDate()
-  const suffix = (day % 10 === 1 && day !== 11) ? 'st'
-    : (day % 10 === 2 && day !== 12) ? 'nd'
-    : (day % 10 === 3 && day !== 13) ? 'rd'
-    : 'th'
-  const month = date.toLocaleString('en-GB', { month: 'long' })
-  return `${day}${suffix} ${month} ${date.getFullYear()}`
+  const month = date.toLocaleString('en-GB', { month: 'short' })
+  return `${day} ${month} ${date.getFullYear()}`
 }
 
 function daysAgo(n) {
