@@ -1,0 +1,209 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+  {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV3/start-page",
+        active:"true"
+      },
+      {
+        text: "Submitted transfers and removals",
+        href: "/admintoolV3/processing-page"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-three-quarters">
+ 
+    <div class="nhsuk-card">
+    <!-- Remove journey content-->
+   
+   <!-- old remove journey --> 
+    <!--
+   <div class="nhsuk-card__content">
+ 
+
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+    You are going to remove 10,000 NHS numbers from pharmacy code {{ data.OldODSCodeRem }}
+    </h2>
+    
+    <div class="nhsuk-button-group">
+        <a class="nhsuk-button" href="/admintoolV3/spinner">
+        Confirm removal
+        </a>
+
+        <a class="nhsuk-button nhsuk-button--secondary" href="/admintoolV3/clear-and-start">
+        Cancel
+        </a>
+
+    </div>
+
+
+ 
+  </div>
+    -->
+   
+
+    <div class="nhsuk-card__content">
+ 
+
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+    {% if data.nominationAction == "change" %}  Check transfer details 
+    {% elif data.nominationAction == "remove" %} Check removal details
+    {% endif %}
+    </h2>
+   <dl class="nhsuk-summary-list">
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      ServiceNow number
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {% if data.nominationAction == "change" %} {{ data.ServiceNowNumber }}
+      {% elif data.nominationAction == "remove" %} {{ data.ServiceNowNumberRem }}
+      {% endif %}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> name</span></a>
+    </dd>
+  </div>
+
+  {% if data.nominationAction == "change" %}
+      <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Current pharmacy code
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data.OldODSCode }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> date of birth</span></a>
+    </dd>
+  </div>
+
+  <!--Nhs numbers not needed -->
+  <!--
+   <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Number of NHS numbers to transfer
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      10,000
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      
+    </dd>
+  </div>
+
+-->
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      New pharmacy code
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data.NewODSCode }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> date of birth</span></a>
+    </dd>
+  </div>
+
+  {% endif %}
+
+  {% if data.nominationAction == "remove" %}
+<div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Pharmacy code
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data.OldODSCodeRem }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> date of birth</span></a>
+    </dd>
+  </div>
+  {% endif %}
+
+    <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      File of NHS numbers
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      nhsNumbers.csv
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> date of birth</span></a>
+    </dd>
+  </div>
+
+  <div class="nhsuk-summary-list__row">
+    <dt class="nhsuk-summary-list__key">
+      Date and time of transfer
+    </dt>
+    <dd class="nhsuk-summary-list__value">
+      {{ data.transferDate }} at {{ data.transferTime }}
+    </dd>
+    <dd class="nhsuk-summary-list__actions">
+      <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> contact information</span></a>
+    </dd>
+  </div>
+ 
+</dl>
+
+<div class="nhsuk-button-group">
+  <a class="nhsuk-button" href="/admintoolV3/change-submitted">
+  Confirm and start transfer 
+</a>
+<a class="nhsuk-button nhsuk-button--secondary" href="/admintoolV3/clear-and-start">
+  Cancel
+</a>
+</div>
+
+
+ 
+  </div>
+
+
+ 
+</div>
+  </div>
+</div>
+{% endblock %}

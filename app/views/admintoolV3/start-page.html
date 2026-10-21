@@ -1,0 +1,181 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV3/start-page",
+        active:"true"
+      },
+      {
+        text: "Submitted transfers and removals",
+        href: "/admintoolV3/processing-page"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+ <div class="nhsuk-tabs" data-module="nhsuk-tabs">
+  <h2 class="nhsuk-tabs__heading">
+    Contents
+  </h2>
+  <ul class="nhsuk-tabs__list">
+    <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
+      <a class="nhsuk-tabs__tab" href="#change-nomination">
+        Transfer NHS numbers
+      </a>
+    </li>
+    <li class="nhsuk-tabs__list-item">
+      <a class="nhsuk-tabs__tab" href="#remove-nomination">
+       Remove NHS numbers
+      </a>
+    </li>
+    
+  
+  </ul>
+  <div class="nhsuk-tabs__panel" id="change-nomination">
+     <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Transfer NHS numbers to a new pharmacy code
+    </h2>
+  
+  <form action="/admintoolV3/change-answer" method="post" novalidate>
+    <input type="hidden" name="nominationAction" value="change">
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="ServiceNowNumber">
+              ServiceNow number
+            </label>
+              <div class="nhsuk-hint" id="account-number-hint">
+              This is the number of the ServiceNow request to transfer NHS numbers to a new pharmacy code
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-20" id="ServiceNowNumber" name="ServiceNowNumber" type="text" value="{{ data.ServiceNowNumber }}">
+          </div>
+
+           <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="OldODSCode">
+              Current pharmacy code
+            </label>
+              <div class="nhsuk-hint" id="account-number-hint">
+              Pharmacy codes are also called ODS codes
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-10" id="OldODSCode" name="OldODSCode" type="text" value="{{ data.OldODSCode }}">
+          </div>
+
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="NewODSCode">
+              New pharmacy code
+            </label>
+            <input class="nhsuk-input nhsuk-input--width-10" id="NewODSCode" name="NewODSCode" type="text" value="{{ data.NewODSCode }}">
+          </div>
+          <div class="nhsuk-form-group nhsuk-file-upload nhsuk-u-width-two-thirds" data-module="nhsuk-file-upload">
+  <h1 class="nhsuk-label-wrapper">
+    <label class="nhsuk-label nhsuk-label--s" for="file-hint">
+      Upload file of NHS numbers
+    </label>
+  </h1>
+  <input class="nhsuk-file-upload__input" id="file-hint" name="file-hint" type="file">
+</div>
+
+
+
+          <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Continue
+          </button>
+
+        </form>
+  </div>
+  <div class="nhsuk-tabs__panel nhsuk-tabs__panel--hidden" id="remove-nomination">
+ <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Remove NHS numbers from a pharmacy code
+    </h2>
+    
+    
+  <form action="/admintoolV3/check-details" novalidate>
+<input type="hidden" name="nominationAction" value="remove">
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="ServiceNowNumberRem">
+              ServiceNow number
+            </label>
+            <input class="nhsuk-input nhsuk-input--width-20" id="ServiceNowNumberRem" name="ServiceNowNumberRem" type="text" value="{{ data.ServiceNowNumberRem }}">
+          </div>
+
+        
+
+
+          <div class="nhsuk-form-group">
+            <label class="nhsuk-label nhsuk-label--s" for="OldODSCodeRem">
+              Pharmacy code
+            </label>
+               <div class="nhsuk-hint" id="account-number-hint">
+              Pharmacy codes are also called ODS codes
+              </div>
+            <input class="nhsuk-input nhsuk-input--width-10" id="OldODSCodeRem" name="OldODSCodeRem" type="text" value="{{ data.OldODSCodeRem }}">
+          </div>
+
+         
+          <div class="nhsuk-form-group nhsuk-file-upload nhsuk-u-width-two-thirds" data-module="nhsuk-file-upload">
+  <h1 class="nhsuk-label-wrapper">
+    <label class="nhsuk-label nhsuk-label--s" for="file-hint">
+      Upload file of NHS numbers
+    </label>
+  </h1>
+  <input class="nhsuk-file-upload__input" id="file-hint" name="file-hint" type="file">
+</div>
+
+
+          <button class="nhsuk-button" data-module="nhsuk-button" type="submit">
+            Continue
+          </button>
+
+        </form>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+ 
+  </div>
+</div>
+{% endblock %}

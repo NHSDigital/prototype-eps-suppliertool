@@ -1,0 +1,96 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV3/start-page",
+        active:"true"
+      },
+      {
+        text: "History",
+        href: "/admintoolV3/processing-page"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+    {% if data.nominationAction == "remove" %}
+ <h1 class="nhsuk-heading-l">Removing NHS numbers</h1>
+    {% else %}
+        <h1 class="nhsuk-heading-l">Transferring NHS numbers</h1>
+        <p>This can take up to 7 minutes.</p>
+     {% endif %}
+      <form action="submit" method="post">
+        <section class="loading-container" id="gp-connect-0" style="display:block; min-height: 16em;">
+      
+          <div class="bar_container">
+            <div id="main_container">
+              <div id="pbar" class="progress-spinner" data-percent="0">
+                <img src="/assets/images/loader-spinner.svg" width="200px" height="200px" id="spinner" class=""/>
+                <div class="ppc-loading">
+                  <div class="pcc-percents-wrapper">
+                    {% if data.nominationAction == "remove" %}
+                    <span id="spinner-status" class="nhsuk-body">Removing</span><span aria-hidden="true">...</span>
+                    {% else %}
+                    <span id="spinner-status" class="nhsuk-body">Transferring</span><span aria-hidden="true">...</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </form>
+
+<script>
+  setTimeout(function(){
+    window.location.href='/admintoolV3/change-submitted';
+}, 5000);
+</script>
+
+
+
+
+ 
+  </div>
+</div>
+{% endblock %}

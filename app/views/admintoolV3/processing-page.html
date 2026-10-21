@@ -1,0 +1,363 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+   
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV3/start-page"
+      },
+      {
+        text: "Submitted transfers and removals",
+        href: "/admintoolV3/processing-page",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+
+
+<div class="nhsuk-tabs" data-module="nhsuk-tabs">
+  <h2 class="nhsuk-tabs__heading">
+    Contents
+  </h2>
+  <ul class="nhsuk-tabs__list">
+     <li class="nhsuk-tabs__list-item">
+      <a class="nhsuk-tabs__tab" href="#submissions-processing">
+        Submissions processing
+      </a>
+    </li>
+    <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
+      <a class="nhsuk-tabs__tab" href="#transfers">
+        Completed transfers
+      </a>
+    </li>
+    <li class="nhsuk-tabs__list-item">
+      <a class="nhsuk-tabs__tab" href="#removals">
+        Completed removals
+      </a>
+    </li>
+      
+  </ul>
+
+  <div class="nhsuk-tabs__panel" id="transfers">
+
+  <!-- normal table  -->
+<!--
+    <table class="nhsuk-table">
+      <caption class="nhsuk-table__caption">
+        Transfers
+      </caption>
+      <thead class="nhsuk-table__head">
+        <tr class="nhsuk-table__row">
+          <th class="nhsuk-table__header" scope="col">
+            Date
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            ServiceNow number
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            Old pharmacy code
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            New pharmacy code
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            Action
+          </th>
+        </tr>
+      </thead>
+   <tbody class="nhsuk-table__body">
+  {% for transfer in data.transfers %}
+  <tr class="nhsuk-table__row">
+    <td class="nhsuk-table__cell">{{ transfer.date }}</td>
+    <td class="nhsuk-table__cell">{{ transfer.serviceNowNumber }}</td>
+    <td class="nhsuk-table__cell">{{ transfer.oldPharmacyCode }}</td>
+    <td class="nhsuk-table__cell">{{ transfer.newPharmacyCode }}</td>
+    <td class="nhsuk-table__cell">
+      <a href="/admintoolV3/change-submitted?recordType=transfer&recordIndex={{ loop.index0 }}">
+        View<span class="nhsuk-u-visually-hidden"> transfer {{ transfer.serviceNowNumber }}</span>
+      </a>
+    </td>
+  </tr>
+  {% else %}
+  <tr class="nhsuk-table__row">
+    <td class="nhsuk-table__cell" colspan="5">No transfers</td>
+  </tr>
+  {% endfor %}
+</tbody>
+    </table>
+  -->
+ <!--sortable table code-->
+    <table class="nhsuk-table nhsuk-table--sortable" data-module="nhsuk-table">
+  <caption class="nhsuk-table__caption nhsuk-table__caption--m">
+    Transfers<span class="nhsuk-u-visually-hidden"> (Column headers are sortable)</span>
+  </caption>
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="col" data-sort aria-sort="descending">
+        Date
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+        ServiceNow number
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric nhsuk-u-nowrap" scope="col" data-sort data-sort-next="descending">
+        Old pharmacy code
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+        New pharmacy code
+      </th>
+       <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+    {% for transfer in data.transfers %}
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row" data-sort-value="{{ transfer.date | isoDate }}">
+        {{ transfer.date }}
+      </th>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ transfer.serviceNowNumber }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ transfer.oldPharmacyCode }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ transfer.newPharmacyCode }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        <a href="/admintoolV3/change-submitted?recordType=transfer&recordIndex={{ loop.index0 }}">
+          View<span class="nhsuk-u-visually-hidden"> transfer {{ transfer.serviceNowNumber }}</span>
+        </a>
+      </td>
+    </tr>
+    {% else %}
+    <tr class="nhsuk-table__row">
+      <td class="nhsuk-table__cell" colspan="5">No transfers</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+  </div>
+
+  <!--removals tab-->
+  <div class="nhsuk-tabs__panel nhsuk-tabs__panel--hidden" id="removals">
+
+    <!-- normal table -->
+  <!--
+    <table class="nhsuk-table">
+      <caption class="nhsuk-table__caption">
+        Removals
+      </caption>
+      <thead class="nhsuk-table__head">
+        <tr class="nhsuk-table__row">
+          <th class="nhsuk-table__header" scope="col">
+            Date
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            ServiceNow number
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            Pharmacy code
+          </th>
+           <th class="nhsuk-table__header" scope="col">
+            NHS numbers removed
+          </th>
+          <th class="nhsuk-table__header" scope="col">
+            Action
+          </th>
+        </tr>
+      </thead>
+   <tbody class="nhsuk-table__body">
+  {% for removal in data.removals %}
+  <tr class="nhsuk-table__row">
+    <td class="nhsuk-table__cell">{{ removal.date }}</td>
+    <td class="nhsuk-table__cell">{{ removal.serviceNowNumber }}</td>
+    <td class="nhsuk-table__cell">{{ removal.pharmacyCode }}</td>
+    <td class="nhsuk-table__cell">{{ removal.nhsNumbersRemoved }}</td>
+    <td class="nhsuk-table__cell">
+    <a href="/admintoolV3/change-submitted?recordType=removal&recordIndex={{ loop.index0 }}">
+        View<span class="nhsuk-u-visually-hidden"> removal {{ removal.serviceNowNumber }}</span>
+      </a>
+    </td>
+  </tr>
+
+  {% else %}
+  <tr class="nhsuk-table__row">
+    <td class="nhsuk-table__cell" colspan="4">No removals</td>
+  </tr>
+  {% endfor %}
+</tbody>
+    </table>
+  -->
+    
+  <!--sortable table code-->
+    <table class="nhsuk-table nhsuk-table--sortable" data-module="nhsuk-table">
+  <caption class="nhsuk-table__caption nhsuk-table__caption--m">
+    Removals<span class="nhsuk-u-visually-hidden"> (Column headers are sortable)</span>
+  </caption>
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="col" data-sort aria-sort="descending">
+        Date
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+        ServiceNow number
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric nhsuk-u-nowrap" scope="col" data-sort data-sort-next="descending">
+        Pharmacy code
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+        NHS numbers removed
+      </th>
+       <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+    {% for removal in data.removals %}
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row" data-sort-value="{{ removal.date | isoDate }}">
+        {{ removal.date }}
+      </th>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ removal.serviceNowNumber }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ removal.pharmacyCode }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ removal.nhsNumbersRemoved }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        <a href="/admintoolV3/change-submitted?recordType=removal&recordIndex={{ loop.index0 }}">
+          View<span class="nhsuk-u-visually-hidden"> removal {{ removal.serviceNowNumber }}</span>
+        </a>
+      </td>
+    </tr>
+    {% else %}
+    <tr class="nhsuk-table__row">
+      <td class="nhsuk-table__cell" colspan="5">No removals</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+  </div>
+
+  <!-- submissions processing-->
+<div class="nhsuk-tabs__panel nhsuk-tabs__panel--hidden" id="submissions-processing">
+   <table class="nhsuk-table nhsuk-table--sortable" data-module="nhsuk-table">
+  <caption class="nhsuk-table__caption nhsuk-table__caption--m">
+    Submissions processing<span class="nhsuk-u-visually-hidden"> (Column headers are sortable)</span>
+  </caption>
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="col" data-sort aria-sort="descending">
+        Date and time started
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+        ServiceNow number
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric nhsuk-u-nowrap" scope="col" data-sort data-sort-next="descending">
+        Submission type
+      </th>
+      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+        Pharmacy code(s)
+      </th>
+       <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+    {% for processing in data.processingSubmissions %}
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row" data-sort-value="{{ processing.date | isoDate }}T{{ processing.time }}"">
+        {{ processing.date }} <br>{{ processing.time }}
+      </th>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ processing.serviceNowNumber }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {{ processing.submissionType }}
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        {% if processing.submissionType == "Transfer" %}
+          Old code: {{ processing.oldPharmacyCode }} <br>New code: {{ processing.newPharmacyCode }}
+        {% elif processing.submissionType == "Removal" %}
+            Pharmacy code: {{ processing.oldPharmacyCode }}
+          {% endif %}
+        
+      </td>
+      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+        <a href="/admintoolV3/change-submitted?recordType={{ processing.submissionType | lower }}&recordIndex={{ loop.index0 }}">
+          View<span class="nhsuk-u-visually-hidden"> {{ processing.submissionType | lower }} {{ processing.serviceNowNumber }}</span>
+        </a>
+      </td>
+    </tr>
+    {% else %}
+    <tr class="nhsuk-table__row">
+      <td class="nhsuk-table__cell" colspan="5">No submissions processing</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+ 
+</div>
+
+
+
+
+
+ 
+    
+  </div>
+</div>
+{% endblock %}

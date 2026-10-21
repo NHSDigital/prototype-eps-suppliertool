@@ -213,3 +213,65 @@ router.get("/admintoolV2/change-submitted", (req, res, next) => {
 
   next();
 });
+
+// Clear session data for admintoolV3 prototype
+function clearAdminFormData2(req) {
+  delete req.session.data.ServiceNowNumber;
+  delete req.session.data.NewODSCode;
+  delete req.session.data.OldODSCode;
+  delete req.session.data.ServiceNowNumberRem;
+  delete req.session.data.OldODSCodeRem;
+  delete req.session.data["file-hint"];
+}
+router.get("/admintoolV3/clear-and-start", (req, res) => {
+  clearAdminFormData2(req);
+  res.redirect("/admintoolV3/start-page");
+});
+
+router.get("/admintoolV3/clear-and-processing", (req, res) => {
+  clearAdminFormData2(req);
+  res.redirect("/admintoolV3/processing-page");
+});
+
+function formatDateTime(date, timeZone) {
+  return {
+    date: date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone }),
+    time: date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone }),
+  };
+}
+
+router.post("/admintoolV3/change-answer", function (req, res) {
+  const data = req.session.data;
+  const timeZone = "Europe/London";
+  const start = new Date();
+  const end = new Date(start.getTime() + 15 * 60 * 1000);
+
+  const s = formatDateTime(start, timeZone);
+  const e = formatDateTime(end, timeZone);
+
+  data.transferDate = s.date;
+  data.transferTime = s.time;
+  data.transferEndDate = e.date;
+  data.transferEndTime = e.time;
+  data.transferType = "now";
+
+  res.redirect("/admintoolV3/check-details");
+});
+
+router.get("/admintoolV3/change-submitted", (req, res, next) => {
+  const { recordType, recordIndex } = req.query;
+  const lists = { transfer: req.session.data.transfers, removal: req.session.data.removals };
+  const list = lists[recordType];
+
+  if (list) {
+    const record = list[Number(recordIndex)];
+    if (!record) {
+      return res.redirect("/admintoolV3/processing-page");
+    }
+    // Locals last for this request only, so manual journeys never see a stale record
+    res.locals.record = record;
+    res.locals.recordType = recordType;
+  }
+
+  next();
+});

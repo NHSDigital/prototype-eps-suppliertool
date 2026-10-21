@@ -148,5 +148,25 @@ module.exports = {
       nhsNumbersRemoved: "1800",
       action: "None"
     }
+  ], 
+  processingSubmissions: [
+    {
+      date: daysAgo(0),
+      time: "09:00",
+      serviceNowNumber: "SE1324121",
+      submissionType: "Transfer",
+      oldPharmacyCode: "A9M8O",
+      newPharmacyCode: "AAA02", 
+      action: "None"
+    },
+    {
+      date: daysAgo(0),
+      time: "09:30",
+      serviceNowNumber: "SE1324221",
+      submissionType: "Removal",
+      oldPharmacyCode: "A9M8O",
+      nhsNumbersRemoved: "1000", 
+      action: "None"
+    }
   ]
 }
