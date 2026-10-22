@@ -32,7 +32,7 @@
     items: [
   {
         text: "Transfer or remove NHS numbers",
-        href: "/admintoolV3/start-page",
+        href: "/admintoolV3/clear-and-start",
         active:"true"
       },
       {
@@ -173,8 +173,10 @@
       <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> date of birth</span></a>
     </dd>
   </div>
+<!-- date and time of transfer not needed-->
 
-  <div class="nhsuk-summary-list__row">
+<!-- 
+   <div class="nhsuk-summary-list__row">
     <dt class="nhsuk-summary-list__key">
       Date and time of transfer
     </dt>
@@ -185,12 +187,16 @@
       <a class="nhsuk-link" href="/admintoolV3/start-page">Change<span class="nhsuk-u-visually-hidden"> contact information</span></a>
     </dd>
   </div>
+-->
+ 
  
 </dl>
 
 <div class="nhsuk-button-group">
   <a class="nhsuk-button" href="/admintoolV3/change-submitted">
-  Confirm and start transfer 
+  Confirm and start {% if data.nominationAction == "change" %} transfer
+      {% elif data.nominationAction == "remove" %} removal
+      {% endif %}
 </a>
 <a class="nhsuk-button nhsuk-button--secondary" href="/admintoolV3/clear-and-start">
   Cancel

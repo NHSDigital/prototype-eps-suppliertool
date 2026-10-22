@@ -32,7 +32,7 @@
     items: [
   {
         text: "Transfer or remove NHS numbers",
-        href: "/admintoolV3/start-page",
+        href: "/admintoolV3/clear-and-start",
         active: not record
       },
       {
@@ -122,6 +122,15 @@
       </th>
       <td class="nhsuk-table__cell">
         {% if recordType == "removal" %} {{ record.serviceNowNumber }} {% else %} {{ data.ServiceNowNumberRem }} {% endif %}
+      </td>
+    </tr>
+     <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Removal submitted by 
+      </th>
+      <td class="nhsuk-table__cell">
+        Leon S Kennedy
+        
       </td>
     </tr>
     <tr class="nhsuk-table__row">
@@ -228,6 +237,15 @@
         {% if recordType == "transfer" %} {{ record.serviceNowNumber }} {% else %}  
         {{ data.ServiceNowNumber }}
         {% endif %}
+      </td>
+    </tr>
+      <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Transfer submitted by 
+      </th>
+      <td class="nhsuk-table__cell">
+        Leon S Kennedy
+        
       </td>
     </tr>
        <tr class="nhsuk-table__row">
@@ -349,7 +367,7 @@
     </tr>
        <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Change submitted by
+        {% if data.nominationAction == "change" or (recordType == "processing" and record.submissionType == "Transfer") %} Transfer {% elif data.nominationAction == "remove" or (recordType == "processing" and record.submissionType == "Removal") %} Removal {% endif %} submitted by
       </th>
       <td class="nhsuk-table__cell">
         {% if recordType == "processing" %} {{ record.submittedBy }} {% else %} Leon S Kennedy {% endif %}
@@ -376,9 +394,9 @@
         New pharmacy code
       </th>
       <td class="nhsuk-table__cell">
-        {% if data.nominationAction == "change" %}
+        {% if recordType == "processing" %} {{ record.newPharmacyCode }}
+        {% elif data.nominationAction == "change" %}
         {{ data.NewODSCode }}
-        {% elif recordType == "processing" %} {{ record.newPharmacyCode }}
         {% endif %}
       </td>
     </tr>
@@ -405,7 +423,7 @@
     </tr>
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Projected end time
+        Estimated end time
       </th>
       <td class="nhsuk-table__cell">
         
