@@ -179,7 +179,6 @@ module.exports = {
       serviceNowNumber: "SE1324221",
       submissionType: "Removal",
       oldPharmacyCode: "A9M8O",
-      nhsNumbersRemoved: "1000", 
       nhsNumbersRemoved: "400",
       nhsNumbersToProcess: "1000",
       submittedBy: "Claire Redfield",

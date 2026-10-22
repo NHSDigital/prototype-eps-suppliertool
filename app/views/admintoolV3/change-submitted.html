@@ -412,6 +412,16 @@
         {% if recordType == "processing" and record.submissionType == "Transfer" %} {{ record.nhsNumbersToProcess }} {% elif recordType == "processing" and record.submissionType == "Removal" %} {{ record.nhsNumbersToProcess }} {% else %} 10,000{% endif %}
       </td>
     </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Progress
+      </th>
+      <td class="nhsuk-table__cell">
+        {% if recordType == "processing" and record.submissionType == "Transfer" %} {{ record.nhsNumbersProcessed }} {% elif recordType == "processing" and record.submissionType == "Removal" %} {{ record.nhsNumbersRemoved }} {% else %} 100{% endif %}
+        out of
+        {% if recordType == "processing" and record.submissionType == "Transfer" %} {{ record.nhsNumbersToProcess }} {% elif recordType == "processing" and record.submissionType == "Removal" %} {{ record.nhsNumbersToProcess }} {% else %} 10,000{% endif %}
+      </td>
+    </tr>
 
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
