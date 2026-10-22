@@ -11,6 +11,13 @@ function daysAgo(n) {
   return formatDate(d)
 }
 
+// Time as "14:05", offset in minutes from now (UK time)
+function timeFromNow(minutes) {
+  return new Date(Date.now() + minutes * 60 * 1000).toLocaleTimeString('en-GB', {
+    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/London'
+  })
+}
+
 module.exports = {
   transfers: [
     {
@@ -157,6 +164,12 @@ module.exports = {
       submissionType: "Transfer",
       oldPharmacyCode: "A9M8O",
       newPharmacyCode: "AAA02", 
+      nhsNumbersToProcess: "7,000",
+      submittedBy: "Ethan Winters",
+      date: daysAgo(0),
+      time: timeFromNow(-5),          // was "09:00"
+      startedAt: `${daysAgo(0)} at ${timeFromNow(-5)}`,
+      projectedEndAt: `${daysAgo(0)} at ${timeFromNow(10)}`,
       action: "None"
     },
     {
@@ -166,6 +179,12 @@ module.exports = {
       submissionType: "Removal",
       oldPharmacyCode: "A9M8O",
       nhsNumbersRemoved: "1000", 
+      nhsNumbersToProcess: "1000",
+      submittedBy: "Claire Redfield",
+      date: daysAgo(0),
+      time: timeFromNow(-5),          // was "09:00"
+      startedAt: `${daysAgo(0)} at ${timeFromNow(-5)}`,
+      projectedEndAt: `${daysAgo(0)} at ${timeFromNow(10)}`,
       action: "None"
     }
   ]

@@ -272,7 +272,7 @@ router.get("/admintoolV3/change-submitted", (req, res, next) => {
   const { recordType, recordIndex } = req.query;
   const updated = formatDateTime(new Date(), "Europe/London");
   res.locals.lastUpdated = `${updated.date} at ${updated.time}`;
-  const lists = { transfer: req.session.data.transfers, removal: req.session.data.removals };
+  const lists = { transfer: req.session.data.transfers, removal: req.session.data.removals, processing: req.session.data.processingSubmissions };
   const list = lists[recordType];
 
   if (list) {
@@ -280,10 +280,14 @@ router.get("/admintoolV3/change-submitted", (req, res, next) => {
     if (!record) {
       return res.redirect("/admintoolV3/processing-page");
     }
-    // Locals last for this request only, so manual journeys never see a stale record
+
+    
     res.locals.record = record;
+    
     res.locals.recordType = recordType;
+    res.locals.recordIndex = recordIndex;
   }
+
 
   next();
 });
