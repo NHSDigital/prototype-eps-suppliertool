@@ -165,6 +165,7 @@ module.exports = {
       oldPharmacyCode: "A9M8O",
       newPharmacyCode: "AAA02", 
       nhsNumbersToProcess: "7,000",
+      nhsNumbersProcessed: "3,000",
       submittedBy: "Ethan Winters",
       date: daysAgo(0),
       time: timeFromNow(-5),          // was "09:00"
@@ -179,6 +180,7 @@ module.exports = {
       submissionType: "Removal",
       oldPharmacyCode: "A9M8O",
       nhsNumbersRemoved: "1000", 
+      nhsNumbersRemoved: "400",
       nhsNumbersToProcess: "1000",
       submittedBy: "Claire Redfield",
       date: daysAgo(0),

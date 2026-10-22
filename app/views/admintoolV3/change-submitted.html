@@ -83,7 +83,7 @@
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
     NHS numbers transferring
   </h1>
-  <p>You can check return to these transfer details from <a href="/admintoolV3/processing-page">submitted transfers and removals </a></p>
+  <p>You can return to check these transfer details from <a href="/admintoolV3/processing-page">submitted transfers and removals </a></p>
 </div>
 
 {% elif not record and data.nominationAction == "remove" or (recordType == "processing" and record.submissionType == "Removal") %}
@@ -92,7 +92,7 @@
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
     NHS numbers are being removed
   </h1>
-  <p>You can check return to these removal details from <a href="/admintoolV3/processing-page">submitted transfers and removals </a></p>
+  <p>You can return to check these removal details from <a href="/admintoolV3/processing-page">submitted transfers and removals </a></p>
 </div>
 
 
@@ -365,6 +365,7 @@
         {% endif %}
       </td>
     </tr>
+
        <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
         {% if data.nominationAction == "change" or (recordType == "processing" and record.submissionType == "Transfer") %} Transfer {% elif data.nominationAction == "remove" or (recordType == "processing" and record.submissionType == "Removal") %} Removal {% endif %} submitted by
