@@ -404,7 +404,7 @@
     {% endif %}
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Number of NHS numbers to be {% if data.nominationAction == "change" or (recordType == "processing" and record.submissionType == "Transfer") %} transferred
+        Total NHS numbers to be {% if data.nominationAction == "change" or (recordType == "processing" and record.submissionType == "Transfer") %} transferred
         {% elif data.nominationAction == "remove" or (recordType == "processing" and record.submissionType == "Removal") %} removed
         {% endif %}
       </th>
