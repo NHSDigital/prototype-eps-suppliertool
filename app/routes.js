@@ -240,8 +240,7 @@ function formatDateTime(date, timeZone) {
   };
 }
 
-router.post("/admintoolV3/change-answer", function (req, res) {
-  const data = req.session.data;
+function setTransferTimes(data) {
   const timeZone = "Europe/London";
   const start = new Date();
   const end = new Date(start.getTime() + 15 * 60 * 1000);
@@ -254,12 +253,25 @@ router.post("/admintoolV3/change-answer", function (req, res) {
   data.transferEndDate = e.date;
   data.transferEndTime = e.time;
   data.transferType = "now";
+}
 
+router.post("/admintoolV3/change-answer", function (req, res) {
+  setTransferTimes(req.session.data);
   res.redirect("/admintoolV3/check-details");
+});
+
+// The removal form submits straight to check-details, so set the times here
+router.get("/admintoolV3/check-details", (req, res, next) => {
+  if (req.query.nominationAction === "remove") {
+    setTransferTimes(req.session.data);
+  }
+  next();
 });
 
 router.get("/admintoolV3/change-submitted", (req, res, next) => {
   const { recordType, recordIndex } = req.query;
+  const updated = formatDateTime(new Date(), "Europe/London");
+  res.locals.lastUpdated = `${updated.date} at ${updated.time}`;
   const lists = { transfer: req.session.data.transfers, removal: req.session.data.removals };
   const list = lists[recordType];
 
