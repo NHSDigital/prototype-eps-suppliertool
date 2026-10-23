@@ -136,16 +136,16 @@
       <th class="nhsuk-table__header" scope="col" data-sort aria-sort="descending">
         Date
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         ServiceNow number
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric nhsuk-u-nowrap" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         Old pharmacy code
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         New pharmacy code
       </th>
-       <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col">
+       <th class="nhsuk-table__header" scope="col">
         Action
       </th>
     </tr>
@@ -156,16 +156,16 @@
       <th class="nhsuk-table__header" scope="row" data-sort-value="{{ transfer.date | isoDate }}">
         {{ transfer.date }}
       </th>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ transfer.serviceNowNumber }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ transfer.oldPharmacyCode }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ transfer.newPharmacyCode }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         <a href="/admintoolV3/change-submitted?recordType=transfer&recordIndex={{ loop.index0 }}">
           View<span class="nhsuk-u-visually-hidden"> transfer {{ transfer.serviceNowNumber }}</span>
         </a>
@@ -243,16 +243,16 @@
       <th class="nhsuk-table__header" scope="col" data-sort aria-sort="descending">
         Date
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         ServiceNow number
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric nhsuk-u-nowrap" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         Pharmacy code
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         NHS numbers removed
       </th>
-       <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col">
+       <th class="nhsuk-table__header" scope="col">
         Action
       </th>
     </tr>
@@ -263,16 +263,16 @@
       <th class="nhsuk-table__header" scope="row" data-sort-value="{{ removal.date | isoDate }}">
         {{ removal.date }}
       </th>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ removal.serviceNowNumber }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ removal.pharmacyCode }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ removal.nhsNumbersRemoved }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         <a href="/admintoolV3/change-submitted?recordType=removal&recordIndex={{ loop.index0 }}">
           View<span class="nhsuk-u-visually-hidden"> removal {{ removal.serviceNowNumber }}</span>
         </a>
@@ -301,16 +301,16 @@
       <th class="nhsuk-table__header" scope="col" data-sort aria-sort="descending">
         Date and time started
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         ServiceNow number
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric nhsuk-u-nowrap" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         Submission type
       </th>
-      <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col" data-sort data-sort-next="descending">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
         Pharmacy code(s)
       </th>
-       <th class="nhsuk-table__header nhsuk-table__header--numeric" scope="col">
+       <th class="nhsuk-table__header" scope="col">
         Action
       </th>
     </tr>
@@ -321,13 +321,13 @@
       <th class="nhsuk-table__header" scope="row" data-sort-value="{{ processing.date | isoDate }}T{{ processing.time }}"">
         {{ processing.date }} <br>{{ processing.time }}
       </th>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ processing.serviceNowNumber }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {{ processing.submissionType }}
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         {% if processing.submissionType == "Transfer" %}
           Old code: {{ processing.oldPharmacyCode }} <br>New code: {{ processing.newPharmacyCode }}
         {% elif processing.submissionType == "Removal" %}
@@ -335,7 +335,7 @@
           {% endif %}
         
       </td>
-      <td class="nhsuk-table__cell nhsuk-table__cell--numeric">
+      <td class="nhsuk-table__cell">
         <a href="/admintoolV3/change-submitted?recordType=processing&recordIndex={{ loop.index0 }}">
           View<span class="nhsuk-u-visually-hidden"> {{ processing.submissionType | lower }} {{ processing.serviceNowNumber }}</span>
         </a>
