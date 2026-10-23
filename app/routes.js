@@ -261,11 +261,17 @@ router.post("/admintoolV3/change-answer", function (req, res) {
 });
 
 // The removal form submits straight to check-details, so set the times here
+
 router.get("/admintoolV3/check-details", (req, res, next) => {
   if (req.query.nominationAction === "remove") {
     setTransferTimes(req.session.data);
   }
   next();
+});
+
+router.get("/admintoolV3/confirm", (req, res) => {
+  setTransferTimes(req.session.data);
+  res.redirect("/admintoolV3/change-submitted");
 });
 
 router.get("/admintoolV3/change-submitted", (req, res, next) => {
