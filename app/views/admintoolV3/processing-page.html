@@ -318,7 +318,7 @@
   <tbody class="nhsuk-table__body">
     {% for processing in data.processingSubmissions %}
     <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row" data-sort-value="{{ processing.date | isoDate }}T{{ processing.time }}"">
+      <th class="nhsuk-table__header" scope="row" data-sort-value="{{ processing.date | isoDate }}T{{ processing.time }}">
         {{ processing.date }} <br>{{ processing.time }}
       </th>
       <td class="nhsuk-table__cell">
