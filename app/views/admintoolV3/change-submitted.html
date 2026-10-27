@@ -244,7 +244,7 @@
         Transfer submitted by 
       </th>
       <td class="nhsuk-table__cell">
-        Leon S Kennedy
+        {{ record.submittedBy or "Leon S Kennedy" }}
         
       </td>
     </tr>
@@ -274,7 +274,7 @@
       </th>
       <td class="nhsuk-table__cell">
          
-        9997 
+       {{ record.nhsNumbersTransferred or "9997" }}
         
       </td>
     </tr>
@@ -315,7 +315,7 @@
         Transfer started
       </th>
       <td class="nhsuk-table__cell">
-        {% if recordType == "transfer" %} {{ record.date }} at 10:00 {% else %}  
+        {% if recordType == "transfer" %} {{ record.startedAt or (record.date ~ " at 10:00") }} {% else %}  
         {{ data.transferDate }} at {{ data.transferTime }}
         {% endif %}
       </td>
@@ -325,7 +325,7 @@
         Transfer finished
       </th>
       <td class="nhsuk-table__cell">
-       {% if recordType == "transfer" %} {{ record.date }} at 10:15 {% else %}  
+       {% if recordType == "transfer" %} {{ record.finishedAt or (record.date ~ " at 10:15") }} {% else %}
        {{ data.transferEndDate }} at {{ data.transferEndTime }}
        {% endif %}
       </td>
@@ -457,7 +457,9 @@
  <div class="nhsuk-card">
   <div class="nhsuk-card__heading-container">
     <h2 class="nhsuk-card__heading nhsuk-heading-m">
-      Transfer progress
+      {% if data.nominationAction == "change" %} Transfer
+      {% elif data.nominationAction == "remove" %} Removal
+      {% endif %} progress
     </h2>
     <ul class="nhsuk-card__actions">
       <li class="nhsuk-card__action">
@@ -501,7 +503,7 @@
   </tbody>
 </table>
 <p class="nhsuk-body-s nhsuk-u-secondary-text-colour nhsuk-u-margin-top-7 nhsuk-u-margin-bottom-0">
-  Progress last updated: {{ lastUpdated }}
+  Last updated: {{ lastUpdated }}
 </p>
   </div>
 </div>
@@ -510,7 +512,9 @@
 <div class="nhsuk-card">
   <div class="nhsuk-card__heading-container">
     <h2 class="nhsuk-card__heading nhsuk-heading-m">
-      Summary
+      {% if data.nominationAction == "change" %} Transfer
+      {% elif data.nominationAction == "remove" %} Removal
+      {% endif %}
     </h2>
  
   </div>

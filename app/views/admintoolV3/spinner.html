@@ -55,7 +55,9 @@
   <div class="nhsuk-grid-column-full-width">
   
   
-        <h1 class="nhsuk-heading-l">Checking form</h1>
+        <h1 class="nhsuk-heading-l">Checking {% if data.nominationAction == "change" %} transfer
+      {% elif data.nominationAction == "remove" %} removal
+      {% endif %} details</h1>
      
    
       <form action="submit" method="post">
@@ -68,7 +70,7 @@
                 <div class="ppc-loading">
                   <div class="pcc-percents-wrapper">
                   
-                    <span id="spinner-status" class="nhsuk-body">Checking</span><span aria-hidden="true">...</span>
+                    <span id="spinner-status" class="nhsuk-body">Loading</span><span aria-hidden="true">...</span>
                     
                   </div>
                 </div>
