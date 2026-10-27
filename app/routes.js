@@ -305,7 +305,31 @@ router.get("/admintoolV3/check-details", (req, res, next) => {
 });
 
 router.get("/admintoolV3/confirm", (req, res) => {
-  setTransferTimes(req.session.data);
+  const data = req.session.data;
+  setTransferTimes(data);
+
+  const isTransfer = data.nominationAction === "change";
+
+  const submission = {
+    serviceNowNumber: isTransfer
+      ? data.ServiceNowNumber
+      : data.ServiceNowNumberRem,
+    submissionType: isTransfer ? "Transfer" : "Removal",
+    oldPharmacyCode: isTransfer ? data.OldODSCode : data.OldODSCodeRem,
+    ...(isTransfer ? { newPharmacyCode: data.NewODSCode } : {}),
+    date: data.transferDate,
+    time: data.transferTime,
+    startedAt: `${data.transferDate} at ${data.transferTime}`,
+    projectedEndAt: `${data.transferEndDate} at ${data.transferEndTime}`,
+    submittedBy: "Leon S Kennedy",
+    nhsNumbersToProcess: "10,000",
+    nhsNumbersProcessed: "100",
+    nhsNumbersRemoved: "100"
+  };
+
+  data.processingSubmissions = data.processingSubmissions || [];
+  data.processingSubmissions.unshift(submission);
+
   res.redirect("/admintoolV3/change-submitted");
 });
 
@@ -335,4 +359,8 @@ router.get("/admintoolV3/change-submitted", (req, res, next) => {
 
 
   next();
+});
+router.get("/admintoolV3/clear-processing", (req, res) => {
+  req.session.data.processingSubmissions = [];
+  res.redirect("/admintoolV3/processing-page");
 });

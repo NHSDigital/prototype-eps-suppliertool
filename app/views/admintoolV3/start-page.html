@@ -1,4 +1,4 @@
-{% extends 'layout.html' %} 
+{% extends "admintoolV3/layout.html" %}
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
@@ -127,7 +127,7 @@
     </h2>
     
     
-  <form action="/admintoolV3/spinner" novalidate>
+  <form action="/admintoolV3/spinner" method="post" novalidate>
 <input type="hidden" name="nominationAction" value="remove">
           <div class="nhsuk-form-group">
             <label class="nhsuk-label nhsuk-label--s" for="ServiceNowNumberRem">
