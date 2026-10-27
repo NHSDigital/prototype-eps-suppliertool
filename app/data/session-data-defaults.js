@@ -20,172 +20,46 @@ function timeFromNow(minutes) {
 
 module.exports = {
   transfers: [
-    {
-      date: daysAgo(0),
-      serviceNowNumber: "SCTASK0311480",
-      oldPharmacyCode: "FM311",
-      newPharmacyCode: "FLA83",
-      action: "None"
-    },
-    {
-      date: daysAgo(1),
-      serviceNowNumber: "SCTASK0311479",
-      oldPharmacyCode: "C9B9L",
-      newPharmacyCode: "FED84",
-      action: "None"
-    },
-    {
-      date: daysAgo(1),
-      serviceNowNumber: "SCTASK0321478",
-      oldPharmacyCode: "FD616",
-      newPharmacyCode: "FX197",
-      action: "None"
-    },
-      {
-      date: daysAgo(2),
-      serviceNowNumber: "SCTASK0312477",
-      oldPharmacyCode: "FK893",
-      newPharmacyCode: "FLA83",
-      action: "None"
-    },
-      {
-      date: daysAgo(2),
-      serviceNowNumber: "SCTASK0301476",
-      oldPharmacyCode: "A7F5G",
-      newPharmacyCode: "A1T4Y",
-      action: "None"
-    },
-      {
-      date: daysAgo(3),
-      serviceNowNumber: "SCTASK0315475",
-      oldPharmacyCode: "A9M8O",
-      newPharmacyCode: "AAA02",
-      action: "None"
-    },
-      {
-      date: daysAgo(4),
-      serviceNowNumber: "SCTASK0311474",
-      oldPharmacyCode: "5D74O",
-      newPharmacyCode: "5EM39",
-      action: "None"
-    },
-      {
-      date: daysAgo(4),
-      serviceNowNumber: "SCTASK0311473",
-      oldPharmacyCode: "FC394",
-      newPharmacyCode: "FF341",
-      action: "None"
-    },
-      {
-      date: daysAgo(5),
-      serviceNowNumber: "SCTASK0311172",
-      oldPharmacyCode: "FAR29",
-      newPharmacyCode: "FAR24",
-      action: "None"
-    },
-      {
-      date: daysAgo(5),
-      serviceNowNumber: "SCTASK0311271",
-      oldPharmacyCode: "FDJ79",
-      newPharmacyCode: "FGX83",
-      action: "None"
-    },
-      {
-      date: daysAgo(6),
-      serviceNowNumber: "SCTASK0311370",
-      oldPharmacyCode: "A7Z7B",
-      newPharmacyCode: "FFR07",
-      action: "None"
-    },
-      {
-      date: daysAgo(6),
-      serviceNowNumber: "SCTASK0311469",
-      oldPharmacyCode: "FGF23",
-      newPharmacyCode: "FAW56",
-      action: "None"
-    },
-    {
-      date: daysAgo(7),
-      serviceNowNumber: "SCTASK0311468",
-      oldPharmacyCode: "FM311",
-      newPharmacyCode: "FFV30",
-      action: "None"
-    },
-    {
-      date: daysAgo(7),
-      serviceNowNumber: "SCTASK0311467",
-      oldPharmacyCode: "A7Q5R",
-      newPharmacyCode: "FFR07",
-      action: "None"
-    }
+    { daysAgo: 0, serviceNowNumber: "SCTASK0311480", oldPharmacyCode: "FM311", newPharmacyCode: "FLA83", action: "None" },
+    { daysAgo: 1, serviceNowNumber: "SCTASK0311479", oldPharmacyCode: "C9B9L", newPharmacyCode: "FED84", action: "None" },
+    { daysAgo: 1, serviceNowNumber: "SCTASK0321478", oldPharmacyCode: "FD616", newPharmacyCode: "FX197", action: "None" },
+    { daysAgo: 2, serviceNowNumber: "SCTASK0312477", oldPharmacyCode: "FK893", newPharmacyCode: "FLA83", action: "None" },
+    { daysAgo: 2, serviceNowNumber: "SCTASK0301476", oldPharmacyCode: "A7F5G", newPharmacyCode: "A1T4Y", action: "None" },
+    { daysAgo: 3, serviceNowNumber: "SCTASK0315475", oldPharmacyCode: "A9M8O", newPharmacyCode: "AAA02", action: "None" },
+    { daysAgo: 4, serviceNowNumber: "SCTASK0311474", oldPharmacyCode: "5D74O", newPharmacyCode: "5EM39", action: "None" },
+    { daysAgo: 4, serviceNowNumber: "SCTASK0311473", oldPharmacyCode: "FC394", newPharmacyCode: "FF341", action: "None" },
+    { daysAgo: 5, serviceNowNumber: "SCTASK0311172", oldPharmacyCode: "FAR29", newPharmacyCode: "FAR24", action: "None" },
+    { daysAgo: 5, serviceNowNumber: "SCTASK0311271", oldPharmacyCode: "FDJ79", newPharmacyCode: "FGX83", action: "None" },
+    { daysAgo: 6, serviceNowNumber: "SCTASK0311370", oldPharmacyCode: "A7Z7B", newPharmacyCode: "FFR07", action: "None" },
+    { daysAgo: 6, serviceNowNumber: "SCTASK0311469", oldPharmacyCode: "FGF23", newPharmacyCode: "FAW56", action: "None" },
+    { daysAgo: 7, serviceNowNumber: "SCTASK0311468", oldPharmacyCode: "FM311", newPharmacyCode: "FFV30", action: "None" },
+    { daysAgo: 7, serviceNowNumber: "SCTASK0311467", oldPharmacyCode: "A7Q5R", newPharmacyCode: "FFR07", action: "None" }
   ],
   removals: [
-    {
-      date: daysAgo(3),
-      serviceNowNumber: "SCTASK0311466",
-      pharmacyCode: "FDJ79",
-      nhsNumbersRemoved: "300",
-      action: "None"
-    },
-    {
-      date: daysAgo(7),
-      serviceNowNumber: "SCTASK0311465",
-      pharmacyCode: "FDJ84",
-      nhsNumbersRemoved: "500",
-      action: "None"
-    },
-    {
-      date: daysAgo(20),
-      serviceNowNumber: "SCTASK0311444",
-      pharmacyCode: "FDN73",
-      nhsNumbersRemoved: "1000",
-      action: "None"
-    },
-    {
-      date: daysAgo(40),
-      serviceNowNumber: "SCTASK0311423",
-      pharmacyCode: "FDP61",
-      nhsNumbersRemoved: "280",
-      action: "None"
-    },
-      {
-      date: daysAgo(80),
-      serviceNowNumber: "SCTASK0311343",
-      pharmacyCode: "FDX88",
-      nhsNumbersRemoved: "1800",
-      action: "None"
-    }
-  ], 
+    { daysAgo: 3, serviceNowNumber: "SCTASK0311466", pharmacyCode: "FDJ79", nhsNumbersRemoved: "300", action: "None" },
+    { daysAgo: 7, serviceNowNumber: "SCTASK0311465", pharmacyCode: "FDJ84", nhsNumbersRemoved: "500", action: "None" },
+    { daysAgo: 20, serviceNowNumber: "SCTASK0311444", pharmacyCode: "FDN73", nhsNumbersRemoved: "1000", action: "None" },
+    { daysAgo: 40, serviceNowNumber: "SCTASK0311423", pharmacyCode: "FDP61", nhsNumbersRemoved: "280", action: "None" },
+    { daysAgo: 80, serviceNowNumber: "SCTASK0311343", pharmacyCode: "FDX88", nhsNumbersRemoved: "1800", action: "None" }
+  ],
   processingSubmissions: [
     {
-      date: daysAgo(0),
-      time: "09:00",
       serviceNowNumber: "SCTASK0311481",
       submissionType: "Transfer",
       oldPharmacyCode: "A9M8O",
-      newPharmacyCode: "AAA02", 
+      newPharmacyCode: "AAA02",
       nhsNumbersToProcess: "7,000",
       nhsNumbersProcessed: "3,000",
       submittedBy: "Ethan Winters",
-      date: daysAgo(0),
-      time: timeFromNow(-5),          // was "09:00"
-      startedAt: `${daysAgo(0)} at ${timeFromNow(-5)}`,
-      projectedEndAt: `${daysAgo(0)} at ${timeFromNow(10)}`,
       action: "None"
     },
     {
-      date: daysAgo(0),
-      time: "09:30",
       serviceNowNumber: "SCTASK0312422",
       submissionType: "Removal",
       oldPharmacyCode: "A9M8O",
       nhsNumbersRemoved: "400",
       nhsNumbersToProcess: "1000",
       submittedBy: "Claire Redfield",
-      date: daysAgo(0),
-      time: timeFromNow(-5),          // was "09:00"
-      startedAt: `${daysAgo(0)} at ${timeFromNow(-5)}`,
-      projectedEndAt: `${daysAgo(0)} at ${timeFromNow(10)}`,
       action: "None"
     }
   ]

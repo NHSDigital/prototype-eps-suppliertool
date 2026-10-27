@@ -208,3 +208,19 @@
 .ppc-loading {
     margin-top: 0!important;
 }
+
+// MOJ notification badge, with NHS red in place of GOV.UK red
+.moj-notification-badge {
+  display: inline-block;
+  min-width: 15px;
+  margin-left: 4px;
+  padding: 4px 8px;
+  border-radius: 75px;
+  background-color: #d5281b;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+}

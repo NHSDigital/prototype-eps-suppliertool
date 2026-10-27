@@ -2,6 +2,41 @@
 const express = require("express");
 
 const router = express.Router();
+
+// Session defaults are evaluated once at server start, so anchor relative dates/times to the user's session start
+router.use((req, res, next) => {
+  const data = req.session.data;
+  if (data.seededAt) return next();
+  data.seededAt = Date.now();
+
+  const fmt = (offsetMs) => {
+    const d = new Date(data.seededAt + offsetMs);
+    return {
+      date: d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/London" }),
+      time: d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" }),
+    };
+  };
+  const DAY = 24 * 60 * 60 * 1000;
+  const MIN = 60 * 1000;
+
+  [...(data.transfers || []), ...(data.removals || [])].forEach((r) => {
+    if (typeof r.daysAgo === "number") {
+      r.date = fmt(-r.daysAgo * DAY).date;
+    }
+  });
+
+  (data.processingSubmissions || []).forEach((p) => {
+    const start = fmt(-5 * MIN);
+    const end = fmt(10 * MIN);
+    p.date = start.date;
+    p.time = start.time;
+    p.startedAt = `${start.date} at ${start.time}`;
+    p.projectedEndAt = `${end.date} at ${end.time}`;
+  });
+
+  next();
+});
+
 router.post(
   "/v1/contact-answer",
   function (req, res) {
@@ -288,10 +323,14 @@ router.get("/admintoolV3/change-submitted", (req, res, next) => {
     }
 
     
-    res.locals.record = record;
-    
+       res.locals.record = record;
     res.locals.recordType = recordType;
     res.locals.recordIndex = recordIndex;
+
+    if (recordType === "processing") {
+      // Stale nominationAction from a previous journey would otherwise override the record's own type
+      res.locals.data.nominationAction = record.submissionType === "Transfer" ? "change" : "remove";
+    }
   }
 
 

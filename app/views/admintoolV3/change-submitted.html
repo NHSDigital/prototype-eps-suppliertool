@@ -461,7 +461,7 @@
     </h2>
     <ul class="nhsuk-card__actions">
       <li class="nhsuk-card__action">
-        <a class="nhsuk-button nhsuk-button--secondary-solid nhsuk-button--small nhsuk-code__button nhsuk-js-code-button" href="{% if recordType == "processing" %}/admintoolV3/change-submitted?recordType=processing&recordIndex={{ loop.index0 }}{% else %}/admintoolV3/change-submitted{% endif %}">Refresh<span class="nhsuk-u-visually-hidden"> (Template: Appointment invitation 1)</span></a>
+        <a class="nhsuk-button nhsuk-button--secondary-solid nhsuk-button--small nhsuk-code__button nhsuk-js-code-button" href="{% if recordType == "processing" %}/admintoolV3/change-submitted?recordType=processing&recordIndex={{ recordIndex }}{% else %}/admintoolV3/change-submitted{% endif %}">Refresh<span class="nhsuk-u-visually-hidden"> (Template: Appointment invitation 1)</span></a>
       </li>
     
     </ul>
