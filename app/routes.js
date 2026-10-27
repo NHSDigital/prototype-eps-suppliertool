@@ -324,13 +324,69 @@ router.get("/admintoolV3/confirm", (req, res) => {
     submittedBy: "Leon S Kennedy",
     nhsNumbersToProcess: "10,000",
     nhsNumbersProcessed: "100",
-    nhsNumbersRemoved: "100"
+    nhsNumbersRemoved: "100",
+    userCreated: true
   };
 
   data.processingSubmissions = data.processingSubmissions || [];
   data.processingSubmissions.unshift(submission);
 
   res.redirect("/admintoolV3/change-submitted");
+});
+
+const ETHAN_SNOW = "SCTASK0311481";
+const COMPLETE_AFTER_MS = 15 * 1000; //3*60*1000 is 3 mins
+
+router.use("/admintoolV3", (req, res, next) => {
+  const data = req.session.data;
+
+  if (req.path === "/processing-page" && !data.processingFirstViewedAt) {
+    data.processingFirstViewedAt = Date.now();
+  }
+
+  const elapsed = data.processingFirstViewedAt ? Date.now() - data.processingFirstViewedAt : 0;
+
+  if (data.processingFirstViewedAt && !data.ethanCompleted && elapsed >= COMPLETE_AFTER_MS) {
+    const list = data.processingSubmissions || [];
+    // Find by ServiceNow number because new submissions are unshifted and shift the index
+    const i = list.findIndex((p) => p.serviceNowNumber === ETHAN_SNOW);
+    if (i !== -1) {
+      const [p] = list.splice(i, 1);
+      const finished = formatDateTime(new Date(), "Europe/London");
+      data.transfers.unshift({
+        date: p.date,
+        serviceNowNumber: p.serviceNowNumber,
+        oldPharmacyCode: p.oldPharmacyCode,
+        newPharmacyCode: p.newPharmacyCode,
+        nhsNumbersTransferred: p.nhsNumbersToProcess,
+        submittedBy: p.submittedBy,
+        startedAt: p.startedAt,
+        finishedAt: `${finished.date} at ${finished.time}`,
+        action: "None",
+        isNew: true
+      });
+      data.newTransfers = true;
+    }
+    data.ethanCompleted = true;
+  }
+
+   if (
+    req.path === "/change-submitted" &&
+    req.query.recordType === "transfer" &&
+    (data.transfers || [])[Number(req.query.recordIndex)]?.serviceNowNumber === ETHAN_SNOW
+  ) {
+    data.newTransfers = false;
+  }
+
+   res.locals.transferCompleteInMs =
+    data.processingFirstViewedAt && !data.ethanCompleted
+      ? Math.max(COMPLETE_AFTER_MS - elapsed, 1)
+      : null;
+
+  // The kit copies session data to res.locals before routes run
+  res.locals.data.newTransfers = data.newTransfers;
+
+  next();
 });
 
 router.get("/admintoolV3/change-submitted", (req, res, next) => {
@@ -361,6 +417,35 @@ router.get("/admintoolV3/change-submitted", (req, res, next) => {
   next();
 });
 router.get("/admintoolV3/clear-processing", (req, res) => {
-  req.session.data.processingSubmissions = [];
-  res.redirect("/admintoolV3/processing-page");
+  const data = req.session.data;
+  const seededEthan = require("./data/session-data-defaults").processingSubmissions
+    .find((p) => p.serviceNowNumber === ETHAN_SNOW);
+
+  const fmt = (offsetMs) => {
+    const d = new Date(Date.now() + offsetMs);
+    return {
+      date: d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/London" }),
+      time: d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" }),
+    };
+  };
+  const start = fmt(-5 * 60 * 1000);
+  const end = fmt(10 * 60 * 1000);
+
+  data.transfers = (data.transfers || []).filter((t) => t.serviceNowNumber !== ETHAN_SNOW);
+  data.processingSubmissions = (data.processingSubmissions || [])
+    .filter((p) => !p.userCreated && p.serviceNowNumber !== ETHAN_SNOW);
+
+  data.processingSubmissions.unshift({
+    ...seededEthan,
+    date: start.date,
+    time: start.time,
+    startedAt: `${start.date} at ${start.time}`,
+    projectedEndAt: `${end.date} at ${end.time}`
+  });
+
+  delete data.processingFirstViewedAt;
+  delete data.ethanCompleted;
+  delete data.newTransfers;
+  clearAdminFormData2(req);
+  res.redirect("/admintoolV3/start-page");
 });

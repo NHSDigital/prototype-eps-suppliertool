@@ -1,4 +1,4 @@
-{% extends 'layout.html' %} 
+{% extends "admintoolV3/layout.html" %}
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
@@ -68,6 +68,9 @@
     <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
       <a class="nhsuk-tabs__tab" href="#transfers">
         Completed transfers
+         {% if data.newTransfers %}
+    <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>
+  {% endif %}
       </a>
     </li>
     <li class="nhsuk-tabs__list-item">
@@ -155,6 +158,9 @@
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row" data-sort-value="{{ transfer.date | isoDate }}">
         {{ transfer.date }}
+        {% if transfer.isNew and data.newTransfers %}
+          <br><strong class="nhsuk-tag nhsuk-tag--blue nhsuk-u-margin-top-1">New</strong>
+        {% endif %}
       </th>
       <td class="nhsuk-table__cell">
         {{ transfer.serviceNowNumber }}

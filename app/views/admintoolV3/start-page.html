@@ -36,9 +36,9 @@
         active:"true"
       },
       {
-        text: "Submitted transfers and removals",
-        href: "/admintoolV3/processing-page"
-      }
+  html: "Submitted transfers and removals" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>' if data.newTransfers else ""),
+  href: "/admintoolV3/processing-page"
+}
     ]
   }
 }) }}

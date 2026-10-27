@@ -14,3 +14,31 @@
     </div>
   </footer>
 {% endblock %}
+
+{% block bodyEnd %}
+  {{ super() }}
+  {% if transferCompleteInMs %}
+  <script>
+    setTimeout(function () {
+      if (location.pathname === "/admintoolV3/processing-page") {
+        fetch("/admintoolV3/processing-page")
+          .then(function (r) { return r.text(); })
+          .then(function (html) {
+            var doc = new DOMParser().parseFromString(html, "text/html");
+            ["transfers", "submissions-processing"].forEach(function (id) {
+              document.querySelector("#" + id + " tbody").replaceWith(doc.querySelector("#" + id + " tbody"));
+            });
+            // Update contents only, so the tabs' click handlers on the link are kept
+            document.querySelector('.nhsuk-tabs__tab[href="#transfers"]').innerHTML =
+              doc.querySelector('.nhsuk-tabs__tab[href="#transfers"]').innerHTML;
+          });
+        return;
+      }
+      var link = document.querySelector('.nhsuk-header__navigation a[href="/admintoolV3/processing-page"]');
+      if (link && !link.querySelector(".moj-notification-badge")) {
+        link.insertAdjacentHTML("beforeend", ' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>');
+      }
+    }, Number("{{ transferCompleteInMs }}"));
+  </script>
+  {% endif %}
+{% endblock %}
