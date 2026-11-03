@@ -31,6 +31,24 @@
   </div>
 </div>
 
+<!--time out modal-->
+
+<div class="modal-overlay" id="timeout_modal" aria-hidden="true" role="dialog" aria-labelledby="timeout_modal_title">
+  <div class="modal-content" role="document">
+    <h2 class="nhsuk-modal__heading">You are about to be logged out</h2>
+    <p class="nhsuk-modal__description">
+      For your security, we will log you out in: 
+    </p>
+
+    <div class="nhsuk-button-group">
+      <a class="nhsuk-button" id="confirm_timeout" href="start-page">Stay logged in </a>
+      <a class="nhsuk-button nhsuk-button--secondary" href="/admintoolV3/spinner?logout=true" id="logout_time">Logout</a>
+     
+    </div>
+   
+  </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const logoutButton = Array.from(
@@ -64,6 +82,54 @@ document.addEventListener('DOMContentLoaded', function () {
     if (event.key === 'Escape' && !modal.hidden) closeModal();
   });
 });
+
+//timeout modal
+  document.addEventListener('DOMContentLoaded', () => {
+    const timeoutModal = document.getElementById('timeout_modal');
+    const timeoutModalClose = document.getElementById('confirm_timeout');
+    const cancelTimeout = document.getElementById('timeout_modal_close');
+    const countdownElement = document.createElement('span');
+    let countdown = 120; // Countdown starts from 120 seconds
+
+    // Insert countdown element in the modal
+    const timeoutMessage = timeoutModal.querySelectorAll('.nhsuk-modal__description')[0];
+    countdownElement.textContent = ` ${countdown} seconds`;
+    timeoutMessage.appendChild(countdownElement);
+
+    // Function to update countdown
+    function startCountdown() {
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = ` ${countdown} seconds`;
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href = "/admintoolV3/spinner?logout=true"; // Redirect on timeout (modify as needed)
+            }
+        }, 1000);
+        return timer;
+    }
+
+    // Function to show the modal
+    function showModal() {
+        timeoutModal.style.display = 'block';
+        timeoutModal.setAttribute('aria-hidden', 'false');
+        return startCountdown();
+    }
+
+    // Check URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('timeout') === 'yes') {
+        setTimeout(showModal, 15000); // Show modal after 15 seconds
+    }
+
+    // Close modal handlers
+    [cancelTimeout].forEach((button) => {
+        button.addEventListener('click', () => {
+            timeoutModal.style.display = 'none';
+            timeoutModal.setAttribute('aria-hidden', 'true');
+        });
+    });
+});
 </script>
 
   {{ super() }}
@@ -89,6 +155,8 @@ document.addEventListener('DOMContentLoaded', function () {
         link.insertAdjacentHTML("beforeend", ' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>');
       }
     }, Number("{{ transferCompleteInMs }}"));
+
+      
   </script>
   {% endif %}
 {% endblock %}
