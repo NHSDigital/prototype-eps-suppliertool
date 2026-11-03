@@ -1,9 +1,64 @@
 {% extends "admintoolV3/layout.html" %}
+{% block beforehead %}
+
+
+{% endblock %}
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
   {% endblock %}
   {% block header %}
+  
+      
+
+<div style="padding: 0 !important;">
+  <div class="nhsuk-cookie-banner" id="cookieBanner" aria-label="Cookie banner" role="banner" style="display: none;">
+    <div class="page-section" style="padding: 0 !important;">
+      <div class="nhsuk-width-container">
+        <h2 class="nhsuk-cookie-banner__heading govuk-heading-m">Cookies on the Prescription Administration Tool</h2>
+        <p>We've put some small files called cookies on your device to make our site work.</p>
+        <p class="nhsuk-body">We’d also like to use analytics cookies. These send anonymous information about how our site is used to a service called Amazon CloudWatch RUM. We use this information to improve our site.</p>
+        <p class="nhsuk-body">Let us know if this is OK. We'll use a cookie to save your choice. You can <a href="cookies">read more about our cookies</a> before you choose.</p>
+        <div class="nhsuk-button-group nhsuk-u-margin-bottom-0">
+          <button id="accept" onclick="closeCookies()" type="button" name="cookies" class="nhsuk-button full-width nhsuk-u-margin-right-3" data-module="cookieBanner">
+            Accept analytics cookies
+          </button>
+          <button id="reject" onclick="closeCookies()" type="button" name="cookies" class="nhsuk-button full-width " data-module="nhsuk-button">
+            Reject analytics cookies
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+
+<div class="chargeable-status-banner--green" 
+     id="chargeable-status-banner-id"
+     style="display: none;"
+     role="region"
+     aria-labelledby="cookie-confirmation-title">
+
+  <div class="chargeable-status-banner-content">
+
+    <p id="cookie-confirmation-title" class="nhsuk-u-visually-hidden">
+      Cookie preferences updated
+    </p>
+
+    <div class="chargeable-status-banner-text">
+      You can change your cookie settings at any time using our 
+      <a href="cookies" class="chargeable-status-banner-link">cookies page</a>.
+    </div>
+
+    <button type="button"
+            class="chargeable-status-banner-close"
+            aria-label="Close cookie confirmation message"
+            onclick="closeConfirmationBanner()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+</div>
+
   {% from "header/macro.njk" import header %}
 
 {{ header({
@@ -179,4 +234,24 @@
  
   </div>
 </div>
+{% endblock %}
+{% block bodyEnd %}
+{{ super() }}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (new URLSearchParams(window.location.search).get('showCookies') === 'true') {
+      document.getElementById('cookieBanner').style.display = 'block';
+    }
+  });
+
+  function closeCookies() {
+    document.getElementById('cookieBanner').style.display = 'none';
+    document.getElementById('chargeable-status-banner-id').style.display = 'block';
+    sessionStorage.setItem('closeCookies', 'true');
+  }
+
+  function closeConfirmationBanner() {
+    document.getElementById('chargeable-status-banner-id').style.display = 'none';
+  }
+</script>
 {% endblock %}

@@ -7,6 +7,7 @@
 @import "components/spinner";
 @import "components/sortable-table";
 @import "components/modal";
+@import "components/chargeable-status";
 ///////////////////////////////////////////
 // Add your custom CSS/Sass styles below...
 ///////////////////////////////////////////
@@ -225,3 +226,58 @@
   text-align: center;
   white-space: nowrap;
 }
+
+
+          .nhsuk-cookie-banner {
+              -webkit-font-smoothing: antialiased;
+              font-family: Frutiger W01,Helvetica,Arial,Sans-serif;
+              color: #212b32;
+              font-size: 16px;
+              line-height: 1.5; 
+              margin: 0 !important;
+              background-color: #f0f4f5;
+              box-shadow: 0 0 4px 0 #212b32;
+          }
+          
+          #nhsuk-cookie-banner {
+              background-color: #f0f4f5;
+              box-shadow: 0 0 4px 0 #212b32;
+          }
+          
+          #nhsuk-cookie-banner .nhsuk-cookie-banner {
+              background:#f0f4f5;
+              position: relative;
+              padding: 24px 0 24px 0;
+              width: 100%;
+              z-index: 1;
+              box-shadow: 0 0 4px 0 #212b32;
+          }
+          
+          #nhsuk-cookie-banner .nhsuk-cookie-banner ul {
+              padding: 0;
+              margin: 8px 0 0 0;
+          }
+          
+          #nhsuk-cookie-banner .nhsuk-cookie-banner ul li {
+              display: block;
+          }
+          
+          @media (min-width: 48.0625em) {
+              #nhsuk-cookie-banner .nhsuk-cookie-banner ul li {
+                  display: inline;
+                  margin-right: 20px;
+              }
+          }
+          
+          #nhsuk-cookie-banner .nhsuk-success-banner {
+              background-color: #f0f4f5;
+              color: #212b32;
+              padding: 8px 0 8px 0;
+              position: relative;
+              box-shadow: 0 0 4px 0 #212b32;
+          }
+          
+          
+          .nhsuk-success-banner {
+              margin: 0 !important;
+          }

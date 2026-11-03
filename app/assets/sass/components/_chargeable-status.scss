@@ -1,0 +1,184 @@
+.chargeable-status-banner,.chargeable-status-banner--amber,.chargeable-status-banner--green,.chargeable-status-banner--grey,.chargeable-status-banner--red {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  padding: 8px 24px
+}
+
+@media(min-width: 40.0625em) {
+  .chargeable-status-banner,.chargeable-status-banner--amber,.chargeable-status-banner--green,.chargeable-status-banner--grey,.chargeable-status-banner--red {
+    padding-bottom:16px;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-top: 16px
+  }
+}
+
+.chargeable-status-banner--green {
+  background-color: #007f3b;
+  color: #fff
+}
+
+.chargeable-status-banner--amber {
+  background-color: #ed8b00;
+  color: #231f20
+}
+
+.chargeable-status-banner--red {
+  background-color: #d5281b;
+  color: #fff
+}
+
+.chargeable-status-banner--grey {
+  background-color: #4c6272;
+  color: #fff
+}
+
+.chargeable-status-banner-content {
+  display: inline-block;
+  font-size: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-left: 1rem;
+  vertical-align: middle
+}
+
+@media(min-width: 40.0625em) {
+  .chargeable-status-banner-content {
+    font-size:19px;
+    font-size: 1.1875rem;
+    line-height: 1.47368
+  }
+}
+
+@media print {
+  .chargeable-status-banner-content {
+    font-size: 14pt;
+    line-height: 1.15
+  }
+}
+
+.chargeable-status-banner--tick {
+  background-color: #fff;
+  border-radius: 50%
+}
+
+.chargeable-status-banner--warn {
+  height: 34px;
+  width: 34px
+}
+
+.chargeable-status-banner-link,.chargeable-status-banner-link:visited {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.chargeable-status-banner-link:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+ 
+.chargeable-status-banner-link:focus {
+  text-decoration: none;
+  color: #231f20;
+}
+
+.chargeable-status-tag {
+  background-color: #cce6ff;
+  color: #004280;
+  font-weight: 600;
+  margin-right: 14px;
+  padding: 10px
+}
+
+.chargeable-status-tag-container>* {
+  display: inline-block
+}
+
+.chargeable-status-container {
+  font-size: 1.25rem;
+  margin-bottom: 24px
+}
+
+.chargeable-status-cancel-link {
+  display: inline-block;
+  margin: 8px
+}
+
+@media(min-width: 40.0625em) {
+  .chargeable-status-cancel-link {
+    margin-bottom:16px;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 16px
+  }
+}
+
+.chargeable-status-form-button {
+  margin-right: 8px
+}
+
+@media(min-width: 40.0625em) {
+  .chargeable-status-form-button {
+    margin-right:16px
+  }
+}
+
+.chargeable-status-table,.historic-status-table {
+  font-size: .9rem
+}
+
+
+         
+.chargeable-status-banner--green {
+  background-color: #007f3b;
+  color: #ffffff;
+  padding: 16px;
+  position: relative; /* 👈 Move positioning here instead */
+}
+
+.chargeable-status-banner-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding-right: 40px; /* space for the X */
+}
+
+.chargeable-status-banner-link {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.chargeable-status-banner-close {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  background: transparent;
+  border: 0;
+  color: #ffffff;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.chargeable-status-banner-close:focus {
+  outline: 3px solid #ffeb3b; /* NHS focus style */
+  outline-offset: 2px;
+}
+
+.chargeable-status-banner-close {
+  padding: 8px;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+.chargeable-status-banner-close:hover {
+  background-color: #ffffff;
+  color: #007f3b;
+}
+
+.chargeable-status-banner-close:focus {
+  outline: 3px solid #ffeb3b;
+  outline-offset: 2px;
+}
