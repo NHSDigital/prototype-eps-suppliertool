@@ -55,9 +55,17 @@
   <div class="nhsuk-grid-column-full-width">
   
   
-        <h1 class="nhsuk-heading-l">Checking {% if data.nominationAction == "change" %} transfer
-      {% elif data.nominationAction == "remove" %} removal
-      {% endif %} details</h1>
+        <h1 class="nhsuk-heading-l">
+
+      {% if logout %}
+          Logging out
+      {% else %}
+          Checking 
+          {% if data.nominationAction == "change" %} transfer
+          {% elif data.nominationAction == "remove" %} removal
+          {% endif %} details
+      {% endif %}
+        </h1>
      
    
       <form action="submit" method="post">
@@ -81,9 +89,9 @@
       </form>
 
 <script>
-  setTimeout(function(){
-    window.location.href='/admintoolV3/check-details';
-}, 2500);
+  setTimeout(function () {
+    window.location.href = "{% if logout %}/admintoolV3/end-page{% else %}/admintoolV3/check-details{% endif %}";
+  }, 2500);
 </script>
 
 

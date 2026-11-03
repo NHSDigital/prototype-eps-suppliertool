@@ -16,6 +16,56 @@
 {% endblock %}
 
 {% block bodyEnd %}
+
+<div class="modal-overlay" id="logout_modal" aria-hidden="true" role="dialog" aria-labelledby="logout_modal_title">
+  <div class="modal-content" role="document">
+    <h2 class="nhsuk-modal__heading">Are you sure you want to log out?</h2>
+    <p class="nhsuk-modal__description">
+      Logging out will end your session. 
+    </p>
+    <div class="nhsuk-button-group">
+      <a class="nhsuk-button" href="/admintoolV3/spinner?logout=true" id="confirm_logout">Log out</a>
+      <button class="nhsuk-button nhsuk-button--secondary" id="cancel_logout">Cancel</button>
+    </div>
+    <button class="btn-close" id="logout_modal_close"></button>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const logoutButton = Array.from(
+  document.querySelectorAll('.nhsuk-header__account-item')
+).find(function (link) {
+  return link.textContent.trim() === 'Log out';
+});
+  const modal = document.getElementById('logout_modal');
+  const cancelButton = document.getElementById('cancel_logout');
+  const closeButton = document.getElementById('logout_modal_close');
+
+  if (!logoutButton || !modal) return;
+
+  function closeModal() {
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    logoutButton.focus();
+  }
+
+  logoutButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    cancelButton?.focus();
+  });
+
+  cancelButton?.addEventListener('click', closeModal);
+  closeButton?.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !modal.hidden) closeModal();
+  });
+});
+</script>
+
   {{ super() }}
   {% if transferCompleteInMs %}
   <script>

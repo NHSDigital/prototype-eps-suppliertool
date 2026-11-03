@@ -416,6 +416,10 @@ router.get("/admintoolV3/change-submitted", (req, res, next) => {
 
   next();
 });
+router.get("/admintoolV3/spinner", (req, res, next) => {
+  res.locals.logout = req.query.logout === "true";
+  next();
+});
 router.get("/admintoolV3/clear-processing", (req, res) => {
   const data = req.session.data;
   const seededEthan = require("./data/session-data-defaults").processingSubmissions
