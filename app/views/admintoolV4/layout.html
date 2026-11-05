@@ -1,0 +1,162 @@
+{% extends "layout.html" %}
+
+
+{% block footer %}
+  <footer class="nhsuk-footer" role="contentinfo">
+    <div class="nhsuk-width-container">
+      <ul class="nhsuk-footer__list">
+        <li class="nhsuk-footer__list-item">
+          <a class="nhsuk-footer__list-item-link" href="/admintoolV4/clear-processing">
+            Clear processing submissions
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+{% endblock %}
+
+{% block bodyEnd %}
+
+<div class="modal-overlay" id="logout_modal" aria-hidden="true" role="dialog" aria-labelledby="logout_modal_title">
+  <div class="modal-content" role="document">
+    <h2 class="nhsuk-modal__heading">Are you sure you want to log out?</h2>
+    <p class="nhsuk-modal__description">
+      Logging out will end your session. 
+    </p>
+    <div class="nhsuk-button-group">
+      <a class="nhsuk-button" href="/admintoolV4/spinner?logout=true" id="confirm_logout">Log out</a>
+      <button class="nhsuk-button nhsuk-button--secondary" id="cancel_logout">Cancel</button>
+    </div>
+    <button class="btn-close" id="logout_modal_close"></button>
+  </div>
+</div>
+
+<!--time out modal-->
+
+<div class="modal-overlay" id="timeout_modal" aria-hidden="true" role="dialog" aria-labelledby="timeout_modal_title">
+  <div class="modal-content" role="document">
+    <h2 class="nhsuk-modal__heading">You are about to be logged out</h2>
+    <p class="nhsuk-modal__description">
+      For your security, we will log you out in: 
+    </p>
+
+    <div class="nhsuk-button-group">
+      <a class="nhsuk-button" id="confirm_timeout" href="start-page">Stay logged in </a>
+      <a class="nhsuk-button nhsuk-button--secondary" href="/admintoolV4/spinner?logout=true" id="logout_time">Logout</a>
+     
+    </div>
+   
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const logoutButton = Array.from(
+  document.querySelectorAll('.nhsuk-header__account-item')
+).find(function (link) {
+  return link.textContent.trim() === 'Log out';
+});
+  const modal = document.getElementById('logout_modal');
+  const cancelButton = document.getElementById('cancel_logout');
+  const closeButton = document.getElementById('logout_modal_close');
+
+  if (!logoutButton || !modal) return;
+
+  function closeModal() {
+    modal.hidden = true;
+    modal.setAttribute('aria-hidden', 'true');
+    logoutButton.focus();
+  }
+
+  logoutButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    modal.hidden = false;
+    modal.setAttribute('aria-hidden', 'false');
+    cancelButton?.focus();
+  });
+
+  cancelButton?.addEventListener('click', closeModal);
+  closeButton?.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape' && !modal.hidden) closeModal();
+  });
+});
+
+//timeout modal
+  document.addEventListener('DOMContentLoaded', () => {
+    const timeoutModal = document.getElementById('timeout_modal');
+    const timeoutModalClose = document.getElementById('confirm_timeout');
+    const cancelTimeout = document.getElementById('timeout_modal_close');
+    const countdownElement = document.createElement('span');
+    let countdown = 120; // Countdown starts from 120 seconds
+
+    // Insert countdown element in the modal
+    const timeoutMessage = timeoutModal.querySelectorAll('.nhsuk-modal__description')[0];
+    countdownElement.textContent = ` ${countdown} seconds`;
+    timeoutMessage.appendChild(countdownElement);
+
+    // Function to update countdown
+    function startCountdown() {
+        const timer = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = ` ${countdown} seconds`;
+            if (countdown <= 0) {
+                clearInterval(timer);
+                window.location.href = "/admintoolV4/spinner?logout=true"; // Redirect on timeout (modify as needed)
+            }
+        }, 1000);
+        return timer;
+    }
+
+    // Function to show the modal
+    function showModal() {
+        timeoutModal.style.display = 'block';
+        timeoutModal.setAttribute('aria-hidden', 'false');
+        return startCountdown();
+    }
+
+    // Check URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('timeout') === 'yes') {
+        setTimeout(showModal, 15000); // Show modal after 15 seconds
+    }
+
+    // Close modal handlers
+    [cancelTimeout].forEach((button) => {
+        button.addEventListener('click', () => {
+            timeoutModal.style.display = 'none';
+            timeoutModal.setAttribute('aria-hidden', 'true');
+        });
+    });
+});
+</script>
+
+  {{ super() }}
+  {% if transferCompleteInMs %}
+  <script>
+    setTimeout(function () {
+      if (location.pathname === "/admintoolV4/processing-page") {
+        fetch("/admintoolV4/processing-page")
+          .then(function (r) { return r.text(); })
+          .then(function (html) {
+            var doc = new DOMParser().parseFromString(html, "text/html");
+            ["transfers", "submissions-processing"].forEach(function (id) {
+              document.querySelector("#" + id + " tbody").replaceWith(doc.querySelector("#" + id + " tbody"));
+            });
+            // Update contents only, so the tabs' click handlers on the link are kept
+            document.querySelector('.nhsuk-tabs__tab[href="#transfers"]').innerHTML =
+              doc.querySelector('.nhsuk-tabs__tab[href="#transfers"]').innerHTML;
+          });
+        return;
+      }
+      var link = document.querySelector('.nhsuk-header__navigation a[href="/admintoolV4/processing-page"]');
+      if (link && !link.querySelector(".moj-notification-badge")) {
+        link.insertAdjacentHTML("beforeend", ' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>');
+      }
+    }, Number("{{ transferCompleteInMs }}"));
+
+      
+  </script>
+  {% endif %}
+{% endblock %}

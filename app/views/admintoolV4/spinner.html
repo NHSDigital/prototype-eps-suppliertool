@@ -1,0 +1,103 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolV4/start-page",
+        active:"true"
+      },
+      {
+        text: "Submitted transfers and removals",
+        href: "/admintoolV4/processing-page"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+  
+  
+        <h1 class="nhsuk-heading-l">
+
+      {% if logout %}
+          Logging out
+      {% else %}
+          Checking 
+          {% if data.nominationAction == "change" %} transfer
+          {% elif data.nominationAction == "remove" %} removal
+          {% endif %} details
+      {% endif %}
+        </h1>
+     
+   
+      <form action="submit" method="post">
+        <section class="loading-container" id="gp-connect-0" style="display:block; min-height: 16em;">
+      
+          <div class="bar_container">
+            <div id="main_container">
+              <div id="pbar" class="progress-spinner" data-percent="0">
+                <img src="/assets/images/loader-spinner.svg" width="200px" height="200px" id="spinner" class=""/>
+                <div class="ppc-loading">
+                  <div class="pcc-percents-wrapper">
+                  
+                    <span id="spinner-status" class="nhsuk-body">Loading</span><span aria-hidden="true">...</span>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </form>
+
+<script>
+  setTimeout(function () {
+    window.location.href = "{% if logout %}/admintoolV4/end-page{% else %}/admintoolV4/check-details{% endif %}";
+  }, 2500);
+</script>
+
+
+
+
+ 
+  </div>
+</div>
+{% endblock %}

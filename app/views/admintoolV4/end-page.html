@@ -1,0 +1,40 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+ {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription admin tool "
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  }
+}) }}
+
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+       <h1 class="select-role-header nhsuk-heading-xl nhsuk-u-margin-bottom-3" id="select-role-header">
+        Logout successful
+      </h1>
+        <p>You are now logged out of the service. To continue using the application, you must log in again.</p>
+    </br>
+        <a href="#">Log in</a> 
+   
+  </div>
+</div>
+{% endblock %}
