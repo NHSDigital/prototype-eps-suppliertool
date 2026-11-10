@@ -1,0 +1,52 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+ {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription admin tool "
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  }
+}) }}
+
+
+{% endblock %}
+  
+
+{% block pageTitle %}
+  {% if error == "404" %}Page not found
+  {% elif error == "500" %}Sorry, there is a problem with the service
+  {% else %}You are logged out{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-two-thirds">
+    {% if error == "404" %}
+      <h1 class="nhsuk-heading-xl">Page not found</h1>
+      <p>If you typed the web address, check it is correct.</p>
+      <p>If you pasted the web address, check you copied the entire address.</p>
+      <h2>Related links</h2>
+      <ul>
+        <li><a href="/admintoolV5/start-page">Transfer patients to a new pharmacy code</a></li>
+        <li><a href="/admintoolV5/start-page#remove-nomination">Remove patients for a pharmacy code</a></li>
+        <li><a href="/admintoolV5/processing-page">View completed transfers and removals</a></li>
+      </ul>
+    {% elif error == "500" %}
+      <h1 class="nhsuk-heading-xl">Sorry, there is a problem with the service</h1>
+      <p>Try again later.</p>
+    {% else %}
+      <h1 class="select-role-header nhsuk-heading-xl nhsuk-u-margin-bottom-3" id="select-role-header">You are logged out</h1>
+      <p>You must <a href="#">log in again</a> to use the service.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

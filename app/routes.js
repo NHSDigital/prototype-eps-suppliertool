@@ -730,3 +730,280 @@ router.get("/admintoolV4/end-page", (req, res) => {
   const error = ["404", "500"].includes(req.query.error) ? req.query.error : null;
   res.render("admintoolV4/end-page", { error });
 });
+
+//routes for V5
+// Clear session data for admintoolV3 prototype
+function clearAdminFormData2(req) {
+  delete req.session.data.ServiceNowNumber;
+  delete req.session.data.NewODSCode;
+  delete req.session.data.OldODSCode;
+  delete req.session.data.ServiceNowNumberRem;
+  delete req.session.data.OldODSCodeRem;
+  delete req.session.data["file-transfer"];
+  delete req.session.data["file-remove"];
+}
+router.get("/admintoolV5/clear-and-start", (req, res) => {
+  clearAdminFormData2(req);
+  res.redirect("/admintoolV5/start-page");
+});
+
+router.get("/admintoolV5/clear-and-processing", (req, res) => {
+  clearAdminFormData2(req);
+  res.redirect("/admintoolV5/processing-page");
+});
+
+function formatDateTime(date, timeZone) {
+  return {
+    date: date.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone }),
+    time: date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone }),
+  };
+}
+
+function setTransferTimes(data) {
+  const timeZone = "Europe/London";
+  const start = new Date();
+  const end = new Date(start.getTime() + 15 * 60 * 1000);
+
+  const s = formatDateTime(start, timeZone);
+  const e = formatDateTime(end, timeZone);
+
+  data.transferDate = s.date;
+  data.transferTime = s.time;
+  data.transferEndDate = e.date;
+  data.transferEndTime = e.time;
+  data.transferType = "now";
+}
+
+router.post("/admintoolV5/change-answer", function (req, res) {
+  setTransferTimes(req.session.data);
+  res.redirect("/admintoolV5/check-details");
+});
+
+// The removal form submits straight to check-details, so set the times here
+
+router.get("/admintoolV5/check-details", (req, res, next) => {
+  if (req.query.nominationAction === "remove") {
+    setTransferTimes(req.session.data);
+  }
+  next();
+});
+
+router.get("/admintoolV5/confirm", (req, res) => {
+  const data = req.session.data;
+  setTransferTimes(data);
+
+  const isTransfer = data.nominationAction === "change";
+
+  const submission = {
+    serviceNowNumber: isTransfer
+      ? data.ServiceNowNumber
+      : data.ServiceNowNumberRem,
+    submissionType: isTransfer ? "Transfer" : "Removal",
+    oldPharmacyCode: isTransfer ? data.OldODSCode : data.OldODSCodeRem,
+    oldPharmacyName: "West Ealing Pharmacy",
+    ...(isTransfer ? { newPharmacyCode: data.NewODSCode, newPharmacyName: "Superdrug Pharmacy (West Ealing)" } : {}),
+    date: data.transferDate,
+    time: data.transferTime,
+    startedAt: `${data.transferDate} at ${data.transferTime}`,
+    projectedEndAt: `${data.transferEndDate} at ${data.transferEndTime}`,
+    submittedBy: "Leon S Kennedy",
+    nhsNumbersToProcess: "10,000",
+    nhsNumbersProcessed: "100",
+    nhsNumbersRemoved: "100",
+    userCreated: true,
+    isNew: true
+  };
+
+  data.processingSubmissions = data.processingSubmissions || [];
+  data.processingSubmissions.unshift(submission);
+  data.newSubmissionBadge = true;
+
+  res.redirect("/admintoolV5/change-submitted");
+});
+
+const ETHAN_SNOW2 = "SCTASK0311481";
+const CROYDON_SNOW2 = "SCTASK0322481";
+const RESETTABLE_SNOWS2 = [ETHAN_SNOW2, CROYDON_SNOW2];
+const COMPLETE_AFTER_MS2 = 15 * 1000; //3*60*1000 is 3 mins
+
+// Find by ServiceNow number because new submissions are unshifted and shift the index
+function completeTransfer(data, serviceNowNumber, isNew) {
+  const list = data.processingSubmissions || [];
+  const i = list.findIndex((p) => p.serviceNowNumber === serviceNowNumber);
+  if (i === -1) return false;
+  const [p] = list.splice(i, 1);
+  const finished = formatDateTime(new Date(), "Europe/London");
+  data.transfers.unshift({
+    date: p.date,
+    serviceNowNumber: p.serviceNowNumber,
+    oldPharmacyCode: p.oldPharmacyCode,
+    oldPharmacyName: p.oldPharmacyName || p.OldPharmacyName,
+    newPharmacyCode: p.newPharmacyCode,
+    newPharmacyName: p.newPharmacyName || p.NewPharmacyName,
+    nhsNumbersTransferred: p.nhsNumbersToProcess,
+    submittedBy: p.submittedBy,
+    startedAt: p.startedAt,
+    finishedAt: `${finished.date} at ${finished.time}`,
+    action: "None",
+    isNew
+  });
+  return true;
+}
+
+// The record page sends the user here after 15s via the spinner
+router.get("/admintoolV5/finish-transfer", (req, res) => {
+  completeTransfer(req.session.data, CROYDON_SNOW2, false);
+  res.redirect("/admintoolV5/change-submitted?recordType=transfer&recordIndex=0");
+});
+
+router.use("/admintoolV5", (req, res, next) => {
+  const data = req.session.data;
+
+  if (req.path === "/processing-page" && !data.processingFirstViewedAt) {
+    data.processingFirstViewedAt = Date.now();
+  }
+
+  const elapsed = data.processingFirstViewedAt ? Date.now() - data.processingFirstViewedAt : 0;
+
+  if (data.processingFirstViewedAt && !data.ethanCompleted && elapsed >= COMPLETE_AFTER_MS2) {
+    if (completeTransfer(data, ETHAN_SNOW2, true)) {
+      data.newTransfers = true;
+    }
+    data.ethanCompleted = true;
+  }
+
+   if (
+    req.path === "/change-submitted" &&
+    req.query.recordType === "transfer" &&
+    (data.transfers || [])[Number(req.query.recordIndex)]?.serviceNowNumber === ETHAN_SNOW2
+  ) {
+    data.newTransfers = false;
+  }
+
+   res.locals.transferCompleteInMs =
+    data.processingFirstViewedAt && !data.ethanCompleted
+      ? Math.max(COMPLETE_AFTER_MS2 - elapsed, 1)
+      : null;
+
+  // Nav badge clears on reaching the processing page; the tab badge still shows on that first render
+  if (req.path === "/processing-page") {
+    res.locals.showTabBadge = data.newSubmissionBadge;
+    data.newSubmissionBadge = false;
+  }
+
+  // The "New" status only clears when its View link is clicked
+  if (req.path === "/change-submitted" && req.query.recordType === "processing") {
+    const rec = (data.processingSubmissions || [])[Number(req.query.recordIndex)];
+    if (rec) rec.isNew = false;
+  }
+
+  // The kit copies session data to res.locals before routes run
+  res.locals.data.newTransfers = data.newTransfers;
+  res.locals.data.newSubmissionBadge = data.newSubmissionBadge;
+
+  next();
+});
+
+router.get("/admintoolV5/change-submitted", (req, res, next) => {
+  const { recordType, recordIndex } = req.query;
+  const updated = formatDateTime(new Date(), "Europe/London");
+  res.locals.lastUpdated = `${updated.date} at ${updated.time}`;
+  const lists = { transfer: req.session.data.transfers, removal: req.session.data.removals, processing: req.session.data.processingSubmissions };
+  const list = lists[recordType];
+
+  if (list) {
+    const record = list[Number(recordIndex)];
+    if (!record) {
+      return res.redirect("/admintoolV5/processing-page");
+    }
+
+    
+       res.locals.record = record;
+    res.locals.recordType = recordType;
+    res.locals.recordIndex = recordIndex;
+
+    if (recordType === "processing") {
+      // Stale nominationAction from a previous journey would otherwise override the record's own type
+      res.locals.data.nominationAction = record.submissionType === "Transfer" ? "change" : "remove";
+    }
+  }
+
+
+  next();
+});
+router.get("/admintoolV5/spinner", (req, res, next) => {
+  res.locals.logout = req.query.logout === "true";
+  if (req.query.complete === CROYDON_SNOW2) {
+    res.locals.redirectTo = "/admintoolV5/finish-transfer";
+  }
+  next();
+});
+router.get("/admintoolV5/clear-processing", (req, res) => {
+  const data = req.session.data;
+  const seeded = require("./data/session-data-defaults").processingSubmissions;
+
+  const fmt = (offsetMs) => {
+    const d = new Date(Date.now() + offsetMs);
+    return {
+      date: d.toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "Europe/London" }),
+      time: d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/London" }),
+    };
+  };
+  const start = fmt(-5 * 60 * 1000);
+  const end = fmt(10 * 60 * 1000);
+
+  data.transfers = (data.transfers || []).filter((t) => !RESETTABLE_SNOWS2.includes(t.serviceNowNumber));
+  data.processingSubmissions = (data.processingSubmissions || [])
+    .filter((p) => !p.userCreated && !RESETTABLE_SNOWS2.includes(p.serviceNowNumber));
+
+  // Reverse so the seeded order survives unshift
+  for (const snow of [...RESETTABLE_SNOWS2].reverse()) {
+    data.processingSubmissions.unshift({
+      ...seeded.find((p) => p.serviceNowNumber === snow),
+      date: start.date,
+      time: start.time,
+      startedAt: `${start.date} at ${start.time}`,
+      projectedEndAt: `${end.date} at ${end.time}`
+    });
+  }
+
+  delete data.processingFirstViewedAt;
+  delete data.ethanCompleted;
+  delete data.newTransfers;
+  delete data.newSubmissionBadge;
+  clearAdminFormData2(req);
+  res.redirect("/admintoolV5/start-page");
+});
+
+const START_PAGE_ERRORS2 = {
+  "empty-service-now":     { field: "ServiceNowNumber",    text: "Enter a ServiceNow number" },
+  "empty-old-ods":         { field: "OldODSCode",          text: "Enter the current pharmacy code" },
+  "empty-new-ods":         { field: "NewODSCode",          text: "Enter the new pharmacy code" },
+  "empty-file":            { field: "file-transfer",       text: "Select a file of NHS numbers" },
+  "empty-service-now-rem": { field: "ServiceNowNumberRem", text: "Enter a ServiceNow number" },
+  "empty-old-ods-rem":     { field: "OldODSCodeRem",       text: "Enter the pharmacy code" },
+  "empty-file-rem":        { field: "file-remove",         text: "Select a file of NHS numbers" }
+};
+const REMOVE_TAB_FIELDS2 = ["ServiceNowNumberRem", "OldODSCodeRem", "file-remove"];
+
+router.get("/admintoolV5/start-page", (req, res, next) => {
+  // Supports ?error=a,b or ?error=a&error=b
+  const codes = [].concat(req.query.error || []).flatMap((c) => String(c).split(","));
+  const errors = {};
+  for (const code of codes) {
+    const e = START_PAGE_ERRORS2[code];
+    if (e) errors[e.field] = e.text;
+  }
+  res.locals.errors = errors;
+  const errorList = Object.entries(errors).map(([field, text]) => ({ text, href: "#" + field }));
+  res.locals.errorList = errorList;
+  res.locals.transferErrorList = errorList.filter((e) => !REMOVE_TAB_FIELDS2.includes(e.href.slice(1)));
+  res.locals.removeErrorList = errorList.filter((e) => REMOVE_TAB_FIELDS2.includes(e.href.slice(1)));
+  res.locals.removeTabHasErrors = res.locals.removeErrorList.length > 0;
+  next();
+});
+
+router.get("/admintoolV5/end-page", (req, res) => {
+  const error = ["404", "500"].includes(req.query.error) ? req.query.error : null;
+  res.render("admintoolV5/end-page", { error });
+});
