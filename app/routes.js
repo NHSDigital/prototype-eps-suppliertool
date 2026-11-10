@@ -462,7 +462,8 @@ function clearAdminFormData2(req) {
   delete req.session.data.OldODSCode;
   delete req.session.data.ServiceNowNumberRem;
   delete req.session.data.OldODSCodeRem;
-  delete req.session.data["file-hint"];
+  delete req.session.data["file-transfer"];
+  delete req.session.data["file-remove"];
 }
 router.get("/admintoolV4/clear-and-start", (req, res) => {
   clearAdminFormData2(req);
@@ -661,6 +662,34 @@ router.get("/admintoolV4/clear-processing", (req, res) => {
   delete data.newTransfers;
   clearAdminFormData2(req);
   res.redirect("/admintoolV4/start-page");
+});
+
+const START_PAGE_ERRORS = {
+  "empty-service-now":     { field: "ServiceNowNumber",    text: "Enter a ServiceNow number" },
+  "empty-old-ods":         { field: "OldODSCode",          text: "Enter the current pharmacy code" },
+  "empty-new-ods":         { field: "NewODSCode",          text: "Enter the new pharmacy code" },
+  "empty-file":            { field: "file-transfer",       text: "Select a file of NHS numbers" },
+  "empty-service-now-rem": { field: "ServiceNowNumberRem", text: "Enter a ServiceNow number" },
+  "empty-old-ods-rem":     { field: "OldODSCodeRem",       text: "Enter the pharmacy code" },
+  "empty-file-rem":        { field: "file-remove",         text: "Select a file of NHS numbers" }
+};
+const REMOVE_TAB_FIELDS = ["ServiceNowNumberRem", "OldODSCodeRem", "file-remove"];
+
+router.get("/admintoolV4/start-page", (req, res, next) => {
+  // Supports ?error=a,b or ?error=a&error=b
+  const codes = [].concat(req.query.error || []).flatMap((c) => String(c).split(","));
+  const errors = {};
+  for (const code of codes) {
+    const e = START_PAGE_ERRORS[code];
+    if (e) errors[e.field] = e.text;
+  }
+  res.locals.errors = errors;
+  const errorList = Object.entries(errors).map(([field, text]) => ({ text, href: "#" + field }));
+  res.locals.errorList = errorList;
+  res.locals.transferErrorList = errorList.filter((e) => !REMOVE_TAB_FIELDS.includes(e.href.slice(1)));
+  res.locals.removeErrorList = errorList.filter((e) => REMOVE_TAB_FIELDS.includes(e.href.slice(1)));
+  res.locals.removeTabHasErrors = res.locals.removeErrorList.length > 0;
+  next();
 });
 
 router.get("/admintoolV4/end-page", (req, res) => {
