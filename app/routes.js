@@ -662,3 +662,8 @@ router.get("/admintoolV4/clear-processing", (req, res) => {
   clearAdminFormData2(req);
   res.redirect("/admintoolV4/start-page");
 });
+
+router.get("/admintoolV4/end-page", (req, res) => {
+  const error = ["404", "500"].includes(req.query.error) ? req.query.error : null;
+  res.render("admintoolV4/end-page", { error });
+});
