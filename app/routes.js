@@ -545,7 +545,39 @@ router.get("/admintoolV4/confirm", (req, res) => {
 });
 
 const ETHAN_SNOW1 = "SCTASK0311481";
+const CROYDON_SNOW = "SCTASK0322481";
+const RESETTABLE_SNOWS = [ETHAN_SNOW1, CROYDON_SNOW];
 const COMPLETE_AFTER_MS1 = 15 * 1000; //3*60*1000 is 3 mins
+
+// Find by ServiceNow number because new submissions are unshifted and shift the index
+function completeTransfer(data, serviceNowNumber, isNew) {
+  const list = data.processingSubmissions || [];
+  const i = list.findIndex((p) => p.serviceNowNumber === serviceNowNumber);
+  if (i === -1) return false;
+  const [p] = list.splice(i, 1);
+  const finished = formatDateTime(new Date(), "Europe/London");
+  data.transfers.unshift({
+    date: p.date,
+    serviceNowNumber: p.serviceNowNumber,
+    oldPharmacyCode: p.oldPharmacyCode,
+    oldPharmacyName: p.oldPharmacyName || p.OldPharmacyName,
+    newPharmacyCode: p.newPharmacyCode,
+    newPharmacyName: p.newPharmacyName || p.NewPharmacyName,
+    nhsNumbersTransferred: p.nhsNumbersToProcess,
+    submittedBy: p.submittedBy,
+    startedAt: p.startedAt,
+    finishedAt: `${finished.date} at ${finished.time}`,
+    action: "None",
+    isNew
+  });
+  return true;
+}
+
+// The record page sends the user here after 15s via the spinner
+router.get("/admintoolV4/finish-transfer", (req, res) => {
+  completeTransfer(req.session.data, CROYDON_SNOW, false);
+  res.redirect("/admintoolV4/change-submitted?recordType=transfer&recordIndex=0");
+});
 
 router.use("/admintoolV4", (req, res, next) => {
   const data = req.session.data;
@@ -557,26 +589,7 @@ router.use("/admintoolV4", (req, res, next) => {
   const elapsed = data.processingFirstViewedAt ? Date.now() - data.processingFirstViewedAt : 0;
 
   if (data.processingFirstViewedAt && !data.ethanCompleted && elapsed >= COMPLETE_AFTER_MS1) {
-    const list = data.processingSubmissions || [];
-    // Find by ServiceNow number because new submissions are unshifted and shift the index
-    const i = list.findIndex((p) => p.serviceNowNumber === ETHAN_SNOW1);
-    if (i !== -1) {
-      const [p] = list.splice(i, 1);
-      const finished = formatDateTime(new Date(), "Europe/London");
-      data.transfers.unshift({
-        date: p.date,
-        serviceNowNumber: p.serviceNowNumber,
-        oldPharmacyCode: p.oldPharmacyCode,
-        oldPharmacyName: p.oldPharmacyName || p.OldPharmacyName,
-        newPharmacyCode: p.newPharmacyCode,
-        newPharmacyName: p.newPharmacyName || p.NewPharmacyName,
-        nhsNumbersTransferred: p.nhsNumbersToProcess,
-        submittedBy: p.submittedBy,
-        startedAt: p.startedAt,
-        finishedAt: `${finished.date} at ${finished.time}`,
-        action: "None",
-        isNew: true
-      });
+    if (completeTransfer(data, ETHAN_SNOW1, true)) {
       data.newTransfers = true;
     }
     data.ethanCompleted = true;
@@ -643,12 +656,14 @@ router.get("/admintoolV4/change-submitted", (req, res, next) => {
 });
 router.get("/admintoolV4/spinner", (req, res, next) => {
   res.locals.logout = req.query.logout === "true";
+  if (req.query.complete === CROYDON_SNOW) {
+    res.locals.redirectTo = "/admintoolV4/finish-transfer";
+  }
   next();
 });
 router.get("/admintoolV4/clear-processing", (req, res) => {
   const data = req.session.data;
-  const seededEthan = require("./data/session-data-defaults").processingSubmissions
-    .find((p) => p.serviceNowNumber === ETHAN_SNOW1);
+  const seeded = require("./data/session-data-defaults").processingSubmissions;
 
   const fmt = (offsetMs) => {
     const d = new Date(Date.now() + offsetMs);
@@ -660,17 +675,20 @@ router.get("/admintoolV4/clear-processing", (req, res) => {
   const start = fmt(-5 * 60 * 1000);
   const end = fmt(10 * 60 * 1000);
 
-  data.transfers = (data.transfers || []).filter((t) => t.serviceNowNumber !== ETHAN_SNOW1);
+  data.transfers = (data.transfers || []).filter((t) => !RESETTABLE_SNOWS.includes(t.serviceNowNumber));
   data.processingSubmissions = (data.processingSubmissions || [])
-    .filter((p) => !p.userCreated && p.serviceNowNumber !== ETHAN_SNOW1);
+    .filter((p) => !p.userCreated && !RESETTABLE_SNOWS.includes(p.serviceNowNumber));
 
-  data.processingSubmissions.unshift({
-    ...seededEthan,
-    date: start.date,
-    time: start.time,
-    startedAt: `${start.date} at ${start.time}`,
-    projectedEndAt: `${end.date} at ${end.time}`
-  });
+  // Reverse so the seeded order survives unshift
+  for (const snow of [...RESETTABLE_SNOWS].reverse()) {
+    data.processingSubmissions.unshift({
+      ...seeded.find((p) => p.serviceNowNumber === snow),
+      date: start.date,
+      time: start.time,
+      startedAt: `${start.date} at ${start.time}`,
+      projectedEndAt: `${end.date} at ${end.time}`
+    });
+  }
 
   delete data.processingFirstViewedAt;
   delete data.ethanCompleted;

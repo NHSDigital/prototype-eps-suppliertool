@@ -59,6 +59,8 @@
 
       {% if logout %}
           Logging out
+      {% elif redirectTo %}
+          Updating transfer details
       {% else %}
           Checking 
           {% if data.nominationAction == "change" %} transfer
@@ -90,7 +92,7 @@
 
 <script>
   setTimeout(function () {
-    window.location.href = "{% if logout %}/admintoolV4/end-page{% else %}/admintoolV4/check-details{% endif %}";
+    window.location.href = "{% if redirectTo %}{{ redirectTo }}{% elif logout %}/admintoolV4/end-page{% else %}/admintoolV4/check-details{% endif %}";
   }, 2500);
 </script>
 

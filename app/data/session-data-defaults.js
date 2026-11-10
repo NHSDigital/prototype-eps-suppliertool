@@ -64,6 +64,18 @@ module.exports = {
       nhsNumbersToProcess: "1000",
       submittedBy: "Claire Redfield",
       action: "None"
+    },
+      {
+      serviceNowNumber: "SCTASK0322481",
+      submissionType: "Transfer",
+      oldPharmacyCode: "B9M81",
+      oldPharmacyName: "Croydon Pharmacy",
+      newPharmacyCode: "BBA02",
+      newPharmacyName: "Superdrug Pharmacy (Croydon)",
+      nhsNumbersToProcess: "5,000",
+      nhsNumbersProcessed: "4,000",
+      submittedBy: "Claire Redfield",
+      action: "None"
     }
   ]
 }

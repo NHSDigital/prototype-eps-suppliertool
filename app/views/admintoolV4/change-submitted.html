@@ -617,6 +617,14 @@
 
 </div>
 {% endif %}
+
+{% if recordType == "processing" and record.serviceNowNumber == "SCTASK0322481" %}
+<script>
+  setTimeout(function () {
+    window.location.href = "/admintoolV4/spinner?complete=SCTASK0322481";
+  }, 15000);
+</script>
+{% endif %}
    
   </div>
 </div>
