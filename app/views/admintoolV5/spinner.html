@@ -33,11 +33,16 @@
       {
         text: "Transfer or remove NHS numbers",
         href: "/admintoolV5/start-page",
-        active:"true"
+        active: true
       },
       {
-        text: "Submitted transfers and removals",
+        html: "In progress" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new submission</span></span>' if data.newSubmissionBadge else ""),
         href: "/admintoolV5/processing-page"
+      },
+      {
+        html: "Completed" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>' if data.newTransfers else ""),
+        href: "/admintoolV5/completed-page",
+        active: false
       }
     ]
   }

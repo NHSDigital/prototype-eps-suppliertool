@@ -33,12 +33,17 @@
   {
         text: "Transfer or remove NHS numbers",
         href: "/admintoolV5/clear-and-start",
-        active: not record
+        active: not recordType
       },
       {
-        html: "Submitted transfers and removals" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new submission</span></span>' if (data.newSubmissionBadge or data.newTransfers) else ""),
+        html: "In progress" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new submission</span></span>' if data.newSubmissionBadge else ""),
         href: "/admintoolV5/processing-page",
-        active: record
+        active: recordType == "processing"
+      },
+      {
+        html: "Completed" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>' if data.newTransfers else ""),
+        href: "/admintoolV5/completed-page",
+        active: recordType in ["transfer", "removal"]
       }
     ]
   }
@@ -48,7 +53,7 @@
 {% block beforeContent %}
   {% if record %}
     {{ backLink({
-      href: "/admintoolV5/processing-page#" + ("removals" if recordType == "removal" else ("transfers" if recordType == "transfer" else ("processing" if recordType == "processing" else ""))),
+      href: ("/admintoolV5/completed-page#" ~ recordType ~ "s") if recordType in ["transfer", "removal"] else "/admintoolV5/processing-page",
       text: "Back"
     }) }}
   {% endif %}
@@ -83,7 +88,7 @@
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
     NHS numbers transferring
   </h1>
-  <p>You can return to check these transfer details from <a href="/admintoolV5/processing-page">submitted transfers and removals </a></p>
+  <p>You can return to check these transfer details from <a href="/admintoolV5/processing-page">in progress</a></p>
 </div>
 
 {% elif not record and data.nominationAction == "remove" or (recordType == "processing" and record.submissionType == "Removal") %}
@@ -92,7 +97,7 @@
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
     NHS numbers are being removed
   </h1>
-  <p>You can return to check these removal details from <a href="/admintoolV5/processing-page">submitted transfers and removals </a></p>
+  <p>You can return to check these removal details from <a href="/admintoolV5/processing-page">in progress</a></p>
 </div>
 
 

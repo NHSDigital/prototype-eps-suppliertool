@@ -136,24 +136,32 @@ document.addEventListener('DOMContentLoaded', function () {
   {% if transferCompleteInMs %}
   <script>
     setTimeout(function () {
-      if (location.pathname === "/admintoolV5/processing-page") {
-        fetch("/admintoolV5/processing-page")
-          .then(function (r) { return r.text(); })
-          .then(function (html) {
-            var doc = new DOMParser().parseFromString(html, "text/html");
-            ["transfers", "submissions-processing"].forEach(function (id) {
-              document.querySelector("#" + id + " tbody").replaceWith(doc.querySelector("#" + id + " tbody"));
-            });
-            // Update contents only, so the tabs' click handlers on the link are kept
-            document.querySelector('.nhsuk-tabs__tab[href="#transfers"]').innerHTML =
-              doc.querySelector('.nhsuk-tabs__tab[href="#transfers"]').innerHTML;
-          });
+      var path = location.pathname;
+      function addCompletedBadge() {
+        var link = document.querySelector('.nhsuk-header__navigation a[href="/admintoolV5/completed-page"]');
+        if (link && !link.querySelector(".moj-notification-badge")) {
+          link.insertAdjacentHTML("beforeend", ' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>');
+        }
+      }
+      if (path !== "/admintoolV5/processing-page" && path !== "/admintoolV5/completed-page") {
+        addCompletedBadge();
         return;
       }
-      var link = document.querySelector('.nhsuk-header__navigation a[href="/admintoolV5/processing-page"]');
-      if (link && !link.querySelector(".moj-notification-badge")) {
-        link.insertAdjacentHTML("beforeend", ' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>');
-      }
+      // Refetching also triggers the server-side completion in the middleware
+      fetch(path)
+        .then(function (r) { return r.text(); })
+        .then(function (html) {
+          var doc = new DOMParser().parseFromString(html, "text/html");
+          var fresh = doc.querySelectorAll("table tbody");
+          document.querySelectorAll("table tbody").forEach(function (tbody, i) {
+            if (fresh[i]) tbody.replaceWith(fresh[i]);
+          });
+          // Update contents only, so the tabs' click handlers on the link are kept
+          var tab = document.querySelector('.nhsuk-tabs__tab[href="#transfers"]');
+          var freshTab = doc.querySelector('.nhsuk-tabs__tab[href="#transfers"]');
+          if (tab && freshTab) tab.innerHTML = freshTab.innerHTML;
+          addCompletedBadge();
+        });
     }, Number("{{ transferCompleteInMs }}"));
 
       
