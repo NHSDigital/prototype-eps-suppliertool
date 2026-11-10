@@ -533,11 +533,13 @@ router.get("/admintoolV4/confirm", (req, res) => {
     nhsNumbersToProcess: "10,000",
     nhsNumbersProcessed: "100",
     nhsNumbersRemoved: "100",
-    userCreated: true
+    userCreated: true,
+    isNew: true
   };
 
   data.processingSubmissions = data.processingSubmissions || [];
   data.processingSubmissions.unshift(submission);
+  data.newSubmissionBadge = true;
 
   res.redirect("/admintoolV4/change-submitted");
 });
@@ -593,8 +595,21 @@ router.use("/admintoolV4", (req, res, next) => {
       ? Math.max(COMPLETE_AFTER_MS1 - elapsed, 1)
       : null;
 
+  // Nav badge clears on reaching the processing page; the tab badge still shows on that first render
+  if (req.path === "/processing-page") {
+    res.locals.showTabBadge = data.newSubmissionBadge;
+    data.newSubmissionBadge = false;
+  }
+
+  // The "New" status only clears when its View link is clicked
+  if (req.path === "/change-submitted" && req.query.recordType === "processing") {
+    const rec = (data.processingSubmissions || [])[Number(req.query.recordIndex)];
+    if (rec) rec.isNew = false;
+  }
+
   // The kit copies session data to res.locals before routes run
   res.locals.data.newTransfers = data.newTransfers;
+  res.locals.data.newSubmissionBadge = data.newSubmissionBadge;
 
   next();
 });
@@ -660,6 +675,7 @@ router.get("/admintoolV4/clear-processing", (req, res) => {
   delete data.processingFirstViewedAt;
   delete data.ethanCompleted;
   delete data.newTransfers;
+  delete data.newSubmissionBadge;
   clearAdminFormData2(req);
   res.redirect("/admintoolV4/start-page");
 });

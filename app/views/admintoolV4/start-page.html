@@ -92,7 +92,7 @@
         active:"true"
       },
       {
-  html: "Submitted transfers and removals" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new completed transfer</span></span>' if data.newTransfers else ""),
+  html: "Submitted transfers and removals" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new submission</span></span>' if (data.newSubmissionBadge or data.newTransfers) else ""),
   href: "/admintoolV4/processing-page"
 }
     ]

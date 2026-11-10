@@ -36,7 +36,7 @@
         active: not record
       },
       {
-        text: "Submitted transfers and removals",
+        html: "Submitted transfers and removals" ~ (' <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new submission</span></span>' if (data.newSubmissionBadge or data.newTransfers) else ""),
         href: "/admintoolV4/processing-page",
         active: record
       }

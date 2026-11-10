@@ -63,6 +63,9 @@
      <li class="nhsuk-tabs__list-item">
       <a class="nhsuk-tabs__tab" href="#submissions-processing">
         Submissions processing
+        {% if showTabBadge %}
+          <span class="moj-notification-badge">1<span class="nhsuk-u-visually-hidden"> new submission</span></span>
+        {% endif %}
       </a>
     </li>
     <li class="nhsuk-tabs__list-item nhsuk-tabs__list-item--selected">
@@ -326,6 +329,9 @@
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row" data-sort-value="{{ processing.date | isoDate }}T{{ processing.time }}">
         {{ processing.date }} <br>{{ processing.time }}
+        {% if processing.isNew %}
+          <br><strong class="nhsuk-tag nhsuk-tag--blue nhsuk-u-margin-top-1">New</strong>
+        {% endif %}
       </th>
       <td class="nhsuk-table__cell">
         {{ processing.serviceNowNumber }}
