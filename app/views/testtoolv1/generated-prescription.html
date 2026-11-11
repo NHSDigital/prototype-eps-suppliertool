@@ -1,0 +1,322 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Eddie Gluskin (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Create test prescriptions",
+        href: "#",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+<h1 class="nhsuk-heading-l"> Check your test prescription</h1>
+<p>Check the data generated below. </p>
+<p>When you are happy with your test data click 'Sign and send'</p>
+<button class="nhsuk-button" type="submit">Sign and send</button>
+  </div>
+</div>
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+      <div class="nhsuk-grid-column-one-half"> 
+  <!-- Prescription card-->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+      Prescription information
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Edit<span class="nhsuk-u-visually-hidden"> (Prescription information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Issue date
+      </th>
+      <td class="nhsuk-table__cell">
+        11/11/2026
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Prescription type
+      </th>
+      <td class="nhsuk-table__cell">
+        Acute
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Nomination type
+      </th>
+      <td class="nhsuk-table__cell">
+        Nominated
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+
+  
+</div>
+
+<div class="nhsuk-grid-column-one-half"> 
+<!-- Patient card-->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+      Patient information
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Edit<span class="nhsuk-u-visually-hidden"> (Patient information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Name
+      </th>
+      <td class="nhsuk-table__cell">
+        Aurora Kress
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        NHS number
+      </th>
+      <td class="nhsuk-table__cell">
+        123 456 7890
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Date of birth
+      </th>
+      <td class="nhsuk-table__cell">
+        01/01/1980
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+</div>
+  </div>
+</div>
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-one-half">
+ <!-- Medication card-->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Item
+    </h2>
+    <ul class="nhsuk-card__actions">
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+        <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Medicine name
+      </th>
+      <td class="nhsuk-table__cell">
+        Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Quantity
+      </th>
+      <td class="nhsuk-table__cell">
+        One
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Unit
+      </th>
+      <td class="nhsuk-table__cell">
+        pre-filled disposable injection
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Instructions
+      </th>
+      <td class="nhsuk-table__cell">
+        Inject 10 milligrams - 5 times a day - subcutaneous route - for 10 days
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+  </div>
+</div>
+<div class="nhsuk-grid-row">
+  
+ <!-- Prescriber card-->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+    Prescriber information
+    </h2>
+    <ul class="nhsuk-card__actions">
+
+        <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Prescriber information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+    <div class="nhsuk-grid-row">
+      <div class="nhsuk-grid-column-one-half">
+       <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Medicine name
+      </th>
+      <td class="nhsuk-table__cell">
+        Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Quantity
+      </th>
+      <td class="nhsuk-table__cell">
+        One
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Unit
+      </th>
+      <td class="nhsuk-table__cell">
+        pre-filled disposable injection
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Instructions
+      </th>
+      <td class="nhsuk-table__cell">
+        Inject 10 milligrams - 5 times a day - subcutaneous route - for 10 days
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+      <div class="nhsuk-grid-column-one-half">
+         <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Medicine name
+      </th>
+      <td class="nhsuk-table__cell">
+        Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Quantity
+      </th>
+      <td class="nhsuk-table__cell">
+        One
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Unit
+      </th>
+      <td class="nhsuk-table__cell">
+        pre-filled disposable injection
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Instructions
+      </th>
+      <td class="nhsuk-table__cell">
+        Inject 10 milligrams - 5 times a day - subcutaneous route - for 10 days
+      </td>
+    </tr>
+  </tbody>
+</table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

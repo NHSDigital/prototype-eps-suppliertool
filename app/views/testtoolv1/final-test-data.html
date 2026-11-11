@@ -1,0 +1,148 @@
+{% extends 'layout.html' %} 
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Eddie Gluskin (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Create test prescriptions",
+        href: "#",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+  
+
+  
+{% block pageTitle %} Create a test prescription
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+    <div class="nhsuk-panel">
+  <h1 class="nhsuk-panel__heading">
+    Test prescription created
+  </h1>
+  <div class="nhsuk-panel__body">
+    Use the prescription ID to test the prescription in your system.
+  </div>
+</div>
+
+<table class="nhsuk-table">
+ 
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="col">
+       Prescription ID
+      </th>
+      <th class="nhsuk-table__header" scope="col">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <td class="nhsuk-table__header" scope="row">
+        a1b2c3-d4e5f6-g7h8i9
+      </td>
+      <td class="nhsuk-table__cell">
+        Copy
+      </td>
+    </tr>
+
+  
+  </tbody>
+</table>
+
+<details class="nhsuk-details nhsuk-expander">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">
+      FHIR request a supplier sends to the FHIR API
+    </span>
+  </summary>
+  <div class="nhsuk-details__text">
+    <p>Code</p>
+    
+
+  </div>
+</details>
+
+<details class="nhsuk-details nhsuk-expander">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">
+      FHIR response a supplier received from the FHIR API
+    </span>
+  </summary>
+  <div class="nhsuk-details__text">
+    <p>Code</p>
+    
+
+  </div>
+</details>
+
+<details class="nhsuk-details nhsuk-expander">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">
+      Equivalent hl7v3 the FHIR API sent to spine
+    </span>
+  </summary>
+  <div class="nhsuk-details__text">
+    <p>Code</p>
+    
+
+  </div>
+</details>
+
+<details class="nhsuk-details nhsuk-expander">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">
+      The hl7v3 spine response that the FHIR API received from Spine
+    </span>
+  </summary>
+  <div class="nhsuk-details__text">
+    <p>Code</p>
+    
+
+  </div>
+</details>
+
+
+
+
+
+
+
+ 
+  </div>
+</div>
+{% endblock %}
