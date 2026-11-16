@@ -77,5 +77,74 @@ module.exports = {
       submittedBy: "Claire Redfield",
       action: "None"
     }
+  ],
+  testPrescribers:[
+    {
+      name: "Dr. John Smith",
+      PrescriberCode: "P12345"
+    }
+
+  ],
+  testPatients: [
+    {
+      name: "Phylis Futterman",
+      NHSNumber: "1234567890",
+      gender: "Female",
+      dateOfBirth: " 16 Jan 1976",
+      address: "123 Main Street, London SE12 4DE",
+      telephoneNumber: "07123456789",
+      GPPractice: "Dr. John Smith's Practice",
+      nominatedPharmacy: "Kingston pharmacy",
+      dispenserType: "P1",
+      patientInformation: "None"
+    },
+        {
+      name: "Aurora Kress",
+      NHSNumber: "1234567891",
+      gender: "Female",
+      dateOfBirth: " 16 Jan 1996",
+      address: "123 Main Street, London SE12 4DE",
+      telephoneNumber: "07123456789",
+      GPPractice: "Dr. John Smith's Practice",
+      nominatedPharmacy: "Kingston pharmacy",
+      dispenserType: "P1",
+      patientInformation: "None"
+    },
+        {
+      name: "Lilya Bogomolova",
+      NHSNumber: "1234567892",
+      gender: "Female",
+      dateOfBirth: " 16 Jan 2016",
+      address: "123 Main Street, London SE12 4DE",
+      telephoneNumber: "07123456789",
+      GPPractice: "Dr. John Smith's Practice",
+      nominatedPharmacy: "Kingston pharmacy",
+      dispenserType: "P1",
+      patientInformation: "None"
+    },
+        {
+      name: "Franco Barbi",
+      NHSNumber: "1234567893",
+      gender: "Male",
+      dateOfBirth: " 16 Jan 1992",
+      address: "123 Main Street, London SE12 4DE",
+      telephoneNumber: "07123456789",
+      GPPractice: "Dr. John P Smith's Practice",
+      nominatedPharmacy: "Kingston pharmacy",
+      dispenserType: "P3",
+      patientInformation: "None"
+    }
+  ],
+  testPharmacies:[
+    {
+      name: "Kingston pharmacy",
+      pharmacyCode: "FDN73"
+    }
+  ],
+  testMedications:[
+    {
+      name: "Paracetamol",
+      medicationCode: "M12345"
+    }
   ]
 }

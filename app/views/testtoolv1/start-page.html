@@ -72,7 +72,7 @@
      Create a single prescription
     </h2>
   
-  <form action="#" method="post" novalidate>
+  <form action="/testtoolv1/create-prescription" method="post" novalidate>
     <input type="hidden" name="singlePrescription" value="change">
     <!-- Select test patient-->
        <div class="nhsuk-form-group">
@@ -80,12 +80,11 @@
     Select test patient
   </label>
   <select class="nhsuk-select" id="select-test-patient" name="selectTestPatient">
-    <option value="random" selected>Random</option>
-    <option value="phylis-futterman">Phylis Futterman, female, 65 years old</option>
-    <option value="aurora-kress">Aurora Kress, female, 30 years old</option>
-    <option value="lilya-bogomolova">Lilya Bogomolova, female, 10 years old</option>
-    <option value="franco-barbi">Franco Barbi, male, 35 years old</option>
-  </select>
+  <option value="random" selected>Random</option>
+  {% for patient in testPatients %}
+  <option value="{{ patient.name | lower | replace(' ', '-') }}">{{ patient.name }}, {{ patient.gender }}, {% if patient.age %}{{ patient.age }} years old{% endif %}</option>
+  {% endfor %}
+</select>
        </div>
     <!--Nomination type-->   
         <div class="nhsuk-form-group">

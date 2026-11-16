@@ -122,24 +122,25 @@
     </ul>
   </div>
   <div class="nhsuk-card__content">
-   <table class="nhsuk-table">
+    <h3 class="nhsuk-heading-s"> {{ selectedPatient.name or 'Aurora Kress' }}, {{ selectedPatient.gender or 'Female' }}, {% if selectedPatient.age %}{{ selectedPatient.age }} years old{% endif %}</h3>
+ <details class="nhsuk-details">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">
+      More patient information
+    </span>
+  </summary>
+  <div class="nhsuk-details__text">
+  <table class="nhsuk-table">
  
  
   <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Name
-      </th>
-      <td class="nhsuk-table__cell">
-        Aurora Kress
-      </td>
-    </tr>
+    
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
         NHS number
       </th>
       <td class="nhsuk-table__cell">
-        123 456 7890
+        {{ selectedPatient.NHSNumber or '123 456 7890' }}
       </td>
     </tr>
     <tr class="nhsuk-table__row">
@@ -147,7 +148,66 @@
         Date of birth
       </th>
       <td class="nhsuk-table__cell">
-        01/01/1980
+        {{ selectedPatient.dateOfBirth or '01/01/1980' }}
+      </td>
+    </tr>
+        <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Address
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ selectedPatient.address or '123 Example Street, London, UK' }}
+      </td>
+    </tr>
+        <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+       Telephone number
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ selectedPatient.telephone or '01234 567890' }}
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</details>
+
+ 
+    <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Registered GP Practice
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ selectedPatient.GPPractice or 'Example GP Practice' }}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+       Nominated dispenser
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ selectedPatient.nominatedPharmacy or 'Example Dispenser' }}
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Dispenser type 
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ selectedPatient.dispenserType or 'Example Dispenser Type' }}
+      </td>
+    </tr>
+     <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Patient instruction
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ selectedPatient.patientInformation or 'Example Patient Instruction' }}
       </td>
     </tr>
   </tbody>

@@ -1007,3 +1007,72 @@ router.get("/admintoolV5/end-page", (req, res) => {
   const error = ["404", "500"].includes(req.query.error) ? req.query.error : null;
   res.render("admintoolV5/end-page", { error });
 });
+
+// Test Tool V1 Routes
+// Test Tool V1 Routes
+router.get("/testtoolv1/start-page", (req, res) => {
+  // Calculate age for each patient
+  const testPatients = (req.session.data.testPatients || []).map(patient => {
+    let age = null;
+    
+    if (patient.dateOfBirth) {
+      // Parse date like " 16 Jan 1976"
+      const birthDate = new Date(patient.dateOfBirth.trim());
+      const today = new Date();
+      
+      age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      
+      // Adjust age if birthday hasn't occurred this year
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+    }
+    
+    return {
+      ...patient,
+      age: age
+    };
+  });
+  
+  res.render("testtoolv1/start-page", {
+    testPatients: testPatients
+  });
+});
+
+router.post("/testtoolv1/create-prescription", (req, res) => {
+  const data = req.session.data;
+  const selectedPatientValue = data.selectTestPatient;
+  
+  // Get the test patients from the session data defaults
+  const testPatients = req.session.data.testPatients || [];
+  
+  // Find the selected patient
+  let selectedPatient = null;
+  if (selectedPatientValue && selectedPatientValue !== "random") {
+    selectedPatient = testPatients.find(
+      p => p.name.toLowerCase().replace(/\s+/g, '-') === selectedPatientValue
+    );
+  }
+  
+  // If random is selected or patient not found, pick a random one
+  if (!selectedPatient) {
+    selectedPatient = testPatients[Math.floor(Math.random() * testPatients.length)];
+  }
+  
+  // Store the selected patient data in the session
+  if (selectedPatient) {
+    data.selectedPatient = selectedPatient;
+  }
+  
+  res.redirect("/testtoolv1/generated-prescription");
+});
+
+router.get("/testtoolv1/generated-prescription", (req, res) => {
+  const data = req.session.data;
+  const selectedPatient = data.selectedPatient || {};
+  
+  res.render("testtoolv1/generated-prescription", {
+    selectedPatient: selectedPatient
+  });
+});
