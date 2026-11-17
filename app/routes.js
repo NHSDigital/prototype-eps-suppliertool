@@ -1010,23 +1010,29 @@ router.get("/admintoolV5/end-page", (req, res) => {
 
 // Test Tool V1 Routes
 // Test Tool V1 Routes
+// Helper function to calculate age
+function calculatePatientAge(dateOfBirthString) {
+  if (!dateOfBirthString) return null;
+  
+  const birthDate = new Date(dateOfBirthString.trim());
+  const today = new Date();
+  
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  
+  return age;
+}
 router.get("/testtoolv1/start-page", (req, res) => {
   // Calculate age for each patient
   const testPatients = (req.session.data.testPatients || []).map(patient => {
     let age = null;
     
     if (patient.dateOfBirth) {
-      // Parse date like " 16 Jan 1976"
-      const birthDate = new Date(patient.dateOfBirth.trim());
-      const today = new Date();
-      
-      age = today.getFullYear() - birthDate.getFullYear();
-      const monthDiff = today.getMonth() - birthDate.getMonth();
-      
-      // Adjust age if birthday hasn't occurred this year
-      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-      }
+      age = calculatePatientAge(patient.dateOfBirth);
     }
     
     return {
@@ -1065,14 +1071,43 @@ router.post("/testtoolv1/create-prescription", (req, res) => {
     data.selectedPatient = selectedPatient;
   }
   
+  // Capture radio button values and store them
+  data.prescriptionDetails = {
+    nominationType: data.nomination,           // 'yes', 'no'
+    numberOfItems: data.item,                  // 'yes', 'no' (you may need to adjust based on your radio values)
+    prescriptionType: data['presc-type'],      // 'yes', 'no'
+    controlledDrugs: data.cd,                  // 'yes', 'no'
+    cancelledItems: data.cancelled,            // 'yes', 'no'
+    issueDate: formatDateUK(new Date()) 
+  };
+  
   res.redirect("/testtoolv1/generated-prescription");
 });
 
+// Helper function to format date as DD/MM/YYYY
+function formatDateUK(date) {
+  return date.toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  });
+}
+
 router.get("/testtoolv1/generated-prescription", (req, res) => {
   const data = req.session.data;
-  const selectedPatient = data.selectedPatient || {};
+  let selectedPatient = data.selectedPatient || {};
+  const prescriptionDetails = data.prescriptionDetails || {};
+  
+  // Add age calculation to selectedPatient
+  if (selectedPatient.dateOfBirth) {
+    selectedPatient = {
+      ...selectedPatient,
+      age: calculatePatientAge(selectedPatient.dateOfBirth)
+    };
+  }
   
   res.render("testtoolv1/generated-prescription", {
-    selectedPatient: selectedPatient
+    selectedPatient: selectedPatient,
+    prescriptionDetails: prescriptionDetails
   });
 });

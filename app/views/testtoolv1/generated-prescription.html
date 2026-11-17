@@ -52,7 +52,7 @@
 <h1 class="nhsuk-heading-l"> Check your test prescription</h1>
 <p>Check the data generated below. </p>
 <p>When you are happy with your test data click 'Sign and send'</p>
-<button class="nhsuk-button" type="submit">Sign and send</button>
+<button class="nhsuk-button" onclick="location.href='final-test-data.html'">Sign and send</button>
   </div>
 </div>
 <div class="nhsuk-grid-row">
@@ -80,7 +80,7 @@
         Issue date
       </th>
       <td class="nhsuk-table__cell">
-        11/11/2026
+         {{ prescriptionDetails.issueDate or '22/11/2026' }}
       </td>
     </tr>
     <tr class="nhsuk-table__row">
@@ -88,7 +88,7 @@
         Prescription type
       </th>
       <td class="nhsuk-table__cell">
-        Acute
+         {{ prescriptionDetails.prescriptionType or 'Acute' }}
       </td>
     </tr>
     <tr class="nhsuk-table__row">
@@ -96,7 +96,7 @@
         Nomination type
       </th>
       <td class="nhsuk-table__cell">
-        Nominated
+        {{ prescriptionDetails.nominationType or 'Non-nominated' }}
       </td>
     </tr>
   </tbody>
@@ -172,9 +172,14 @@
 
   </div>
 </details>
-
- 
-    <table class="nhsuk-table">
+ <details class="nhsuk-details">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">
+      Prescriber and dispenser information
+    </span>
+  </summary>
+  <div class="nhsuk-details__text">
+ <table class="nhsuk-table">
  
  
   <tbody class="nhsuk-table__body">
@@ -214,6 +219,12 @@
 </table>
 
   </div>
+</details>
+
+ 
+    
+
+  </div>
 </div>
 </div>
   </div>
@@ -227,9 +238,12 @@
      Item
     </h2>
     <ul class="nhsuk-card__actions">
+      {% if prescriptionDetails.numberOfItems == 'One' %}
       <li class="nhsuk-card__action">
         <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
       </li>
+      {% endif %}
+    
         <li class="nhsuk-card__action">
         <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
       </li>
@@ -277,8 +291,191 @@
 
   </div>
 </div>
+{%if prescriptionDetails.numberOfItems == 'Three' or prescriptionDetails.numberOfItems == 'Four' %}
+<!-- Medication card 3 -->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Item
+    </h2>
+    <ul class="nhsuk-card__actions">
+      {% if prescriptionDetails.numberOfItems == 'Three' %}
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+      {% endif %}
+        <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Medicine name
+      </th>
+      <td class="nhsuk-table__cell">
+        Sabutamol 50mg capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Quantity
+      </th>
+      <td class="nhsuk-table__cell">
+        21 capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Unit
+      </th>
+      <td class="nhsuk-table__cell">
+        capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Instructions
+      </th>
+      <td class="nhsuk-table__cell">
+        Take one capsule by mouth once daily
+      </td>
+    </tr>
+  </tbody>
+</table>
+
   </div>
 </div>
+{% endif %}
+  </div>
+  {% if prescriptionDetails.numberOfItems == 'Two' or prescriptionDetails.numberOfItems == 'Three' or prescriptionDetails.numberOfItems == 'Four' %}
+    <div class="nhsuk-grid-column-one-half">
+ <!-- Medication card 2 -->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Item
+    </h2>
+    <ul class="nhsuk-card__actions">
+      {% if prescriptionDetails.numberOfItems == 'Two' %}
+      <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+      {% endif %}
+     
+        <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Medicine name
+      </th>
+      <td class="nhsuk-table__cell">
+        Ciclosporin 50mg capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Quantity
+      </th>
+      <td class="nhsuk-table__cell">
+        21 capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Unit
+      </th>
+      <td class="nhsuk-table__cell">
+        capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Instructions
+      </th>
+      <td class="nhsuk-table__cell">
+        Take one capsule by mouth once daily
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+{% if prescriptionDetails.numberOfItems == 'Four' %}
+<!-- Medication card 4 -->
+  <div class="nhsuk-card">
+  <div class="nhsuk-card__heading-container">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+     Item
+    </h2>
+    <ul class="nhsuk-card__actions">
+        <li class="nhsuk-card__action">
+        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
+    </ul>
+  </div>
+  <div class="nhsuk-card__content">
+   <table class="nhsuk-table">
+ 
+ 
+  <tbody class="nhsuk-table__body">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Medicine name
+      </th>
+      <td class="nhsuk-table__cell">
+        Sabutamol 50mg capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Quantity
+      </th>
+      <td class="nhsuk-table__cell">
+        21 capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Unit
+      </th>
+      <td class="nhsuk-table__cell">
+        capsules
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Instructions
+      </th>
+      <td class="nhsuk-table__cell">
+        Take one capsule by mouth once daily
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+</div>
+{% endif %}
+  </div>
+  {% endif %}
+</div>
+
+
 <div class="nhsuk-grid-row">
   
  <!-- Prescriber card-->
@@ -303,36 +500,61 @@
   <tbody class="nhsuk-table__body">
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Medicine name
+        Prescriber name 
       </th>
       <td class="nhsuk-table__cell">
-        Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes
+        Dr John Smith
       </td>
     </tr>
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Quantity
+        SDS Role profile ID
       </th>
       <td class="nhsuk-table__cell">
-        One
+        601986680555
       </td>
     </tr>
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Unit
+        SDS job role code
       </th>
       <td class="nhsuk-table__cell">
-        pre-filled disposable injection
+        555086689106
       </td>
     </tr>
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Instructions
+        SDS user ID 
       </th>
       <td class="nhsuk-table__cell">
-        Inject 10 milligrams - 5 times a day - subcutaneous route - for 10 days
+        0145232312
       </td>
     </tr>
+        <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        GMC number
+      </th>
+      <td class="nhsuk-table__cell">
+        6150129
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Professional code
+      </th>
+      <td class="nhsuk-table__cell">
+        01457
+      </td>
+    </tr>
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row">
+        Telephone number
+      </th>
+      <td class="nhsuk-table__cell">
+        01457 392387
+      </td>
+    </tr>
+    
   </tbody>
 </table>
 </div>
@@ -343,36 +565,22 @@
   <tbody class="nhsuk-table__body">
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Medicine name
+        Prescribing organisation name (ODS code) 
       </th>
       <td class="nhsuk-table__cell">
-        Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes
+        Midlands partnership NHS Foundation Trust (RRE)
       </td>
     </tr>
     <tr class="nhsuk-table__row">
       <th class="nhsuk-table__header" scope="row">
-        Quantity
+        Prescribing organisation telephone number
       </th>
       <td class="nhsuk-table__cell">
-        One
+        012389 392432
       </td>
     </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Unit
-      </th>
-      <td class="nhsuk-table__cell">
-        pre-filled disposable injection
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Instructions
-      </th>
-      <td class="nhsuk-table__cell">
-        Inject 10 milligrams - 5 times a day - subcutaneous route - for 10 days
-      </td>
-    </tr>
+  
+   
   </tbody>
 </table>
       </div>
