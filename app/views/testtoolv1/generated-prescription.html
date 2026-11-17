@@ -571,114 +571,143 @@
     Prescriber information
     </h2>
     <ul class="nhsuk-card__actions">
-
         <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Prescriber information)</span></a>
+        <a class="nhsuk-link" href="#" onclick="toggleEditMode('prescriber'); return false;">
+          <span id="prescriber-edit-text">Change</span>
+          <span class="nhsuk-u-visually-hidden"> (Prescriber information)</span>
+        </a>
       </li>
     </ul>
   </div>
   <div class="nhsuk-card__content">
-    <div class="nhsuk-grid-row">
-      <div class="nhsuk-grid-full-width">
-       <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Prescriber name 
-      </th>
-      <td class="nhsuk-table__cell">
-        Dr John Smith
-      </td>
-    </tr>
-       <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Prescribing organisation name (ODS code) 
-      </th>
-      <td class="nhsuk-table__cell">
-        Midlands partnership NHS Foundation Trust (RRE)
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Prescribing organisation telephone number
-      </th>
-      <td class="nhsuk-table__cell">
-        012389 392432
-      </td>
-    </tr>
-  </tbody>
-</table>
-<details class="nhsuk-details">
-  <summary class="nhsuk-details__summary">
-    <span class="nhsuk-details__summary-text">
-      Prescriber credentials and contact information
-    </span>
-  </summary>
-  <div class="nhsuk-details__text">
- <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-   
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        SDS Role profile ID
-      </th>
-      <td class="nhsuk-table__cell">
-        601986680555
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        SDS job role code
-      </th>
-      <td class="nhsuk-table__cell">
-        555086689106
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        SDS user ID 
-      </th>
-      <td class="nhsuk-table__cell">
-        0145232312
-      </td>
-    </tr>
-        <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        GMC number
-      </th>
-      <td class="nhsuk-table__cell">
-        6150129
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Professional code
-      </th>
-      <td class="nhsuk-table__cell">
-        01457
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Telephone number
-      </th>
-      <td class="nhsuk-table__cell">
-        01457 392387
-      </td>
-    </tr>
-    
-  </tbody>
-</table>
+    <!-- VIEW MODE -->
+    <div id="prescriber-view" class="prescriber-view-mode">
+      <table class="nhsuk-table--compact">
+        <tbody class="nhsuk-table__body">
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">
+              Prescriber name 
+            </th>
+            <td class="nhsuk-table__cell">
+              <span id="prescriber-name-display">Dr John Smith</span>
+            </td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">
+              Prescribing organisation name (ODS code) 
+            </th>
+            <td class="nhsuk-table__cell">
+              <span id="prescriber-org-display">Midlands partnership NHS Foundation Trust (RRE)</span>
+            </td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">
+              Prescribing organisation telephone number
+            </th>
+            <td class="nhsuk-table__cell">
+              <span id="prescriber-org-phone-display">020 1234 5678</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <details class="nhsuk-details">
+        <summary class="nhsuk-details__summary">
+          <span class="nhsuk-details__summary-text">
+            Prescriber credentials and contact information
+          </span>
+        </summary>
+        <div class="nhsuk-details__text">
+          <table class="nhsuk-table--compact">
+            <tbody class="nhsuk-table__body">
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  SDS Role profile ID
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="prescriber-sds-role-display">601986680555</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  SDS job role code
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="prescriber-sds-job-display">555086689106</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  SDS user ID 
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="prescriber-sds-user-display">0145232312</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  GMC number
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="prescriber-gmc-display">6150129</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Professional code
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="prescriber-procode-display">01457</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Telephone number
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="prescriber-phone-display">01457 392387</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
 
-  </div>
-</details>
+    <!-- EDIT MODE -->
+    <div id="prescriber-edit" class="prescriber-edit-mode" style="display: none;">
+      <form id="prescriber-edit-form">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="prescriber-select">
+            Select prescriber
+          </label>
+          <select class="nhsuk-select" id="prescriber-select" name="prescriberSelect">
+            <option value="">-- Select a prescriber --</option>
+            {% for prescriber in testPrescribers %}
+            <option value="{{ prescriber.name }}" 
+              data-name="{{ prescriber.name }}" 
+              data-org="{{ prescriber.PrescriberOrgODS }}" 
+              data-org-phone="{{ prescriber.PrescriberOrgPhone }}" 
+              data-sds-role="{{ prescriber.SDSroleId }}" 
+              data-sds-job="{{ prescriber.SDSjobRoleCode }}" 
+              data-sds-user="{{ prescriber.SDSuserID }}" 
+              data-gmc="{{ prescriber.GMCnumber }}" 
+              data-procode="{{ prescriber.ProCode }}" 
+              data-phone="{{ prescriber.PrescriberTelephoneNumber }}">
+              {{ prescriber.name }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
 
-</div>
-      
+        <div class="nhsuk-button-group">
+          <button class="nhsuk-button" type="button" onclick="savePrescriberEdit(); return false;">
+            Save
+          </button>
+          <button class="nhsuk-button nhsuk-button--secondary" type="button" onclick="toggleEditMode('prescriber'); return false;">
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
@@ -776,6 +805,44 @@ function savePatientEdit() {
   
   // Toggle back to view mode
   toggleEditMode('patient');
+}
+
+function savePrescriberEdit() {
+  // Get the selected prescriber option
+  const prescriberSelect = document.getElementById('prescriber-select');
+  const selectedOption = prescriberSelect.options[prescriberSelect.selectedIndex];
+  
+  if (!selectedOption.value) {
+    alert('Please select a prescriber');
+    return;
+  }
+  
+  // Extract prescriber data from option attributes
+  const prescriberData = {
+    name: selectedOption.dataset.name,
+    org: selectedOption.dataset.org,
+    orgPhone: selectedOption.dataset.orgPhone,
+    sdsRole: selectedOption.dataset.sdsRole,
+    sdsJob: selectedOption.dataset.sdsJob,
+    sdsUser: selectedOption.dataset.sdsUser,
+    gmc: selectedOption.dataset.gmc,
+    procode: selectedOption.dataset.procode,
+    phone: selectedOption.dataset.phone
+  };
+  
+  // Update display values
+  document.getElementById('prescriber-name-display').textContent = prescriberData.name;
+  document.getElementById('prescriber-org-display').textContent = prescriberData.org;
+  document.getElementById('prescriber-org-phone-display').textContent = prescriberData.orgPhone;
+  document.getElementById('prescriber-sds-role-display').textContent = prescriberData.sdsRole;
+  document.getElementById('prescriber-sds-job-display').textContent = prescriberData.sdsJob;
+  document.getElementById('prescriber-sds-user-display').textContent = prescriberData.sdsUser;
+  document.getElementById('prescriber-gmc-display').textContent = prescriberData.gmc;
+  document.getElementById('prescriber-procode-display').textContent = prescriberData.procode;
+  document.getElementById('prescriber-phone-display').textContent = prescriberData.phone;
+  
+  // Toggle back to view mode
+  toggleEditMode('prescriber');
 }
 
 </script>

@@ -81,7 +81,25 @@ module.exports = {
   testPrescribers:[
     {
       name: "Dr. John Smith",
-      PrescriberCode: "P12345"
+      PrescriberOrgODS: 'Midlands partnership NHS Foundation Trust (RRE)',
+      PrescriberOrgPhone: "020 1234 5678",
+      SDSroleId:"123456",
+      SDSjobRoleCode: "555086689106",
+      SDSuserID: "0145232312",
+      GMCnumber: "6150129",
+      ProCode: "01457",
+      PrescriberTelephoneNumber: "01457 392387"
+    },
+    {
+      name: "Dr. John Vernicke",
+      PrescriberOrgODS: "Mount Massive Hospital (RH12A)",
+      PrescriberOrgPhone: "021 1234 5678",
+      SDSroleId:"144456",
+      SDSjobRoleCode: "666086689106",
+      SDSuserID: "0145552312",
+      GMCnumber: "6353129",
+      ProCode: "21457",
+      PrescriberTelephoneNumber: "02256 382387"
     }
 
   ],
