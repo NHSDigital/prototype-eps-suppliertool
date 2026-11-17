@@ -59,49 +59,112 @@
   <div class="nhsuk-grid-column-full-width">
       <div class="nhsuk-grid-column-one-half"> 
   <!-- Prescription card-->
-  <div class="nhsuk-card">
+ <div class="nhsuk-card">
   <div class="nhsuk-card__heading-container">
-    <h2 class="nhsuk-card__heading nhsuk-heading-s">
+    <h2 class="nhsuk-card__heading nhsuk-heading-m">
       Prescription information
     </h2>
     <ul class="nhsuk-card__actions">
       <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Edit<span class="nhsuk-u-visually-hidden"> (Prescription information)</span></a>
+        <a class="nhsuk-link" href="#" onclick="toggleEditMode('prescription'); return false;">
+          <span id="prescription-edit-text">Edit</span>
+          <span class="nhsuk-u-visually-hidden"> (Prescription information)</span>
+        </a>
       </li>
     </ul>
   </div>
+  
   <div class="nhsuk-card__content">
-   <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Issue date
-      </th>
-      <td class="nhsuk-table__cell">
-         {{ prescriptionDetails.issueDate or '22/11/2026' }}
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Prescription type
-      </th>
-      <td class="nhsuk-table__cell">
-         {{ prescriptionDetails.prescriptionType or 'Acute' }}
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Nomination type
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ prescriptionDetails.nominationType or 'Non-nominated' }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <!-- VIEW MODE -->
+    <div id="prescription-view" class="prescription-view-mode">
+      <table class="nhsuk-table--compact">
+        <tbody class="nhsuk-table__body">
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Issue date</th>
+            <td class="nhsuk-table__cell">
+              <span id="issue-date-display">{{ prescriptionDetails.issueDate or '22/11/2026' }}</span>
+            </td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Prescription type</th>
+            <td class="nhsuk-table__cell">
+              <span id="presc-type-display">{{ prescriptionDetails.prescriptionType or 'Acute' }}</span>
+            </td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Nomination type</th>
+            <td class="nhsuk-table__cell">
+              <span id="nomination-type-display">{{ prescriptionDetails.nominationType or 'Non-nominated' }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
+    <!-- EDIT MODE -->
+    <div id="prescription-edit" class="prescription-edit-mode" style="display: none;">
+      <form id="prescription-edit-form">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="issue-date-input">
+            Issue date
+          </label>
+          <input class="nhsuk-input" id="issue-date-input" type="date" value="{% if prescriptionDetails.issueDate %}{{ prescriptionDetails.issueDate | replace('/', '-') if '/' in prescriptionDetails.issueDate else prescriptionDetails.issueDate }}{% else %}2026-11-22{% endif %}">
+        </div>
+
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+              <h3 class="nhsuk-fieldset__heading">Prescription type</h3>
+            </legend>
+            <div class="nhsuk-radios nhsuk-radios--small">
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="presc-acute" name="presc-type-edit" type="radio" value="Acute" {% if prescriptionDetails.prescriptionType == 'Acute' %}checked{% endif %}>
+                <label class="nhsuk-label nhsuk-radios__label" for="presc-acute">Acute</label>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="presc-erd" name="presc-type-edit" type="radio" value="Electronic repeat dispensing (eRD)" {% if prescriptionDetails.prescriptionType == 'Electronic repeat dispensing (eRD)' %}checked{% endif %}>
+                <label class="nhsuk-label nhsuk-radios__label" for="presc-erd">Electronic repeat dispensing (eRD)</label>
+              </div>
+               <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="presc-repeat" name="presc-type-edit" type="radio" value="Repeat" {% if prescriptionDetails.prescriptionType == 'Repeat' %}checked{% endif %}>
+                <label class="nhsuk-label nhsuk-radios__label" for="presc-repeat">Repeat</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+          <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+              <h3 class="nhsuk-fieldset__heading">Nomination type</h3>
+            </legend>
+            <div class="nhsuk-radios nhsuk-radios--small">
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="presc-nom-edit-non" name="presc-nom-edit" type="radio" value="Non-nominated" {% if prescriptionDetails.nominationType == 'Non-nominated' %}checked{% endif %}>
+                <label class="nhsuk-label nhsuk-radios__label" for="presc-nom-edit-non">Non-nominated</label>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="presc-nom-edit-nom" name="presc-nom-edit" type="radio" value="Nominated" {% if prescriptionDetails.nominationType == 'Nominated' %}checked{% endif %}>
+                <label class="nhsuk-label nhsuk-radios__label" for="presc-nom-edit-nom">Nominated</label>
+              </div>
+               <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="presc-nom-edit-one" name="presc-nom-edit" type="radio" value="One-off" {% if prescriptionDetails.nominationType == 'One-off' %}checked{% endif %}>
+                <label class="nhsuk-label nhsuk-radios__label" for="presc-nom-edit-one">One-off</label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
+
+        <div class="nhsuk-button-group">
+          <button class="nhsuk-button" type="button" onclick="savePrescriptionEdit(); return false;">
+            Save
+          </button>
+          <button class="nhsuk-button nhsuk-button--secondary" type="button" onclick="toggleEditMode('prescription'); return false;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
@@ -117,113 +180,136 @@
     </h2>
     <ul class="nhsuk-card__actions">
       <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Edit<span class="nhsuk-u-visually-hidden"> (Patient information)</span></a>
+        <a class="nhsuk-link" href="#" onclick="toggleEditMode('patient'); return false;">
+          <span id="patient-edit-text">Edit</span>
+          <span class="nhsuk-u-visually-hidden"> (Patient information)</span>
+        </a>
       </li>
     </ul>
   </div>
   <div class="nhsuk-card__content">
-    <h3 class="nhsuk-heading-xs"> {{ selectedPatient.name or 'Aurora Kress' }}, {{ selectedPatient.gender or 'Female' }}, {% if selectedPatient.age %}{{ selectedPatient.age }} years old{% endif %}</h3>
- <details class="nhsuk-details">
-  <summary class="nhsuk-details__summary">
-    <span class="nhsuk-details__summary-text">
-      More patient information
-    </span>
-  </summary>
-  <div class="nhsuk-details__text">
-  <table class="nhsuk-table nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        NHS number
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.NHSNumber or '123 456 7890' }}
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Date of birth
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.dateOfBirth or '01/01/1980' }}
-      </td>
-    </tr>
-        <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Address
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.address or '123 Example Street, London, UK' }}
-      </td>
-    </tr>
-        <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-       Telephone number
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.telephone or '01234 567890' }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <!-- VIEW MODE -->
+    <div id="patient-view" class="patient-view-mode">
+      <h3 class="nhsuk-heading-xs"> <span id="patient-name-display">{{ selectedPatient.name or 'Aurora Kress' }}</span>, <span id="patient-gender-display">{{ selectedPatient.gender or 'Female' }}</span>, {% if selectedPatient.age %}<span id="patient-age-display">{{ selectedPatient.age }}</span> years old{% endif %}</h3>
+      <details class="nhsuk-details">
+        <summary class="nhsuk-details__summary">
+          <span class="nhsuk-details__summary-text">
+            More patient information
+          </span>
+        </summary>
+        <div class="nhsuk-details__text">
+          <table class="nhsuk-table nhsuk-table--compact">
+            <tbody class="nhsuk-table__body">
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  NHS number
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-nhs-display">{{ selectedPatient.NHSNumber or '123 456 7890' }}</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Date of birth
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-dob-display">{{ selectedPatient.dateOfBirth or '01/01/1980' }}</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Address
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-address-display">{{ selectedPatient.address or '123 Example Street, London, UK' }}</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Telephone number
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-telephone-display">{{ selectedPatient.telephoneNumber or '01234 567890' }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+      <details class="nhsuk-details">
+        <summary class="nhsuk-details__summary">
+          <span class="nhsuk-details__summary-text">
+            Prescriber and dispenser information
+          </span>
+        </summary>
+        <div class="nhsuk-details__text">
+          <table class="nhsuk-table nhsuk-table--compact">
+            <tbody class="nhsuk-table__body">
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Registered GP Practice
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-gp-display">{{ selectedPatient.GPPractice or 'Example GP Practice' }}</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Nominated dispenser
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-pharmacy-display">{{ selectedPatient.nominatedPharmacy or 'Example Dispenser' }}</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Dispenser type 
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-dispenser-type-display">{{ selectedPatient.dispenserType or 'Example Dispenser Type' }}</span>
+                </td>
+              </tr>
+              <tr class="nhsuk-table__row">
+                <th class="nhsuk-table__header" scope="row">
+                  Patient instruction
+                </th>
+                <td class="nhsuk-table__cell">
+                  <span id="patient-instruction-display">{{ selectedPatient.patientInformation or 'Example Patient Instruction' }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </div>
 
-  </div>
-</details>
- <details class="nhsuk-details">
-  <summary class="nhsuk-details__summary">
-    <span class="nhsuk-details__summary-text">
-      Prescriber and dispenser information
-    </span>
-  </summary>
-  <div class="nhsuk-details__text">
- <table class="nhsuk-table nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Registered GP Practice
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.GPPractice or 'Example GP Practice' }}
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-       Nominated dispenser
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.nominatedPharmacy or 'Example Dispenser' }}
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Dispenser type 
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.dispenserType or 'Example Dispenser Type' }}
-      </td>
-    </tr>
-     <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Patient instruction
-      </th>
-      <td class="nhsuk-table__cell">
-        {{ selectedPatient.patientInformation or 'Example Patient Instruction' }}
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <!-- EDIT MODE -->
+    <div id="patient-edit" class="patient-edit-mode" style="display: none;">
+      <form id="patient-edit-form">
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="patient-select">
+            Select patient
+          </label>
+          <select class="nhsuk-select" id="patient-select" name="patientSelect">
+            <option value="">-- Select a patient --</option>
+            {% for patient in testPatients %}
+            <option value="{{ patient.name | lower | replace(' ', '-') }}" data-name="{{ patient.name }}" data-gender="{{ patient.gender }}" data-age="{{ patient.age or '' }}" data-nhs="{{ patient.NHSNumber }}" data-dob="{{ patient.dateOfBirth }}" data-address="{{ patient.address }}" data-telephone="{{ patient.telephoneNumber }}" data-gp="{{ patient.GPPractice }}" data-pharmacy="{{ patient.nominatedPharmacy }}" data-dispenser="{{ patient.dispenserType }}" data-instruction="{{ patient.patientInformation }}">
+              {{ patient.name }}, {{ patient.gender }}, {% if patient.age %}{{ patient.age }} years old{% endif %}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
 
-  </div>
-</details>
-
- 
-    
-
+        <div class="nhsuk-button-group">
+          <button class="nhsuk-button" type="button" onclick="savePatientEdit(); return false;">
+            Save
+          </button>
+          <button class="nhsuk-button nhsuk-button--secondary" type="button" onclick="toggleEditMode('patient'); return false;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 </div>
@@ -596,4 +682,101 @@
     </div>
   </div>
 </div>
+
+<script>
+function toggleEditMode(cardName) {
+  const viewMode = document.getElementById(cardName + '-view');
+  const editMode = document.getElementById(cardName + '-edit');
+  const editText = document.getElementById(cardName + '-edit-text');
+  
+  // Toggle display
+  viewMode.style.display = viewMode.style.display === 'none' ? 'block' : 'none';
+  editMode.style.display = editMode.style.display === 'none' ? 'block' : 'none';
+  
+  // Update button text
+  editText.textContent = viewMode.style.display === 'none' ? 'Cancel' : 'Edit';
+}
+
+function calculateAge(dateOfBirthString) {
+  if (!dateOfBirthString) return null;
+  
+  const birthDate = new Date(dateOfBirthString.trim());
+  const today = new Date();
+  
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+  }
+  
+  return age;
+}
+
+function savePrescriptionEdit() {
+  // Get form values
+  const issueDateInput = document.getElementById('issue-date-input').value;
+  const prescriptionType = document.querySelector('input[name="presc-type-edit"]:checked').value;
+  
+  // Convert date from YYYY-MM-DD to DD/MM/YYYY format
+  const [year, month, day] = issueDateInput.split('-');
+  const formattedDate = `${day}/${month}/${year}`;
+  
+  // Update display values
+  document.getElementById('issue-date-display').textContent = formattedDate;
+  document.getElementById('presc-type-display').textContent = prescriptionType;
+  
+  // You can also send this to the server via AJAX if needed
+  
+  // Toggle back to view mode
+  toggleEditMode('prescription');
+}
+
+function savePatientEdit() {
+  // Get the selected patient option
+  const patientSelect = document.getElementById('patient-select');
+  const selectedOption = patientSelect.options[patientSelect.selectedIndex];
+  
+  if (!selectedOption.value) {
+    alert('Please select a patient');
+    return;
+  }
+  
+  // Extract patient data from option attributes
+  const patientData = {
+    name: selectedOption.dataset.name,
+    gender: selectedOption.dataset.gender,
+    NHSNumber: selectedOption.dataset.nhs,
+    dateOfBirth: selectedOption.dataset.dob,
+    address: selectedOption.dataset.address,
+    telephone: selectedOption.dataset.telephone,
+    GPPractice: selectedOption.dataset.gp,
+    nominatedPharmacy: selectedOption.dataset.pharmacy,
+    dispenserType: selectedOption.dataset.dispenser,
+    patientInformation: selectedOption.dataset.instruction
+  };
+  
+  // Calculate age from date of birth
+  const age = calculateAge(patientData.dateOfBirth);
+  
+  // Update display values
+  document.getElementById('patient-name-display').textContent = patientData.name;
+  document.getElementById('patient-gender-display').textContent = patientData.gender;
+  if (age) {
+    document.getElementById('patient-age-display').textContent = age;
+  }
+  document.getElementById('patient-nhs-display').textContent = patientData.NHSNumber;
+  document.getElementById('patient-dob-display').textContent = patientData.dateOfBirth;
+  document.getElementById('patient-address-display').textContent = patientData.address;
+  document.getElementById('patient-telephone-display').textContent = patientData.telephone;
+  document.getElementById('patient-gp-display').textContent = patientData.GPPractice;
+  document.getElementById('patient-pharmacy-display').textContent = patientData.nominatedPharmacy;
+  document.getElementById('patient-dispenser-type-display').textContent = patientData.dispenserType;
+  document.getElementById('patient-instruction-display').textContent = patientData.patientInformation;
+  
+  // Toggle back to view mode
+  toggleEditMode('patient');
+}
+
+</script>
 {% endblock %}

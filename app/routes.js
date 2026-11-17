@@ -1097,6 +1097,7 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
   const data = req.session.data;
   let selectedPatient = data.selectedPatient || {};
   const prescriptionDetails = data.prescriptionDetails || {};
+  const testPatients = data.testPatients || [];
   
   // Add age calculation to selectedPatient
   if (selectedPatient.dateOfBirth) {
@@ -1108,6 +1109,7 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
   
   res.render("testtoolv1/generated-prescription", {
     selectedPatient: selectedPatient,
-    prescriptionDetails: prescriptionDetails
+    prescriptionDetails: prescriptionDetails,
+    testPatients: testPatients
   });
 });
