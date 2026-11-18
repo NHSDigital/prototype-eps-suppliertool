@@ -1071,6 +1071,8 @@ router.post("/testtoolv1/create-prescription", (req, res) => {
     data.selectedPatient = selectedPatient;
   }
   
+  const today = new Date();
+
   // Capture radio button values and store them
   data.prescriptionDetails = {
     nominationType: data.nomination,           // 'yes', 'no'
@@ -1078,17 +1080,20 @@ router.post("/testtoolv1/create-prescription", (req, res) => {
     prescriptionType: data['presc-type'],      // 'yes', 'no'
     controlledDrugs: data.cd,                  // 'yes', 'no'
     cancelledItems: data.cancelled,            // 'yes', 'no'
-    issueDate: formatDateUK(new Date()) 
+    issueDate: formatDateLong(today),
+    issueDay: today.getDate(),
+    issueMonth: today.getMonth() + 1,
+    issueYear: today.getFullYear()
   };
   
   res.redirect("/testtoolv1/generated-prescription");
 });
 
-// Helper function to format date as DD/MM/YYYY
-function formatDateUK(date) {
+// Formats a date as "6 August 2025"
+function formatDateLong(date) {
   return date.toLocaleDateString('en-GB', {
-    day: '2-digit',
-    month: '2-digit',
+    day: 'numeric',
+    month: 'long',
     year: 'numeric'
   });
 }
@@ -1099,6 +1104,27 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
   const prescriptionDetails = data.prescriptionDetails || {};
   const testPatients = data.testPatients || [];
   const testPrescribers = data.testPrescribers || [];
+  const testMedications = data.testMedications || [];
+
+  const includeControlled = (prescriptionDetails.controlledDrugs || '').toLowerCase() === 'yes';
+  const itemCounts = { One: 1, Two: 2, Three: 3, Four: 4 };
+  const itemCount = itemCounts[prescriptionDetails.numberOfItems] || 1;
+
+  const isControlled = med => (med.controlledDrug || '').toLowerCase() === 'yes';
+  const availableMedications = includeControlled
+    ? testMedications
+    : testMedications.filter(med => !isControlled(med));
+
+  // Exactly one controlled drug when requested, the rest non-controlled
+  const prescriptionItems = [];
+  if (includeControlled) {
+    const controlled = testMedications.find(isControlled);
+    if (controlled) prescriptionItems.push(controlled);
+  }
+  for (const med of testMedications.filter(med => !isControlled(med))) {
+    if (prescriptionItems.length >= itemCount) break;
+    prescriptionItems.push(med);
+  }
   
   // Add age calculation to selectedPatient
   if (selectedPatient.dateOfBirth) {
@@ -1112,6 +1138,8 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
     selectedPatient: selectedPatient,
     prescriptionDetails: prescriptionDetails,
     testPatients: testPatients,
-    testPrescribers: testPrescribers
+    testPrescribers: testPrescribers,
+    availableMedications: availableMedications,
+    prescriptionItems: prescriptionItems
   });
 });

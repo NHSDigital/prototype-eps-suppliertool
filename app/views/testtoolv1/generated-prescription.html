@@ -82,7 +82,7 @@
           <tr class="nhsuk-table__row">
             <th class="nhsuk-table__header" scope="row">Issue date</th>
             <td class="nhsuk-table__cell">
-              <span id="issue-date-display">{{ prescriptionDetails.issueDate or '22/11/2026' }}</span>
+              <span id="issue-date-display">{{ prescriptionDetails.issueDate or '22 November 2026' }}</span>
             </td>
           </tr>
           <tr class="nhsuk-table__row">
@@ -105,10 +105,32 @@
     <div id="prescription-edit" class="prescription-edit-mode" style="display: none;">
       <form id="prescription-edit-form">
         <div class="nhsuk-form-group">
-          <label class="nhsuk-label" for="issue-date-input">
-            Issue date
-          </label>
-          <input class="nhsuk-input" id="issue-date-input" type="date" value="{% if prescriptionDetails.issueDate %}{{ prescriptionDetails.issueDate | replace('/', '-') if '/' in prescriptionDetails.issueDate else prescriptionDetails.issueDate }}{% else %}2026-11-22{% endif %}">
+          <fieldset class="nhsuk-fieldset" role="group" aria-describedby="issue-date-hint">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+              <h3 class="nhsuk-fieldset__heading">Issue date</h3>
+            </legend>
+            <div class="nhsuk-hint" id="issue-date-hint">For example, 6 8 2025</div>
+            <div class="nhsuk-date-input" id="issue-date">
+              <div class="nhsuk-date-input__item">
+                <div class="nhsuk-form-group">
+                  <label class="nhsuk-label nhsuk-date-input__label" for="issue-date-day">Day</label>
+                  <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="issue-date-day" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueDay or 22 }}">
+                </div>
+              </div>
+              <div class="nhsuk-date-input__item">
+                <div class="nhsuk-form-group">
+                  <label class="nhsuk-label nhsuk-date-input__label" for="issue-date-month">Month</label>
+                  <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="issue-date-month" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueMonth or 11 }}">
+                </div>
+              </div>
+              <div class="nhsuk-date-input__item">
+                <div class="nhsuk-form-group">
+                  <label class="nhsuk-label nhsuk-date-input__label" for="issue-date-year">Year</label>
+                  <input class="nhsuk-input nhsuk-input--width-4 nhsuk-date-input__input" id="issue-date-year" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueYear or 2026 }}">
+                </div>
+              </div>
+            </div>
+          </fieldset>
         </div>
 
         <div class="nhsuk-form-group">
@@ -315,250 +337,99 @@
 </div>
   </div>
 </div>
+
 <div class="nhsuk-grid-row">
-  <div class="nhsuk-grid-column-one-half">
- <!-- Medication card-->
-  <div class="nhsuk-card">
+{# Left column holds items 1 and 3, right column holds items 2 and 4 #}
+{% for column in [[0, 2], [1, 3]] %}
+<div class="nhsuk-grid-column-one-half">
+{% for index in column %}
+{% set item = prescriptionItems[index] %}
+<!-- Medication card {{ index + 1 }} -->
+<div class="nhsuk-card" id="item-{{ index }}" data-item-card data-index="{{ index }}" {% if not item %}style="display: none;"{% endif %}>
   <div class="nhsuk-card__heading-container">
     <h2 class="nhsuk-card__heading nhsuk-heading-s">
      Item
     </h2>
     <ul class="nhsuk-card__actions">
-      {% if prescriptionDetails.numberOfItems == 'One' %}
+      <li class="nhsuk-card__action" id="item-{{ index }}-add-action" hidden>
+        <a class="nhsuk-link" href="#" onclick="addItem(); return false;">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+      </li>
       <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
-      </li>
-      {% endif %}
-    
-        <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
+        <a class="nhsuk-link" href="#" onclick="toggleItemEdit(itemIndex(this)); return false;">
+          <span id="item-{{ index }}-edit-text">Change</span>
+          <span class="nhsuk-u-visually-hidden"> (Item information)</span>
+        </a>
       </li>
     </ul>
   </div>
   <div class="nhsuk-card__content">
-   <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Medicine name
-      </th>
-      <td class="nhsuk-table__cell">
-        Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Quantity
-      </th>
-      <td class="nhsuk-table__cell">
-        One
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Unit
-      </th>
-      <td class="nhsuk-table__cell">
-        pre-filled disposable injection
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Instructions
-      </th>
-      <td class="nhsuk-table__cell">
-        Inject 10 milligrams - 5 times a day - subcutaneous route - for 10 days
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <!-- VIEW MODE -->
+    <div id="item-{{ index }}-view">
+      <table class="nhsuk-table--compact">
+        <tbody class="nhsuk-table__body">
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Medicine name</th>
+            <td class="nhsuk-table__cell"><span id="item-{{ index }}-name-display">{{ item.medName if item }}</span></td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Quantity</th>
+            <td class="nhsuk-table__cell"><span id="item-{{ index }}-quantity-display">{{ item.medQuantity if item }}</span></td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Unit</th>
+            <td class="nhsuk-table__cell"><span id="item-{{ index }}-unit-display">{{ item.medUnit if item }}</span></td>
+          </tr>
+          <tr class="nhsuk-table__row">
+            <th class="nhsuk-table__header" scope="row">Instructions</th>
+            <td class="nhsuk-table__cell"><span id="item-{{ index }}-instructions-display">{{ item.medInstructions if item }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
+    <!-- EDIT MODE -->
+    <div id="item-{{ index }}-edit" style="display: none;">
+      <form>
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="item-{{ index }}-med-select">Medicine name</label>
+          <select class="nhsuk-select" id="item-{{ index }}-med-select" onchange="updateItemUnit(itemIndex(this))">
+            <option value="" data-unit="">-- Select a medicine --</option>
+            {% for med in availableMedications %}
+            <option value="{{ med.medName }}" data-unit="{{ med.medUnit }}" {% if item and med.medName == item.medName %}selected{% endif %}>{{ med.medName }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="item-{{ index }}-quantity-input">Quantity</label>
+          <input class="nhsuk-input nhsuk-input--width-10" id="item-{{ index }}-quantity-input" type="text" value="{{ item.medQuantity if item }}">
+        </div>
+
+        <div class="nhsuk-form-group">
+          <span class="nhsuk-label">Unit</span>
+          <p class="nhsuk-body" id="item-{{ index }}-unit-edit">{{ item.medUnit if item }}</p>
+        </div>
+
+        <div class="nhsuk-form-group">
+          <label class="nhsuk-label" for="item-{{ index }}-instructions-input">Instructions</label>
+          <input class="nhsuk-input" id="item-{{ index }}-instructions-input" type="text" value="{{ item.medInstructions if item }}">
+        </div>
+
+        <div class="nhsuk-button-group">
+          <button class="nhsuk-button" type="button" onclick="saveItemEdit(itemIndex(this)); return false;">
+            Save
+          </button>
+          <button class="nhsuk-button nhsuk-button--secondary" type="button" onclick="toggleItemEdit(itemIndex(this)); return false;">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-{%if prescriptionDetails.numberOfItems == 'Three' or prescriptionDetails.numberOfItems == 'Four' %}
-<!-- Medication card 3 -->
-  <div class="nhsuk-card">
-  <div class="nhsuk-card__heading-container">
-    <h2 class="nhsuk-card__heading nhsuk-heading-s">
-     Item
-    </h2>
-    <ul class="nhsuk-card__actions">
-      {% if prescriptionDetails.numberOfItems == 'Three' %}
-      <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
-      </li>
-      {% endif %}
-        <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
-      </li>
-    </ul>
-  </div>
-  <div class="nhsuk-card__content">
-   <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Medicine name
-      </th>
-      <td class="nhsuk-table__cell">
-        Sabutamol 50mg capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Quantity
-      </th>
-      <td class="nhsuk-table__cell">
-        21 capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Unit
-      </th>
-      <td class="nhsuk-table__cell">
-        capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Instructions
-      </th>
-      <td class="nhsuk-table__cell">
-        Take one capsule by mouth once daily
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-  </div>
+{% endfor %}
 </div>
-{% endif %}
-  </div>
-  {% if prescriptionDetails.numberOfItems == 'Two' or prescriptionDetails.numberOfItems == 'Three' or prescriptionDetails.numberOfItems == 'Four' %}
-    <div class="nhsuk-grid-column-one-half">
- <!-- Medication card 2 -->
-  <div class="nhsuk-card">
-  <div class="nhsuk-card__heading-container">
-    <h2 class="nhsuk-card__heading nhsuk-heading-s">
-     Item
-    </h2>
-    <ul class="nhsuk-card__actions">
-      {% if prescriptionDetails.numberOfItems == 'Two' %}
-      <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Add item<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
-      </li>
-      {% endif %}
-     
-        <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
-      </li>
-    </ul>
-  </div>
-  <div class="nhsuk-card__content">
-   <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Medicine name
-      </th>
-      <td class="nhsuk-table__cell">
-        Ciclosporin 50mg capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Quantity
-      </th>
-      <td class="nhsuk-table__cell">
-        21 capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Unit
-      </th>
-      <td class="nhsuk-table__cell">
-        capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Instructions
-      </th>
-      <td class="nhsuk-table__cell">
-        Take one capsule by mouth once daily
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-  </div>
-</div>
-{% if prescriptionDetails.numberOfItems == 'Four' %}
-<!-- Medication card 4 -->
-  <div class="nhsuk-card">
-  <div class="nhsuk-card__heading-container">
-    <h2 class="nhsuk-card__heading nhsuk-heading-s">
-     Item
-    </h2>
-    <ul class="nhsuk-card__actions">
-        <li class="nhsuk-card__action">
-        <a class="nhsuk-link" href="#">Change<span class="nhsuk-u-visually-hidden"> (Item information)</span></a>
-      </li>
-    </ul>
-  </div>
-  <div class="nhsuk-card__content">
-   <table class="nhsuk-table--compact">
- 
- 
-  <tbody class="nhsuk-table__body">
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Medicine name
-      </th>
-      <td class="nhsuk-table__cell">
-        Sabutamol 50mg capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Quantity
-      </th>
-      <td class="nhsuk-table__cell">
-        21 capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Unit
-      </th>
-      <td class="nhsuk-table__cell">
-        capsules
-      </td>
-    </tr>
-    <tr class="nhsuk-table__row">
-      <th class="nhsuk-table__header" scope="row">
-        Instructions
-      </th>
-      <td class="nhsuk-table__cell">
-        Take one capsule by mouth once daily
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-  </div>
-</div>
-{% endif %}
-  </div>
-  {% endif %}
+{% endfor %}
 </div>
 
 
@@ -744,12 +615,19 @@ function calculateAge(dateOfBirthString) {
 
 function savePrescriptionEdit() {
   // Get form values
-  const issueDateInput = document.getElementById('issue-date-input').value;
+  const day = Number(document.getElementById('issue-date-day').value);
+  const month = Number(document.getElementById('issue-date-month').value);
+  const year = Number(document.getElementById('issue-date-year').value);
   const prescriptionType = document.querySelector('input[name="presc-type-edit"]:checked').value;
-  
-  // Convert date from YYYY-MM-DD to DD/MM/YYYY format
-  const [year, month, day] = issueDateInput.split('-');
-  const formattedDate = `${day}/${month}/${year}`;
+
+  // Rejects impossible dates like 31/2, which Date would otherwise roll over
+  const issueDate = new Date(year, month - 1, day);
+  if (!day || !month || !year || issueDate.getDate() !== day || issueDate.getMonth() !== month - 1) {
+    alert('Please enter a real issue date');
+    return;
+  }
+
+  const formattedDate = issueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
   
   // Update display values
   document.getElementById('issue-date-display').textContent = formattedDate;
@@ -844,6 +722,100 @@ function savePrescriberEdit() {
   // Toggle back to view mode
   toggleEditMode('prescriber');
 }
+
+const MAX_ITEMS = 4;
+
+function itemIndex(element) {
+  return Number(element.closest('[data-item-card]').dataset.index);
+}
+
+function itemEl(index, suffix) {
+  return document.getElementById('item-' + index + (suffix ? '-' + suffix : ''));
+}
+
+function visibleItemCount() {
+  let count = 0;
+  for (let i = 0; i < MAX_ITEMS; i++) {
+    if (itemEl(i).style.display !== 'none') count++;
+  }
+  return count;
+}
+
+// Only the last visible item shows "Add item", and only while under the limit
+function refreshAddItemLinks() {
+  const count = visibleItemCount();
+  for (let i = 0; i < MAX_ITEMS; i++) {
+    itemEl(i, 'add-action').hidden = !(i === count - 1 && count < MAX_ITEMS);
+  }
+}
+
+function setItemEditMode(index, editing) {
+  itemEl(index, 'view').style.display = editing ? 'none' : 'block';
+  itemEl(index, 'edit').style.display = editing ? 'block' : 'none';
+  itemEl(index, 'edit-text').textContent = editing ? 'Cancel' : 'Change';
+}
+
+function resetItemInputs(index) {
+  const select = itemEl(index, 'med-select');
+  select.value = itemEl(index, 'name-display').textContent;
+  if (select.selectedIndex < 0) select.value = '';
+  itemEl(index, 'quantity-input').value = itemEl(index, 'quantity-display').textContent;
+  itemEl(index, 'instructions-input').value = itemEl(index, 'instructions-display').textContent;
+  updateItemUnit(index);
+}
+
+function toggleItemEdit(index) {
+  const card = itemEl(index);
+  const editing = itemEl(index, 'edit').style.display !== 'none';
+
+  if (editing) {
+    if (card.dataset.isNew) {
+      delete card.dataset.isNew;
+      card.style.display = 'none';
+      refreshAddItemLinks();
+    }
+    setItemEditMode(index, false);
+  } else {
+    resetItemInputs(index);
+    setItemEditMode(index, true);
+  }
+}
+
+function addItem() {
+  const index = visibleItemCount();
+  if (index >= MAX_ITEMS) return;
+
+  const card = itemEl(index);
+  card.dataset.isNew = 'true';
+  card.style.display = 'block';
+  resetItemInputs(index);
+  setItemEditMode(index, true);
+  refreshAddItemLinks();
+}
+
+function updateItemUnit(index) {
+  const select = itemEl(index, 'med-select');
+  const selectedOption = select.options[select.selectedIndex];
+  itemEl(index, 'unit-edit').textContent = selectedOption ? selectedOption.dataset.unit : '';
+}
+
+function saveItemEdit(index) {
+  const select = itemEl(index, 'med-select');
+  if (!select.value) {
+    alert('Please select a medicine');
+    return;
+  }
+
+  itemEl(index, 'name-display').textContent = select.value;
+  itemEl(index, 'quantity-display').textContent = itemEl(index, 'quantity-input').value;
+  itemEl(index, 'unit-display').textContent = select.options[select.selectedIndex].dataset.unit;
+  itemEl(index, 'instructions-display').textContent = itemEl(index, 'instructions-input').value;
+
+  delete itemEl(index).dataset.isNew;
+  setItemEditMode(index, false);
+}
+
+refreshAddItemLinks();
 
 </script>
 {% endblock %}

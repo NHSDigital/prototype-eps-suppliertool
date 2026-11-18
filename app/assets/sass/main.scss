@@ -16,6 +16,13 @@
   display: inline-block;
 }
 
+// Hidden card actions still count as :first-child, so drop the divider on the next visible one
+.nhsuk-card__action[hidden] + .nhsuk-card__action {
+  margin-left: 0;
+  padding-left: 0;
+  border-left: 0;
+}
+
 .pagination a {
   color: black;
   float: left;

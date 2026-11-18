@@ -161,8 +161,39 @@ module.exports = {
   ],
   testMedications:[
     {
-      name: "Paracetamol",
-      medicationCode: "M12345"
-    }
+      medName: "Mehtotrexate 10mg/0.2ml solution for injection pre-filled syringes",
+      controlledDrug: "Yes",
+      medQuantity: "Five",
+      medUnit:"pre-filled disposable injection",
+      medInstructions: "Inject 10mg - 5 times a day - subcutaneous route - for 1 day"
+    },
+     {
+      medName: "Ciclosporin 50mg capsules",
+      controlledDrug: "No",
+      medQuantity: "Five",
+      medUnit:"capsules",
+      medInstructions: "Take 50mg - 5 times a day - oral route - for 1 day"
+    },
+      {
+      medName: "Sabutamol 50mg capsules",
+      controlledDrug: "No",
+      medQuantity: "Twenty one",
+      medUnit:"capsules",
+      medInstructions: "Take one capsule by mouth once daily"
+    },
+      {
+      medName: "Pravastatin 50mg tablets",
+      controlledDrug: "No",
+      medQuantity: "Twenty one",
+      medUnit:"tablets",
+      medInstructions: "Take one tablet by mouth once daily"
+    },
+      {
+      medName: "Med name here",
+      controlledDrug: "No",
+      medQuantity: "Twenty one",
+      medUnit:"tablets",
+      medInstructions: "Take one tablet by mouth once daily"
+    },
   ]
 }
