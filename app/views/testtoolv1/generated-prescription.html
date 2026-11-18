@@ -349,6 +349,7 @@
   <div class="nhsuk-card__heading-container">
     <h2 class="nhsuk-card__heading nhsuk-heading-s">
      Item
+     <span id="item-{{ index }}-cd-tag" {% if not (item and item.controlledDrug == 'Yes') %}hidden{% endif %}><strong class="nhsuk-tag nhsuk-tag--yellow nhsuk-u-margin-left-3">Controlled drug</strong></span>
     </h2>
     <ul class="nhsuk-card__actions">
       <li class="nhsuk-card__action" id="item-{{ index }}-add-action" hidden>
@@ -395,7 +396,7 @@
           <select class="nhsuk-select" id="item-{{ index }}-med-select" onchange="updateItemUnit(itemIndex(this))">
             <option value="" data-unit="">-- Select a medicine --</option>
             {% for med in availableMedications %}
-            <option value="{{ med.medName }}" data-unit="{{ med.medUnit }}" {% if item and med.medName == item.medName %}selected{% endif %}>{{ med.medName }}</option>
+            <option value="{{ med.medName }}" data-unit="{{ med.medUnit }}" data-controlled="{{ med.controlledDrug }}" {% if item and med.medName == item.medName %}selected{% endif %}>{{ med.medName }}</option>
             {% endfor %}
           </select>
         </div>
@@ -808,8 +809,10 @@ function saveItemEdit(index) {
 
   itemEl(index, 'name-display').textContent = select.value;
   itemEl(index, 'quantity-display').textContent = itemEl(index, 'quantity-input').value;
-  itemEl(index, 'unit-display').textContent = select.options[select.selectedIndex].dataset.unit;
+  const selectedOption = select.options[select.selectedIndex];
+  itemEl(index, 'unit-display').textContent = selectedOption.dataset.unit;
   itemEl(index, 'instructions-display').textContent = itemEl(index, 'instructions-input').value;
+  itemEl(index, 'cd-tag').hidden = selectedOption.dataset.controlled !== 'Yes';
 
   delete itemEl(index).dataset.isNew;
   setItemEditMode(index, false);

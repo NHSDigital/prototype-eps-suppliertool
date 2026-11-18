@@ -1113,7 +1113,7 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
   const itemCounts = { One: 1, Two: 2, Three: 3, Four: 4 };
   const itemCount = itemCounts[prescriptionDetails.numberOfItems] || 1;
 
-  const isControlled = med => (med.controlledDrug || '').toLowerCase() === 'yes';
+  const isControlled = med => med.controlledDrug === 'Yes';
   const availableMedications = includeControlled
     ? testMedications
     : testMedications.filter(med => !isControlled(med));

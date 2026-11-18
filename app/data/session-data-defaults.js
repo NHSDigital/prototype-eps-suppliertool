@@ -195,5 +195,12 @@ module.exports = {
       medUnit:"tablets",
       medInstructions: "Take one tablet by mouth once daily"
     },
+      {
+      medName: "Paracetamol 500mg tablets",
+      controlledDrug: "No",
+      medQuantity: "Twenty one",
+      medUnit:"tablets",
+      medInstructions: "Take one tablet by mouth once daily"
+    }
   ]
 }
