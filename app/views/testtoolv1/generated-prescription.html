@@ -2,6 +2,59 @@
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
+  <style>
+    /* Make cards in each row equal height */
+    .nhsuk-grid-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: stretch;
+    }
+    
+    .nhsuk-grid-column-one-half {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .nhsuk-card {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    
+    .nhsuk-card__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Remove trailing space inside the visible card view */
+.nhsuk-card__content > [id$="-view"] > :last-child {
+  margin-bottom: 0;
+}
+
+/* Keep a smaller gap below the content */
+.nhsuk-card-group .nhsuk-card__content {
+  padding-bottom: 20px;
+}
+
+#prescriber-view > table {
+  margin-bottom: 20px;
+}
+.nhsuk-card-group:has(details[open], .nhsuk-card--editing) {
+  align-items: flex-start;
+}
+
+.nhsuk-card-group:has(details[open], .nhsuk-card--editing) .nhsuk-card {
+  height: auto;
+}
+
+.nhsuk-grid-row.nhsuk-card-group {
+  margin-bottom: 0;
+}
+
+.nhsuk-card-group .nhsuk-card {
+  margin-bottom: 32px;
+}
+  </style>
   {% endblock %}
   {% block header %}
   {% from "header/macro.njk" import header %}
@@ -55,13 +108,13 @@
 <button class="nhsuk-button" onclick="location.href='final-test-data.html'">Sign and send</button>
   </div>
 </div>
-<div class="nhsuk-grid-row">
-  <div class="nhsuk-grid-column-full-width">
+<div class="nhsuk-grid-row nhsuk-card-group">
+  
       <div class="nhsuk-grid-column-one-half"> 
   <!-- Prescription card-->
  <div class="nhsuk-card">
   <div class="nhsuk-card__heading-container">
-    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+    <h2 class="nhsuk-card__heading nhsuk-heading-s">
       Prescription information
     </h2>
     <ul class="nhsuk-card__actions">
@@ -336,13 +389,12 @@
 </div>
 </div>
   </div>
-</div>
 
-<div class="nhsuk-grid-row">
-{# Left column holds items 1 and 3, right column holds items 2 and 4 #}
-{% for column in [[0, 2], [1, 3]] %}
+
+{% for row in [[0, 1], [2, 3]] %}
+<div class="nhsuk-grid-row nhsuk-card-group">
+{% for index in row %}
 <div class="nhsuk-grid-column-one-half">
-{% for index in column %}
 {% set item = prescriptionItems[index] %}
 <!-- Medication card {{ index + 1 }} -->
 <div class="nhsuk-card" id="item-{{ index }}" data-item-card data-index="{{ index }}" {% if not item %}style="display: none;"{% endif %}>
@@ -428,13 +480,13 @@
     </div>
   </div>
 </div>
-{% endfor %}
 </div>
 {% endfor %}
 </div>
+{% endfor %}
 
 
-<div class="nhsuk-grid-row">
+<div class="nhsuk-grid-row nhsuk-card-group">
   
  <!-- Prescriber card-->
   <div class="nhsuk-card">
@@ -583,7 +635,7 @@
     </div>
   </div>
 </div>
-
+</div>
 <script>
 function toggleEditMode(cardName) {
   const viewMode = document.getElementById(cardName + '-view');
@@ -593,6 +645,7 @@ function toggleEditMode(cardName) {
   // Toggle display
   viewMode.style.display = viewMode.style.display === 'none' ? 'block' : 'none';
   editMode.style.display = editMode.style.display === 'none' ? 'block' : 'none';
+  editMode.closest('.nhsuk-card').classList.toggle('nhsuk-card--editing', editMode.style.display !== 'none');
   
   // Update button text
   editText.textContent = viewMode.style.display === 'none' ? 'Cancel' : 'Edit';
@@ -751,6 +804,7 @@ function refreshAddItemLinks() {
 }
 
 function setItemEditMode(index, editing) {
+  itemEl(index).classList.toggle('nhsuk-card--editing', editing);
   itemEl(index, 'view').style.display = editing ? 'none' : 'block';
   itemEl(index, 'edit').style.display = editing ? 'block' : 'none';
   itemEl(index, 'edit-text').textContent = editing ? 'Cancel' : 'Change';
