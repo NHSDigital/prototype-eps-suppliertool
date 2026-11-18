@@ -94,7 +94,8 @@
             Nomination(optional)
           </h1>
           </legend>
-        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+        <div class="nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+          <div class="nhsuk-radios--inline nhsuk-radios--small">
             <div class="nhsuk-radios__item">
             <input class="nhsuk-radios__input" id="nomination-nonnom" name="nomination" type="radio" value="Non-nominated">
             <label class="nhsuk-label nhsuk-radios__label" for="nomination-nonnom">
@@ -102,7 +103,7 @@
              </label>
             </div>
             <div class="nhsuk-radios__item">
-            <input class="nhsuk-radios__input" id="nomination-oneoff" name="nomination" type="radio" value="One-off nomination">
+            <input class="nhsuk-radios__input" id="nomination-oneoff" name="nomination" type="radio" value="One-off nomination" data-aria-controls="conditional-nomination-oneoff">
             <label class="nhsuk-label nhsuk-radios__label" for="nomination-oneoff">
             One-off nomination
             </label>
@@ -112,6 +113,20 @@
             <label class="nhsuk-label nhsuk-radios__label" for="nomination-nom">
              Nominated prescription
             </label>
+            </div>
+          </div>
+            <div class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden" id="conditional-nomination-oneoff">
+              <div class="nhsuk-form-group">
+                <label class="nhsuk-label" for="select-test-pharmacy">
+                  Select test pharmacy
+                </label>
+                <select class="nhsuk-select" id="select-test-pharmacy" name="selectTestPharmacy">
+                  <option value="">Select a test pharmacy</option>
+                  {% for pharmacy in data.testPharmacies %}
+                  <option value="{{ pharmacy.pharmacyCode }}"{% if data.selectTestPharmacy == pharmacy.pharmacyCode %} selected{% endif %}>{{ pharmacy.name }} ({{ pharmacy.pharmacyCode }})</option>
+                  {% endfor %}
+                </select>
+              </div>
             </div>
         </div>
         </fieldset>
@@ -161,7 +176,8 @@
             Prescription type (optional) 
           </h1>
           </legend>
-        <div class="nhsuk-radios nhsuk-radios--inline nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+        <div class="nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
+          <div class="nhsuk-radios--inline nhsuk-radios--small">
             <div class="nhsuk-radios__item">
             <input class="nhsuk-radios__input" id="presc-acute" name="presc-type" type="radio" value="Acute">
             <label class="nhsuk-label nhsuk-radios__label" for="presc-acute">
@@ -169,17 +185,26 @@
              </label>
             </div>
             <div class="nhsuk-radios__item">
-            <input class="nhsuk-radios__input" id="presc-erd" name="presc-type" type="radio" value="Electronic repeat dispensing (eRD)">
+            <input class="nhsuk-radios__input" id="presc-erd" name="presc-type" type="radio" value="Electronic repeat dispensing (eRD)" data-aria-controls="conditional-erd-issues">
             <label class="nhsuk-label nhsuk-radios__label" for="presc-erd">
             Electronic repeat dispensing (eRD)
             </label>
             </div>
             <div class="nhsuk-radios__item">
-            <input class="nhsuk-radios__input" id="presc-repeat" name="presc-type" type="radio" value="Repeat">
+            <input class="nhsuk-radios__input" id="presc-repeat" name="presc-type" type="radio" value="Repeat" data-aria-controls="conditional-repeat-issues">
             <label class="nhsuk-label nhsuk-radios__label" for="presc-repeat">
              Repeat
             </label>
             </div>
+          </div>
+          {% for issueType in ['erd', 'repeat'] %}
+          <div class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden" id="conditional-{{ issueType }}-issues">
+            <div class="nhsuk-form-group">
+              <label class="nhsuk-label" for="{{ issueType }}-issues">Number of issues</label>
+              <input class="nhsuk-input nhsuk-input--width-3" id="{{ issueType }}-issues" name="{{ issueType }}Issues" type="text" inputmode="numeric">
+            </div>
+          </div>
+          {% endfor %}
         </div>
         </fieldset>
         </div>

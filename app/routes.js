@@ -1046,8 +1046,19 @@ router.get("/testtoolv1/start-page", (req, res) => {
   });
 });
 
+function getNumberOfIssues(body, prescriptionType) {
+  if (!['Electronic repeat dispensing (eRD)', 'Repeat'].includes(prescriptionType)) return null;
+  const value = prescriptionType === 'Repeat' ? body.repeatIssues : body.erdIssues;
+  if (typeof value !== 'string' || !/^[0-9]+$/.test(value.trim())) return NaN;
+  return Number(value);
+}
+
 router.post("/testtoolv1/create-prescription", (req, res) => {
   const data = req.session.data;
+  const numberOfIssues = getNumberOfIssues(req.body, data['presc-type']);
+  if (numberOfIssues !== null && (!Number.isSafeInteger(numberOfIssues) || numberOfIssues < 1)) {
+    return res.status(400).send('Please enter a whole number of issues greater than zero');
+  }
   const selectedPatientValue = data.selectTestPatient;
   
   // Get the test patients from the session data defaults
@@ -1076,8 +1087,12 @@ router.post("/testtoolv1/create-prescription", (req, res) => {
   // Capture radio button values and store them
   data.prescriptionDetails = {
     nominationType: data.nomination,           // 'yes', 'no'
+    nominatedSite: data.nomination === 'One-off nomination'
+      ? (data.testPharmacies || []).find(pharmacy => pharmacy.pharmacyCode === data.selectTestPharmacy)
+      : null,
     numberOfItems: data.item,                  // 'yes', 'no' (you may need to adjust based on your radio values)
     prescriptionType: data['presc-type'],      // 'yes', 'no'
+    numberOfIssues,
     controlledDrugs: data.cd,                  // 'yes', 'no'
     cancelledItems: data.cancelled,            // 'yes', 'no'
     issueDate: formatDateLong(today),
@@ -1086,6 +1101,47 @@ router.post("/testtoolv1/create-prescription", (req, res) => {
     issueYear: today.getFullYear()
   };
   
+  res.redirect("/testtoolv1/generated-prescription");
+});
+
+router.post("/testtoolv1/update-prescription", (req, res) => {
+  const data = req.session.data;
+  const day = Number(req.body.issueDay);
+  const month = Number(req.body.issueMonth);
+  const year = Number(req.body.issueYear);
+  const issueDate = new Date(year, month - 1, day);
+  const nominationType = req.body['presc-nom-edit'];
+  const prescriptionType = req.body['presc-type-edit'];
+  const numberOfIssues = getNumberOfIssues(req.body, prescriptionType);
+  const nominatedSite = nominationType === 'One-off nomination'
+    ? (data.testPharmacies || []).find(pharmacy => pharmacy.pharmacyCode === req.body.nominatedSite)
+    : null;
+
+  if (!day || !month || !year || issueDate.getDate() !== day || issueDate.getMonth() !== month - 1 || issueDate.getFullYear() !== year) {
+    return res.status(400).send('Please enter a real issue date');
+  }
+  if (!['Non-nominated', 'Nominated', 'One-off nomination'].includes(nominationType) ||
+      !['Acute', 'Electronic repeat dispensing (eRD)', 'Repeat'].includes(prescriptionType)) {
+    return res.status(400).send('Please select a prescription type and nomination type');
+  }
+  if (nominationType === 'One-off nomination' && !nominatedSite) {
+    return res.status(400).send('Please select a test pharmacy');
+  }
+  if (numberOfIssues !== null && (!Number.isSafeInteger(numberOfIssues) || numberOfIssues < 1)) {
+    return res.status(400).send('Please enter a whole number of issues greater than zero');
+  }
+
+  data.prescriptionDetails = {
+    ...data.prescriptionDetails,
+    nominationType,
+    nominatedSite,
+    prescriptionType,
+    numberOfIssues,
+    issueDate: formatDateLong(issueDate),
+    issueDay: day,
+    issueMonth: month,
+    issueYear: year
+  };
   res.redirect("/testtoolv1/generated-prescription");
 });
 

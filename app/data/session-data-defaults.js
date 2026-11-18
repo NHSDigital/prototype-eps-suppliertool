@@ -157,6 +157,18 @@ module.exports = {
     {
       name: "Kingston pharmacy",
       pharmacyCode: "FDN73"
+    },
+    {
+      name: "Chelsea pharmacy",
+      pharmacyCode: "CHL45"
+    },
+    {
+      name: "Greenwich pharmacy",
+      pharmacyCode: "GRN12"
+    },
+    {
+      name: "Camden pharmacy",
+      pharmacyCode: "CMD34"
     }
   ],
   testMedications:[

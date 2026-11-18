@@ -144,19 +144,35 @@
               <span id="presc-type-display">{{ prescriptionDetails.prescriptionType or 'Acute' }}</span>
             </td>
           </tr>
+          {% if prescriptionDetails.prescriptionType == 'Electronic repeat dispensing (eRD)' or prescriptionDetails.prescriptionType == 'Repeat' %}
+          <tr class="nhsuk-table__row" id="number-of-issues-row">
+            <th class="nhsuk-table__header" scope="row">Number of issues</th>
+            <td class="nhsuk-table__cell">
+              <span id="number-of-issues-display">{{ prescriptionDetails.numberOfIssues }}</span>
+            </td>
+          </tr>
+          {% endif %}
           <tr class="nhsuk-table__row">
             <th class="nhsuk-table__header" scope="row">Nomination type</th>
             <td class="nhsuk-table__cell">
               <span id="nomination-type-display">{{ prescriptionDetails.nominationType or 'Non-nominated' }}</span>
             </td>
           </tr>
+          {% if prescriptionDetails.nominationType == 'One-off nomination' %}
+          <tr class="nhsuk-table__row" id="nominated-site-row">
+            <th class="nhsuk-table__header" scope="row">Nominated site</th>
+            <td class="nhsuk-table__cell">
+              <span id="nominated-site-display">{% if prescriptionDetails.nominatedSite %}{{ prescriptionDetails.nominatedSite.name }} ({{ prescriptionDetails.nominatedSite.pharmacyCode }}){% else %}Not selected{% endif %}</span>
+            </td>
+          </tr>
+          {% endif %}
         </tbody>
       </table>
     </div>
 
     <!-- EDIT MODE -->
     <div id="prescription-edit" class="prescription-edit-mode" style="display: none;">
-      <form id="prescription-edit-form">
+      <form id="prescription-edit-form" action="/testtoolv1/update-prescription" method="post" onsubmit="return savePrescriptionEdit();" novalidate>
         <div class="nhsuk-form-group">
           <fieldset class="nhsuk-fieldset" role="group" aria-describedby="issue-date-hint">
             <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
@@ -167,19 +183,19 @@
               <div class="nhsuk-date-input__item">
                 <div class="nhsuk-form-group">
                   <label class="nhsuk-label nhsuk-date-input__label" for="issue-date-day">Day</label>
-                  <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="issue-date-day" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueDay or 22 }}">
+                  <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="issue-date-day" name="issueDay" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueDay or 22 }}">
                 </div>
               </div>
               <div class="nhsuk-date-input__item">
                 <div class="nhsuk-form-group">
                   <label class="nhsuk-label nhsuk-date-input__label" for="issue-date-month">Month</label>
-                  <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="issue-date-month" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueMonth or 11 }}">
+                  <input class="nhsuk-input nhsuk-input--width-2 nhsuk-date-input__input" id="issue-date-month" name="issueMonth" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueMonth or 11 }}">
                 </div>
               </div>
               <div class="nhsuk-date-input__item">
                 <div class="nhsuk-form-group">
                   <label class="nhsuk-label nhsuk-date-input__label" for="issue-date-year">Year</label>
-                  <input class="nhsuk-input nhsuk-input--width-4 nhsuk-date-input__input" id="issue-date-year" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueYear or 2026 }}">
+                  <input class="nhsuk-input nhsuk-input--width-4 nhsuk-date-input__input" id="issue-date-year" name="issueYear" type="text" inputmode="numeric" value="{{ prescriptionDetails.issueYear or 2026 }}">
                 </div>
               </div>
             </div>
@@ -191,18 +207,30 @@
             <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
               <h3 class="nhsuk-fieldset__heading">Prescription type</h3>
             </legend>
-            <div class="nhsuk-radios nhsuk-radios--small">
+            <div class="nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
               <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="presc-acute" name="presc-type-edit" type="radio" value="Acute" {% if prescriptionDetails.prescriptionType == 'Acute' %}checked{% endif %}>
+                <input class="nhsuk-radios__input" id="presc-acute" name="presc-type-edit" type="radio" value="Acute" {% if not prescriptionDetails.prescriptionType or prescriptionDetails.prescriptionType == 'Acute' %}checked{% endif %}>
                 <label class="nhsuk-label nhsuk-radios__label" for="presc-acute">Acute</label>
               </div>
               <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="presc-erd" name="presc-type-edit" type="radio" value="Electronic repeat dispensing (eRD)" {% if prescriptionDetails.prescriptionType == 'Electronic repeat dispensing (eRD)' %}checked{% endif %}>
+                <input class="nhsuk-radios__input" id="presc-erd" name="presc-type-edit" type="radio" value="Electronic repeat dispensing (eRD)" data-aria-controls="conditional-edit-erd-issues" {% if prescriptionDetails.prescriptionType == 'Electronic repeat dispensing (eRD)' %}checked{% endif %}>
                 <label class="nhsuk-label nhsuk-radios__label" for="presc-erd">Electronic repeat dispensing (eRD)</label>
               </div>
+              <div class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden" id="conditional-edit-erd-issues">
+                <div class="nhsuk-form-group">
+                  <label class="nhsuk-label" for="edit-erd-issues">Number of issues</label>
+                  <input class="nhsuk-input nhsuk-input--width-3" id="edit-erd-issues" name="erdIssues" type="text" inputmode="numeric" value="{{ prescriptionDetails.numberOfIssues }}">
+                </div>
+              </div>
                <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="presc-repeat" name="presc-type-edit" type="radio" value="Repeat" {% if prescriptionDetails.prescriptionType == 'Repeat' %}checked{% endif %}>
+                <input class="nhsuk-radios__input" id="presc-repeat" name="presc-type-edit" type="radio" value="Repeat" data-aria-controls="conditional-edit-repeat-issues" {% if prescriptionDetails.prescriptionType == 'Repeat' %}checked{% endif %}>
                 <label class="nhsuk-label nhsuk-radios__label" for="presc-repeat">Repeat</label>
+              </div>
+              <div class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden" id="conditional-edit-repeat-issues">
+                <div class="nhsuk-form-group">
+                  <label class="nhsuk-label" for="edit-repeat-issues">Number of issues</label>
+                  <input class="nhsuk-input nhsuk-input--width-3" id="edit-repeat-issues" name="repeatIssues" type="text" inputmode="numeric" value="{{ prescriptionDetails.numberOfIssues }}">
+                </div>
               </div>
             </div>
           </fieldset>
@@ -213,9 +241,9 @@
             <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
               <h3 class="nhsuk-fieldset__heading">Nomination type</h3>
             </legend>
-            <div class="nhsuk-radios nhsuk-radios--small">
+            <div class="nhsuk-radios nhsuk-radios--small" data-module="nhsuk-radios">
               <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="presc-nom-edit-non" name="presc-nom-edit" type="radio" value="Non-nominated" {% if prescriptionDetails.nominationType == 'Non-nominated' %}checked{% endif %}>
+                <input class="nhsuk-radios__input" id="presc-nom-edit-non" name="presc-nom-edit" type="radio" value="Non-nominated" {% if not prescriptionDetails.nominationType or prescriptionDetails.nominationType == 'Non-nominated' %}checked{% endif %}>
                 <label class="nhsuk-label nhsuk-radios__label" for="presc-nom-edit-non">Non-nominated</label>
               </div>
               <div class="nhsuk-radios__item">
@@ -223,15 +251,26 @@
                 <label class="nhsuk-label nhsuk-radios__label" for="presc-nom-edit-nom">Nominated</label>
               </div>
                <div class="nhsuk-radios__item">
-                <input class="nhsuk-radios__input" id="presc-nom-edit-one" name="presc-nom-edit" type="radio" value="One-off" {% if prescriptionDetails.nominationType == 'One-off' %}checked{% endif %}>
+                <input class="nhsuk-radios__input" id="presc-nom-edit-one" name="presc-nom-edit" type="radio" value="One-off nomination" data-aria-controls="conditional-edit-oneoff" {% if prescriptionDetails.nominationType == 'One-off nomination' %}checked{% endif %}>
                 <label class="nhsuk-label nhsuk-radios__label" for="presc-nom-edit-one">One-off</label>
+              </div>
+              <div class="nhsuk-radios__conditional nhsuk-radios__conditional--hidden" id="conditional-edit-oneoff">
+                <div class="nhsuk-form-group">
+                  <label class="nhsuk-label" for="edit-nominated-site">Select test pharmacy</label>
+                  <select class="nhsuk-select" id="edit-nominated-site" name="nominatedSite">
+                    <option value="">Select a test pharmacy</option>
+                    {% for pharmacy in data.testPharmacies %}
+                    <option value="{{ pharmacy.pharmacyCode }}"{% if prescriptionDetails.nominatedSite.pharmacyCode == pharmacy.pharmacyCode %} selected{% endif %}>{{ pharmacy.name }} ({{ pharmacy.pharmacyCode }})</option>
+                    {% endfor %}
+                  </select>
+                </div>
               </div>
             </div>
           </fieldset>
         </div>
 
         <div class="nhsuk-button-group">
-          <button class="nhsuk-button" type="button" onclick="savePrescriptionEdit(); return false;">
+          <button class="nhsuk-button" type="submit">
             Save
           </button>
           <button class="nhsuk-button nhsuk-button--secondary" type="button" onclick="toggleEditMode('prescription'); return false;">
@@ -692,25 +731,33 @@ function savePrescriptionEdit() {
   const day = Number(document.getElementById('issue-date-day').value);
   const month = Number(document.getElementById('issue-date-month').value);
   const year = Number(document.getElementById('issue-date-year').value);
-  const prescriptionType = document.querySelector('input[name="presc-type-edit"]:checked').value;
 
   // Rejects impossible dates like 31/2, which Date would otherwise roll over
   const issueDate = new Date(year, month - 1, day);
-  if (!day || !month || !year || issueDate.getDate() !== day || issueDate.getMonth() !== month - 1) {
+  if (!day || !month || !year || issueDate.getDate() !== day || issueDate.getMonth() !== month - 1 || issueDate.getFullYear() !== year) {
     alert('Please enter a real issue date');
-    return;
+    return false;
   }
 
-  const formattedDate = issueDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  
-  // Update display values
-  document.getElementById('issue-date-display').textContent = formattedDate;
-  document.getElementById('presc-type-display').textContent = prescriptionType;
-  
-  // You can also send this to the server via AJAX if needed
-  
-  // Toggle back to view mode
-  toggleEditMode('prescription');
+  const oneOff = document.getElementById('presc-nom-edit-one').checked;
+  if (oneOff && !document.getElementById('edit-nominated-site').value) {
+    alert('Please select a test pharmacy');
+    return false;
+  }
+
+  const issuesInput = document.getElementById('presc-erd').checked
+    ? document.getElementById('edit-erd-issues')
+    : document.getElementById('presc-repeat').checked
+      ? document.getElementById('edit-repeat-issues')
+      : null;
+  if (issuesInput && (!/^[0-9]+$/.test(issuesInput.value.trim()) ||
+      !Number.isSafeInteger(Number(issuesInput.value)) || Number(issuesInput.value) < 1)) {
+    alert('Please enter a whole number of issues greater than zero');
+    issuesInput.focus();
+    return false;
+  }
+
+  return true;
 }
 
 function savePatientEdit() {
