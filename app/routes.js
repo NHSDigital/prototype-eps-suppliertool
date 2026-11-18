@@ -1102,7 +1102,10 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
   const data = req.session.data;
   let selectedPatient = data.selectedPatient || {};
   const prescriptionDetails = data.prescriptionDetails || {};
-  const testPatients = data.testPatients || [];
+  const testPatients = (data.testPatients || []).map(patient => ({
+    ...patient,
+    age: calculatePatientAge(patient.dateOfBirth)
+  }));
   const testPrescribers = data.testPrescribers || [];
   const testMedications = data.testMedications || [];
 
