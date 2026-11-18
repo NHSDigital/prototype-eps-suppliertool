@@ -396,12 +396,14 @@
 {% for index in row %}
 <div class="nhsuk-grid-column-one-half">
 {% set item = prescriptionItems[index] %}
+{% set cancelled = item and index == 0 and prescriptionDetails.cancelledItems == 'yes' %}
 <!-- Medication card {{ index + 1 }} -->
-<div class="nhsuk-card" id="item-{{ index }}" data-item-card data-index="{{ index }}" {% if not item %}style="display: none;"{% endif %}>
+<div class="nhsuk-card" id="item-{{ index }}" data-item-card data-index="{{ index }}" data-cancelled="{{ 'yes' if cancelled else 'no' }}" {% if not item %}style="display: none;"{% endif %}>
   <div class="nhsuk-card__heading-container">
     <h2 class="nhsuk-card__heading nhsuk-heading-s">
      Item
      <span id="item-{{ index }}-cd-tag" {% if not (item and item.controlledDrug == 'Yes') %}hidden{% endif %}><strong class="nhsuk-tag nhsuk-tag--yellow nhsuk-u-margin-left-3">Controlled drug</strong></span>
+     <span id="item-{{ index }}-cancelled-tag" {% if not cancelled %}hidden{% endif %}><strong class="nhsuk-tag nhsuk-tag--red nhsuk-u-margin-left-3">Cancelled</strong></span>
     </h2>
     <ul class="nhsuk-card__actions">
       <li class="nhsuk-card__action" id="item-{{ index }}-add-action" hidden>
@@ -466,6 +468,24 @@
         <div class="nhsuk-form-group">
           <label class="nhsuk-label" for="item-{{ index }}-instructions-input">Instructions</label>
           <input class="nhsuk-input" id="item-{{ index }}-instructions-input" type="text" value="{{ item.medInstructions if item }}">
+        </div>
+
+        <div class="nhsuk-form-group">
+          <fieldset class="nhsuk-fieldset">
+            <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
+              <h3 class="nhsuk-fieldset__heading">Is this item cancelled?</h3>
+            </legend>
+            <div class="nhsuk-radios nhsuk-radios--small">
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="item-{{ index }}-cancelled-yes" name="item-{{ index }}-cancelled" type="radio" value="yes" {% if cancelled %}checked{% endif %} onchange="updateItemCancelledTag(itemIndex(this))">
+                <label class="nhsuk-label nhsuk-radios__label" for="item-{{ index }}-cancelled-yes">Yes</label>
+              </div>
+              <div class="nhsuk-radios__item">
+                <input class="nhsuk-radios__input" id="item-{{ index }}-cancelled-no" name="item-{{ index }}-cancelled" type="radio" value="no" {% if not cancelled %}checked{% endif %} onchange="updateItemCancelledTag(itemIndex(this))">
+                <label class="nhsuk-label nhsuk-radios__label" for="item-{{ index }}-cancelled-no">No</label>
+              </div>
+            </div>
+          </fieldset>
         </div>
 
         <div class="nhsuk-button-group">
@@ -816,6 +836,10 @@ function resetItemInputs(index) {
   if (select.selectedIndex < 0) select.value = '';
   itemEl(index, 'quantity-input').value = itemEl(index, 'quantity-display').textContent;
   itemEl(index, 'instructions-input').value = itemEl(index, 'instructions-display').textContent;
+  const cancelled = itemEl(index).dataset.cancelled === 'yes';
+  itemEl(index, 'cancelled-yes').checked = cancelled;
+  itemEl(index, 'cancelled-no').checked = !cancelled;
+  updateItemCancelledTag(index);
   updateItemUnit(index);
 }
 
@@ -824,6 +848,7 @@ function toggleItemEdit(index) {
   const editing = itemEl(index, 'edit').style.display !== 'none';
 
   if (editing) {
+    resetItemInputs(index);
     if (card.dataset.isNew) {
       delete card.dataset.isNew;
       card.style.display = 'none';
@@ -854,6 +879,10 @@ function updateItemUnit(index) {
   itemEl(index, 'unit-edit').textContent = selectedOption ? selectedOption.dataset.unit : '';
 }
 
+function updateItemCancelledTag(index) {
+  itemEl(index, 'cancelled-tag').hidden = !itemEl(index, 'cancelled-yes').checked;
+}
+
 function saveItemEdit(index) {
   const select = itemEl(index, 'med-select');
   if (!select.value) {
@@ -867,6 +896,8 @@ function saveItemEdit(index) {
   itemEl(index, 'unit-display').textContent = selectedOption.dataset.unit;
   itemEl(index, 'instructions-display').textContent = itemEl(index, 'instructions-input').value;
   itemEl(index, 'cd-tag').hidden = selectedOption.dataset.controlled !== 'Yes';
+  itemEl(index).dataset.cancelled = itemEl(index, 'cancelled-yes').checked ? 'yes' : 'no';
+  updateItemCancelledTag(index);
 
   delete itemEl(index).dataset.isNew;
   setItemEditMode(index, false);
