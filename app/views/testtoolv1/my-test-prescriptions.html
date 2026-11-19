@@ -1,0 +1,117 @@
+{% set showTestPrescriptionClearLink = true %}
+{% extends 'layout.html' %}
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+  {% endblock %}
+  {% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Prescription administration tool homepage"
+  },
+  service: {
+    text: "Prescription admin tool",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Eddie Gluskin (Regional Manager)",
+        icon: true
+      },
+     
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Create test prescriptions",
+        href: "/testtoolv1/start-page",
+        active:""
+      },
+      {
+        text: "My test prescriptions",
+        href: "/testtoolv1/my-test-prescriptions",
+        active:"true"
+      }
+    ]
+  }
+}) }}
+
+{% endblock %}
+{% block pageTitle %} My test prescriptions
+{%endblock %} 
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+
+    <table class="nhsuk-table nhsuk-table--sortable" data-module="nhsuk-table">
+  <caption class="nhsuk-table__caption nhsuk-table__caption--m">
+    Generated prescriptions<span class="nhsuk-u-visually-hidden"> (Column headers are sortable)</span>
+  </caption>
+  <thead class="nhsuk-table__head">
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
+        Issue date
+      </th>
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
+        Prescription ID 
+      </th>
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
+        Prescription type
+      </th>
+      <th class="nhsuk-table__header" scope="col" data-sort data-sort-next="descending">
+        Nomination type
+      </th>
+       <th class="nhsuk-table__header" scope="col">
+        Action
+      </th>
+    </tr>
+  </thead>
+  <tbody class="nhsuk-table__body">
+   {% for prescription in savedPrescriptions %}
+    <tr class="nhsuk-table__row">
+      <th class="nhsuk-table__header" scope="row" data-sort-value="{{ prescription.details.issueDate | isoDate }}">
+        {{ prescription.details.issueDate }}
+      </th>
+      <td class="nhsuk-table__cell">
+        {{ prescription.id }}
+      </td>
+      <td class="nhsuk-table__cell">
+        {{ prescription.details.prescriptionType or 'Acute' }}
+      </td>
+      <td class="nhsuk-table__cell">
+        {{ prescription.details.nominationType or 'Non-nominated' }}
+      </td>
+      <td class="nhsuk-table__cell">
+        <a href="/testtoolv1/final-test-data/{{ prescription.id }}">
+          View<span class="nhsuk-u-visually-hidden"> prescription {{ prescription.id }}</span>
+        </a>
+      </td>
+    </tr>
+    {% else %}
+    <tr class="nhsuk-table__row">
+      <td class="nhsuk-table__cell" colspan="5">No saved test prescriptions</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+
+
+
+
+
+ 
+    
+  </div>
+</div>
+{% endblock %}

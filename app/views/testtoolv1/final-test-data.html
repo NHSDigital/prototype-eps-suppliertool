@@ -1,4 +1,5 @@
-{% extends 'layout.html' %} 
+{% set showTestPrescriptionClearLink = true %}
+{% extends 'layout.html' %}
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
@@ -34,6 +35,11 @@
         text: "Create test prescriptions",
         href: "/testtoolv1/start-page",
         active:"true"
+      },
+      {
+        text: "My test prescriptions",
+        href: "/testtoolv1/my-test-prescriptions",
+        active:""
       }
     ]
   }
@@ -47,6 +53,16 @@
 {%endblock %} 
 
 {% block content %}
+{% macro reviewRows(rows) %}
+  <dl class="nhsuk-summary-list">
+    {% for row in rows %}
+    <div class="nhsuk-summary-list__row">
+      <dt class="nhsuk-summary-list__key">{{ row[0] }}</dt>
+      <dd class="nhsuk-summary-list__value">{{ row[1] }}</dd>
+    </div>
+    {% endfor %}
+  </dl>
+{% endmacro %}
 <div class="nhsuk-grid-row">
 <div class="nhsuk-grid-column-full-width">
      <div class="nhsuk-panel">
@@ -77,19 +93,44 @@
   </thead>
   <tbody class="nhsuk-table__body">
     <tr class="nhsuk-table__row">
-      <td class="nhsuk-table__header" scope="row">
-        a1b2c3-d4e5f6-g7h8i9
-      </td>
+      <td class="nhsuk-table__cell" scope="row" id="saved-prescription-id">{{ prescription.id }}</td>
       <td class="nhsuk-table__cell">
-         <button class="nhsuk-button nhsuk-button--small" data-module="nhsuk-button" type="submit">
-    Copy
-  </button>
+        <button class="nhsuk-button nhsuk-button--small" type="button" id="copy-prescription-id">Copy</button>
+        <span role="status" id="copy-prescription-status"></span>
       </td>
     </tr>
 
   
   </tbody>
 </table>
+
+
+
+<details class="nhsuk-details nhsuk-expander">
+  <summary class="nhsuk-details__summary">
+    <span class="nhsuk-details__summary-text">Saved prescription details</span>
+  </summary>
+  <div class="nhsuk-details__text">
+    <h2 class="nhsuk-heading-s">Prescription information</h2>
+    {% set details = prescription.details %}
+    {% set information = [['Issue date', details.issueDate], ['Prescription type', details.prescriptionType or 'Acute'], ['Nomination type', details.nominationType or 'Non-nominated']] %}
+    {% if details.numberOfIssues %}
+      {% set information = information.concat([['Number of issues', details.numberOfIssues]]) %}
+    {% endif %}
+    {% if details.nominatedSite %}
+      {% set information = information.concat([['Nominated site', details.nominatedSite.name ~ ' (' ~ details.nominatedSite.pharmacyCode ~ ')']]) %}
+    {% endif %}
+    {{ reviewRows(information) }}
+    <h2 class="nhsuk-heading-s">Patient</h2>
+    {{ reviewRows(prescription.review.patient) }}
+    <h2 class="nhsuk-heading-s">Prescriber</h2>
+    {{ reviewRows(prescription.review.prescriber) }}
+    {% for item in prescription.review.items %}
+      <h2 class="nhsuk-heading-s">Item {{ loop.index }}</h2>
+      {{ reviewRows(item) }}
+    {% endfor %}
+  </div>
+</details>
 
 <details class="nhsuk-details nhsuk-expander">
   <summary class="nhsuk-details__summary">
@@ -152,4 +193,15 @@
  
   </div>
 </div>
+<script>
+  document.getElementById('copy-prescription-id').addEventListener('click', async () => {
+    const status = document.getElementById('copy-prescription-status');
+    try {
+      await navigator.clipboard.writeText(document.getElementById('saved-prescription-id').textContent.trim());
+      status.textContent = 'Copied';
+    } catch {
+      status.textContent = 'Could not copy the ID. Select and copy it manually.';
+    }
+  });
+</script>
 {% endblock %}

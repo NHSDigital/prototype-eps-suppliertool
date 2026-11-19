@@ -1,4 +1,5 @@
-{% extends 'layout.html' %} 
+{% set showTestPrescriptionClearLink = true %}
+{% extends 'layout.html' %}
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
@@ -34,6 +35,11 @@
         text: "Create test prescriptions",
         href: "/testtoolv1/start-page",
         active:"true"
+      },
+      {
+        text: "My test prescriptions",
+        href: "/testtoolv1/my-test-prescriptions",
+        active:""
       }
     ]
   }
@@ -43,8 +49,7 @@
   
 
   
-{% block pageTitle %} Create a test prescription
-{%endblock %} 
+{% block pageTitle %}Create a test prescription{% endblock %}
 
 {% block content %}
 <div class="nhsuk-grid-row">

@@ -1,5 +1,6 @@
 // External dependencies
 const express = require("express");
+const { randomInt } = require("node:crypto");
 
 const router = express.Router();
 
@@ -1046,6 +1047,23 @@ router.get("/testtoolv1/start-page", (req, res) => {
   });
 });
 
+router.get("/testtoolv1/my-test-prescriptions", (req, res) => {
+  res.render("testtoolv1/my-test-prescriptions", {
+    savedPrescriptions: req.session.testToolPrescriptions || []
+  });
+});
+
+function createTestPrescriptionId(savedPrescriptions) {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let id;
+  do {
+    id = Array.from({ length: 3 }, () =>
+      Array.from({ length: 6 }, () => alphabet[randomInt(alphabet.length)]).join('')
+    ).join('-');
+  } while (savedPrescriptions.some(prescription => prescription.id === id));
+  return id;
+}
+
 function getNumberOfIssues(body, prescriptionType) {
   if (!['Electronic repeat dispensing (eRD)', 'Repeat'].includes(prescriptionType)) return null;
   const value = prescriptionType === 'Repeat' ? body.repeatIssues : body.erdIssues;
@@ -1100,11 +1118,15 @@ router.post("/testtoolv1/create-prescription", (req, res) => {
     issueMonth: today.getMonth() + 1,
     issueYear: today.getFullYear()
   };
+  req.session.testToolDraftId = createTestPrescriptionId(req.session.testToolPrescriptions || []);
   
   res.redirect("/testtoolv1/generated-prescription");
 });
 
 router.post("/testtoolv1/update-prescription", (req, res) => {
+  if (!req.session.testToolDraftId || req.body._draftId !== req.session.testToolDraftId) {
+    return res.redirect("/testtoolv1/start-page");
+  }
   const data = req.session.data;
   const day = Number(req.body.issueDay);
   const month = Number(req.body.issueMonth);
@@ -1155,6 +1177,7 @@ function formatDateLong(date) {
 }
 
 router.get("/testtoolv1/generated-prescription", (req, res) => {
+  if (!req.session.testToolDraftId) return res.redirect("/testtoolv1/start-page");
   const data = req.session.data;
   let selectedPatient = data.selectedPatient || {};
   const prescriptionDetails = data.prescriptionDetails || {};
@@ -1194,6 +1217,7 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
   }
   
   res.render("testtoolv1/generated-prescription", {
+    draftId: req.session.testToolDraftId,
     selectedPatient: selectedPatient,
     prescriptionDetails: prescriptionDetails,
     testPatients: testPatients,
@@ -1201,4 +1225,57 @@ router.get("/testtoolv1/generated-prescription", (req, res) => {
     availableMedications: availableMedications,
     prescriptionItems: prescriptionItems
   });
+});
+
+router.post("/testtoolv1/sign-prescription", (req, res) => {
+  const { _draftId: draftId, _reviewData: reviewData } = req.body || {};
+  const savedPrescriptions = req.session.testToolPrescriptions || [];
+  const existing = savedPrescriptions.find(prescription => prescription.id === draftId);
+  if (existing) return res.redirect(`/testtoolv1/final-test-data/${existing.id}`);
+  if (!draftId || draftId !== req.session.testToolDraftId) {
+    return res.redirect("/testtoolv1/start-page");
+  }
+
+  let review;
+  try {
+    review = JSON.parse(reviewData);
+  } catch {
+    return res.status(400).send('Could not read the prescription review');
+  }
+  if (!review || !Array.isArray(review.patient) || !Array.isArray(review.prescriber) ||
+      !Array.isArray(review.items) || review.items.length < 1 || review.items.length > 4 ||
+      ![review.patient, review.prescriber, ...review.items].every(rows =>
+        Array.isArray(rows) && rows.every(row => Array.isArray(row) && row.length === 2 &&
+          row.every(value => typeof value === 'string')))) {
+    return res.status(400).send('Could not read the prescription review');
+  }
+
+  req.session.testToolPrescriptions = [{
+    id: draftId,
+    details: req.session.data.prescriptionDetails,
+    review
+  }, ...savedPrescriptions];
+  delete req.session.testToolDraftId;
+  res.redirect(`/testtoolv1/final-test-data/${draftId}`);
+});
+
+router.get(["/testtoolv1/final-test-data", "/testtoolv1/final-test-data.html", "/testtoolv1/final-test-data/:id"], (req, res) => {
+  const savedPrescriptions = req.session.testToolPrescriptions || [];
+  const prescription = req.params.id
+    ? savedPrescriptions.find(record => record.id === req.params.id)
+    : savedPrescriptions[0];
+  if (!prescription) return res.redirect("/testtoolv1/start-page");
+  res.render("testtoolv1/final-test-data", { prescription });
+});
+
+router.post("/testtoolv1/clear-data", (req, res) => {
+  delete req.session.testToolPrescriptions;
+  delete req.session.testToolDraftId;
+  const data = req.session.data;
+  for (const key of ['selectedPatient', 'prescriptionDetails', 'singlePrescription', 'selectTestPatient',
+    'nomination', 'selectTestPharmacy', 'item', 'presc-type', 'erdIssues', 'repeatIssues', 'cd', 'cancelled',
+    'issueDay', 'issueMonth', 'issueYear', 'presc-type-edit', 'presc-nom-edit', 'nominatedSite']) {
+    delete data[key];
+  }
+  res.redirect("/testtoolv1/start-page");
 });

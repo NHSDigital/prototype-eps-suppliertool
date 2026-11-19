@@ -1,4 +1,5 @@
-{% extends 'layout.html' %} 
+{% set showTestPrescriptionClearLink = true %}
+{% extends 'layout.html' %}
 {% block head %}
   <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
   <link rel="stylesheet" href="/assets/sass/main.css">
@@ -87,6 +88,11 @@
         text: "Create test prescriptions",
         href: "/testtoolv1/start-page",
         active:"true"
+      },
+        {
+        text: "My test prescriptions",
+        href: "/testtoolv1/my-test-prescriptions",
+        active:""
       }
     ]
   }
@@ -105,7 +111,11 @@
 <h1 class="nhsuk-heading-m"> Check your test prescription</h1>
 <p>Check the data generated below. </p>
 <p>When you are happy with your test data click 'Sign and send'</p>
-<button class="nhsuk-button" onclick="location.href='final-test-data.html'">Sign and send</button>
+<form action="/testtoolv1/sign-prescription" method="post" onsubmit="return collectPrescriptionReview(this);">
+  <input type="hidden" name="_draftId" value="{{ draftId }}">
+  <input type="hidden" name="_reviewData">
+  <button class="nhsuk-button" type="submit">Sign and send</button>
+</form>
   </div>
 </div>
 <div class="nhsuk-grid-row nhsuk-card-group">
@@ -173,6 +183,7 @@
     <!-- EDIT MODE -->
     <div id="prescription-edit" class="prescription-edit-mode" style="display: none;">
       <form id="prescription-edit-form" action="/testtoolv1/update-prescription" method="post" onsubmit="return savePrescriptionEdit();" novalidate>
+        <input type="hidden" name="_draftId" value="{{ draftId }}">
         <div class="nhsuk-form-group">
           <fieldset class="nhsuk-fieldset" role="group" aria-describedby="issue-date-hint">
             <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--s">
@@ -948,6 +959,30 @@ function saveItemEdit(index) {
 
   delete itemEl(index).dataset.isNew;
   setItemEditMode(index, false);
+}
+
+function collectPrescriptionReview(form) {
+  if (document.querySelector('.nhsuk-card--editing')) {
+    alert('Save or cancel your changes before signing the prescription');
+    return false;
+  }
+
+  const tableRows = container => Array.from(container.querySelectorAll('tr'), row =>
+    Array.from(row.cells, cell => cell.textContent.trim())
+  ).filter(row => row.length === 2);
+
+  const items = Array.from({ length: visibleItemCount() }, (_, index) => [
+    ...tableRows(itemEl(index, 'view')),
+    ['Controlled drug', itemEl(index, 'cd-tag').hidden ? 'No' : 'Yes'],
+    ['Cancelled', itemEl(index).dataset.cancelled === 'yes' ? 'Yes' : 'No']
+  ]);
+
+  form.elements._reviewData.value = JSON.stringify({
+    patient: tableRows(document.getElementById('patient-view')),
+    prescriber: tableRows(document.getElementById('prescriber-view')),
+    items
+  });
+  return true;
 }
 
 refreshAddItemLinks();

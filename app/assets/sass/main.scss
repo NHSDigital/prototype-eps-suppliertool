@@ -12,6 +12,15 @@
 // Add your custom CSS/Sass styles below...
 ///////////////////////////////////////////
 
+.app-footer-link-button {
+  appearance: none;
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+}
+
 .pagination {
   display: inline-block;
 }
