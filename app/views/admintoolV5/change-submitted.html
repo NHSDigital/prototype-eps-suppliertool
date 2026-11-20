@@ -31,7 +31,7 @@
   navigation: {
     items: [
   {
-        text: "Transfer or remove NHS numbers",
+        text: "Transfer or remove patients",
         href: "/admintoolV5/clear-and-start",
         active: not recordType
       },
@@ -71,14 +71,14 @@
  
  <div class="nhsuk-panel">
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
-    NHS numbers removed
+    Patients removed
   </h1>
 </div> 
 {% elif recordType == "transfer"%}
  <!--If change is immediately processed-->
  <div class="nhsuk-panel">
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
-    NHS numbers transferred
+    Patients transferred
   </h1>
 </div>
 
@@ -86,7 +86,7 @@
  <!--If change is ongoing-->
  <div class="nhsuk-panel nhsuk-panel--interruption">
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
-    NHS numbers transferring
+    Patients transferring
   </h1>
   <p>You can return to check these transfer details from <a href="/admintoolV5/processing-page">in progress</a></p>
 </div>
@@ -95,7 +95,7 @@
  <!--If removal is ongoing-->
  <div class="nhsuk-panel nhsuk-panel--interruption">
   <h1 class="nhsuk-panel__heading nhsuk-panel__heading--l">
-    NHS numbers are being removed
+    Patients are being removed
   </h1>
   <p>You can return to check these removal details from <a href="/admintoolV5/processing-page">in progress</a></p>
 </div>

@@ -87,7 +87,7 @@
   navigation: {
     items: [
       {
-        text: "Transfer or remove NHS numbers",
+        text: "Transfer or remove patients",
         href: "/admintoolV5/clear-and-start",
         active: true
       },
@@ -138,12 +138,12 @@
   <ul class="nhsuk-tabs__list">
     <li class="nhsuk-tabs__list-item {{ 'nhsuk-tabs__list-item--selected' if not removeTabHasErrors }}">
       <a class="nhsuk-tabs__tab" href="#change-nomination">
-        Transfer NHS numbers
+        Transfer patients
       </a>
     </li>
     <li class="nhsuk-tabs__list-item {{ 'nhsuk-tabs__list-item--selected' if removeTabHasErrors }}">
       <a class="nhsuk-tabs__tab" href="#remove-nomination">
-       Remove NHS numbers
+       Remove patients
       </a>
     </li>
     
@@ -151,7 +151,7 @@
   </ul>
   <div class="nhsuk-tabs__panel {{ 'nhsuk-tabs__panel--hidden' if removeTabHasErrors }}" id="change-nomination">
      <h1 class="nhsuk-card__heading nhsuk-heading-m">
-     Transfer NHS numbers to a new pharmacy code
+     Transfer patients to a new pharmacy code
     </h1>
     {{ errorSummaryBox(transferErrorList) }}
   
@@ -223,7 +223,7 @@
   </div>
   <div class="nhsuk-tabs__panel {{ 'nhsuk-tabs__panel--hidden' if not removeTabHasErrors }}" id="remove-nomination">
  <h1 class="nhsuk-card__heading nhsuk-heading-m">
-     Remove NHS numbers from a pharmacy code
+     Remove patients from a pharmacy code
     </h1>
     {{ errorSummaryBox(removeErrorList) }}
     
