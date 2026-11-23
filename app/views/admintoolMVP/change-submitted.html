@@ -253,8 +253,8 @@
         Old pharmacy code
       </th>
       <td class="nhsuk-table__cell">
-        {% if recordType == "transfer" %} {{ record.oldPharmacyCode }} <br>{{ record.oldPharmacyName }} {% else %}  
-        {{ data.OldODSCode }} <br>{{ data.pharmacyName }}
+        {% if recordType == "transfer" %} {{ record.oldPharmacyCode }} {% else %}  
+        {{ data.OldODSCode }} 
         {% endif %}
       </td>
     </tr>
@@ -263,8 +263,8 @@
         New pharmacy code
       </th>
       <td class="nhsuk-table__cell">
-        {% if recordType == "transfer" %} {{ record.newPharmacyCode }} <br>{{ record.newPharmacyName }} {% else %}  
-        {{ data.NewODSCode }} <br>{{ data.NewPharmacyName }}
+        {% if recordType == "transfer" %} {{ record.newPharmacyCode }} {% else %}  
+        {{ data.NewODSCode }} 
         {% endif %}
       </td>
     </tr>
@@ -553,8 +553,8 @@
       </th>
       <td class="nhsuk-table__cell">
         {% if recordType == "processing" %} {{ record.oldPharmacyCode }}<br>{{ record.oldPharmacyName or record.OldPharmacyName }}
-        {% elif data.nominationAction == "change" %} {{ data.OldODSCode }} <br>West Ealing Pharmacy
-        {% elif data.nominationAction == "remove" %} {{ data.OldODSCodeRem }} <br>West Ealing Pharmacy
+        {% elif data.nominationAction == "change" %} {{ data.OldODSCode }}
+        {% elif data.nominationAction == "remove" %} {{ data.OldODSCodeRem }} 
         {% endif %}
       </td>
     </tr>
@@ -564,9 +564,9 @@
         New pharmacy code
       </th>
       <td class="nhsuk-table__cell">
-        {% if recordType == "processing" %} {{ record.newPharmacyCode }}<br>{{ record.newPharmacyName or record.NewPharmacyName }}
+        {% if recordType == "processing" %} {{ record.newPharmacyCode }}
         {% elif data.nominationAction == "change" %}
-        {{ data.NewODSCode }} <br>Superdrug Pharmacy (West Ealing)
+        {{ data.NewODSCode }}
         {% endif %}
       </td>
     </tr>
