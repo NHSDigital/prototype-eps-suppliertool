@@ -46,6 +46,24 @@ module.exports = function (env) { /* eslint-disable-line no-unused-vars */
     return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
   }
 
+  filters.adminSubmissionsByDate = function (data) {
+    const lists = [
+      ['processing', data.processingSubmissions || []],
+      ['transfer', data.transfers || []],
+      ['removal', data.removals || []]
+    ]
+
+    return lists.flatMap(([recordType, records]) =>
+      records.map((record, recordIndex) => {
+        const date = filters.isoDate(record.date)
+        if (typeof date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+          throw new Error('Invalid submission date')
+        }
+        return { recordType, recordIndex, record, sortDate: `${date}T${record.time || ''}` }
+      })
+    ).sort((a, b) => b.sortDate.localeCompare(a.sortDate))
+  }
+
   /* ------------------------------------------------------------------
     keep the following line to return your filters to the app
   ------------------------------------------------------------------ */

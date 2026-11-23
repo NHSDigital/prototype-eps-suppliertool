@@ -1,0 +1,108 @@
+{% extends "admintoolMVP/layout.html" %}
+{% block head %}
+  <link rel="stylesheet" href="/nhsuk-frontend/nhsuk-frontend.min.css">
+  <link rel="stylesheet" href="/assets/sass/main.css">
+{% endblock %}
+{% block header %}
+  {% from "header/macro.njk" import header %}
+
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Transfer patients to a new pharmacy homepage"
+  },
+  service: {
+    text: "Transfer patients to a new pharmacy",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Leon S Kennedy (Regional Manager)",
+        icon: true
+      },
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  },
+  navigation: {
+    items: [
+      {
+        text: "Transfer or remove NHS numbers",
+        href: "/admintoolMVP/clear-and-start"
+      },
+      {
+        text: "In progress and completed",
+        href: "/admintoolMVP/processing-page",
+        active: "true"
+      }
+    ]
+  }
+}) }}
+{% endblock %}
+
+{% block pageTitle %}In progress and completed{% endblock %}
+
+{% block content %}
+<div class="nhsuk-grid-row">
+  <div class="nhsuk-grid-column-full-width">
+    <div class="nhsuk-card">
+      <div class="nhsuk-card__content">
+        <table class="nhsuk-table" id="submissions-table">
+          <caption class="nhsuk-table__caption nhsuk-table__caption--m">
+            In progress and completed
+          </caption>
+          <thead class="nhsuk-table__head">
+            <tr class="nhsuk-table__row">
+              <th class="nhsuk-table__header" scope="col">Date</th>
+              <th class="nhsuk-table__header" scope="col">Service Now reference number</th>
+              <th class="nhsuk-table__header" scope="col">Type</th>
+              <th class="nhsuk-table__header" scope="col">Status</th>
+              <th class="nhsuk-table__header" scope="col">Pharmacy codes</th>
+              <th class="nhsuk-table__header" scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody class="nhsuk-table__body">
+            {% for submission in data | adminSubmissionsByDate %}
+            {% set record = submission.record %}
+            <tr class="nhsuk-table__row">
+              <th class="nhsuk-table__header" scope="row">
+                {{ record.date }}{% if record.time %}<br>{{ record.time }}{% endif %}
+              </th>
+              <td class="nhsuk-table__cell">{{ record.serviceNowNumber }}</td>
+              {% set type = record.submissionType if submission.recordType == "processing" else ("Transfer" if submission.recordType == "transfer" else "Removal") %}
+              <td class="nhsuk-table__cell">{{ type }}</td>
+              <td class="nhsuk-table__cell">
+                {% if submission.recordType == "processing" %}
+                  <strong class="nhsuk-tag nhsuk-tag--yellow">In progress</strong>
+                {% else %}
+                  <strong class="nhsuk-tag nhsuk-tag--green">Completed</strong>
+                {% endif %}
+              </td>
+              <td class="nhsuk-table__cell">
+                {% if type == "Transfer" %}
+                  Old code: {{ record.oldPharmacyCode }}<br>New code: {{ record.newPharmacyCode }}
+                {% elif submission.recordType == "processing" %}
+                  {{ record.oldPharmacyCode }}
+                {% else %}
+                  {{ record.pharmacyCode }}
+                {% endif %}
+              </td>
+              <td class="nhsuk-table__cell">
+                <a href="/admintoolMVP/change-submitted?recordType={{ submission.recordType }}&amp;recordIndex={{ submission.recordIndex }}">View<span class="nhsuk-u-visually-hidden"> {{ type | lower }} {{ record.serviceNowNumber }}</span></a>
+              </td>
+            </tr>
+            {% else %}
+            <tr class="nhsuk-table__row">
+              <td class="nhsuk-table__cell" colspan="6">No submissions</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
