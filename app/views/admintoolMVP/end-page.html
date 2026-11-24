@@ -48,7 +48,7 @@
 {% block pageTitle %}
   {% if error == "404" %}Page not found
   {% elif error == "500" %}Sorry, there is a problem with the service
-  {% elif error == "noAcc" %} No access to Transfer patients to a new pharmacy
+  {% elif error == "noAcc" %} No access to this service
   {% else %}You are logged out{% endif %}
 {% endblock %}
 
@@ -69,8 +69,8 @@
       <h1 class="nhsuk-heading-xl">Sorry, there is a problem with the service</h1>
       <p>Try again later.</p>
     {% elif error == "noAcc" %}
-      <h1 class="nhsuk-heading-xl">No access to Transfer patients to a new pharmacy</h1>
-      <p>None of the roles on your smartcard allow you to access Transfer patients to a new pharmacy.</p>
+      <h1 class="nhsuk-heading-xl">No access to this service</h1>
+      <p>None of the roles on your smartcard allow you to access this service.</p>
       <p>Contact your local Registration Authority to obtain the correct role.</p>
     {% else %}
       <h1 class="select-role-header nhsuk-heading-xl nhsuk-u-margin-bottom-3" id="select-role-header">You are logged out</h1>
