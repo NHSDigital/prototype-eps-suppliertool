@@ -1557,3 +1557,8 @@ router.get("/admintoolV4/end-page", (req, res) => {
   const error = ["404", "500"].includes(req.query.error) ? req.query.error : null;
   res.render("admintoolMVP/end-page", { error });
 });
+
+router.get("/admintoolMVP/end-page", (req, res) => {
+  const error = ["404", "500", "noAcc"].includes(req.query.error) ? req.query.error : null;
+  res.render("admintoolMVP/end-page", { error });
+});
