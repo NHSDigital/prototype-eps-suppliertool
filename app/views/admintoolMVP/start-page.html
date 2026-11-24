@@ -87,7 +87,7 @@
   navigation: {
     items: [
       {
-        text: "Transfer or remove NHS numbers",
+        text: "Transfer or remove patients",
         href: "/admintoolMVP/clear-and-start",
         active:"true"
       },
@@ -134,12 +134,12 @@
   <ul class="nhsuk-tabs__list">
     <li class="nhsuk-tabs__list-item {{ 'nhsuk-tabs__list-item--selected' if not removeTabHasErrors }}">
       <a class="nhsuk-tabs__tab" href="#change-nomination">
-        Transfer NHS numbers
+        Transfer patients
       </a>
     </li>
     <li class="nhsuk-tabs__list-item {{ 'nhsuk-tabs__list-item--selected' if removeTabHasErrors }}">
       <a class="nhsuk-tabs__tab" href="#remove-nomination">
-       Remove NHS numbers
+       Remove patients
       </a>
     </li>
     
@@ -147,7 +147,7 @@
   </ul>
   <div class="nhsuk-tabs__panel {{ 'nhsuk-tabs__panel--hidden' if removeTabHasErrors }}" id="change-nomination">
      <h1 class="nhsuk-card__heading nhsuk-heading-m">
-     Transfer NHS numbers to a new pharmacy code
+     Transfer patients to a new pharmacy
     </h1>
     {{ errorSummaryBox(transferErrorList) }}
   
@@ -158,7 +158,7 @@
               ServiceNow number
             </label>
             <div class="nhsuk-hint" id="ServiceNowNumber-hint">
-              This is the number of the ServiceNow request to transfer NHS numbers to a new pharmacy code
+              This is the number of the ServiceNow request to transfer patients to a new pharmacy
             </div>
             {% if errors.ServiceNowNumber %}
             <span class="nhsuk-error-message" id="ServiceNowNumber-error">
@@ -219,7 +219,7 @@
   </div>
   <div class="nhsuk-tabs__panel {{ 'nhsuk-tabs__panel--hidden' if not removeTabHasErrors }}" id="remove-nomination">
  <h1 class="nhsuk-card__heading nhsuk-heading-m">
-     Remove NHS numbers from a pharmacy code
+     Remove patients from a pharmacy
     </h1>
     {{ errorSummaryBox(removeErrorList) }}
     
