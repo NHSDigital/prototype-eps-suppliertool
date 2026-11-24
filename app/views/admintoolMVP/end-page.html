@@ -6,6 +6,30 @@
   {% block header %}
  {% from "header/macro.njk" import header %}
 
+{% if error == "noAcc" %}
+{{ header({
+  logo: {
+    href: "#",
+    ariaLabel: "Transfer patients to a new pharmacy "
+  },
+  service: {
+    text: "Transfer patients to a new pharmacy",
+    href: "#"
+  },
+  account: {
+    items: [
+      {
+        text: "Eddie Gluskin (Regional Manager)",
+        icon: true
+      },
+      {
+        text: "Log out",
+        href: "#"
+      }
+    ]
+  }
+}) }}
+{% else %}
 {{ header({
   logo: {
     href: "#",
@@ -16,7 +40,7 @@
     href: "#"
   }
 }) }}
-
+{% endif %}
 
 {% endblock %}
   
